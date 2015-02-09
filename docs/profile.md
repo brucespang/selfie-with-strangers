@@ -3,7 +3,7 @@
 ## Overview
 
 - **Name** Selfie with Strangers
-- **Slogan** Don't talk to strangers
+- **Slogan** Don't talk to strangers, take pictures with them!
 - **Areas of Interest** selfies; randomness; anonymity; useless things
 
 ## Team Members
