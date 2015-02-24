@@ -8,7 +8,7 @@
 
 ## Team Members
 
-### Alex Burkatovsky
+### Alex Burkatovskiy
 
 - **Email** aburkato@umass.edu
 - **CS Courses** Computer Vision, 3D Programming, Software Engineering (CS320), Algorithms (CS311), SE: Analysis and Evaluation (CS521), independent study in medical software
