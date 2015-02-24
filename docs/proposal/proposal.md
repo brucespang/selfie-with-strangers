@@ -152,3 +152,19 @@ Journalism double major; former janitor at Disney World
 
 
 **By:** Whole Team
+
+## Privacy and Safety
+
+### Safety Concerns
+In any situation where strangers are being asked to meet in the physical world, there is obviously the concern of each person's safety. We are taking a few measures to ensure that this is not an issue for Selfies with Strangers:
+- Meetings are arranged by proposing a time and a place to each participant until they both approve. This way, no real-time location data about one participant is given to another.
+- Meeting places will consist of a list of approved, public locations like Amherst Common or WEB DuBois library.
+- We are considering restricting meeting times to daylight hours.
+- Users will be given the option to report other users who have made them feel unsafe. Users who are reported over a certain number of times will be banned.
+
+###Privacy Concerns
+Another sensitive topic relevant to our proposed application is the privacy of shared data like a group selfie. We are also taking measures to prevent breaches of personal privacy.
+- We would like pictures taken with the app to be accessible only through the app. There will possibly be a timer on the availability similar to snapchat.
+- Both users must see the picture and approve before it is uploaded to the public selfie stream. 
+
+**By:** Oskar Singer
