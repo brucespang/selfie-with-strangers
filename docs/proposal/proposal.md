@@ -112,7 +112,7 @@ Summing the costs results in a total cost of $153,940. Accounting for minor expe
 ### Alex Burkatovsky
 
 - **Email** aburkato@umass.edu
--**Roles:** Front end development, Taking Selfies, Database implementation
+- **Roles:** Front end development, Taking Selfies, Database implementation
 
 
 Born in Ukraine, moved to the USA when baby; Speaks Russian; Senior Computer Science Student; Likes watching movies and playing poker and video games
@@ -120,40 +120,40 @@ Born in Ukraine, moved to the USA when baby; Speaks Russian; Senior Computer Sci
 ### Bruce Spang
 
 - **Email** bspang@umass.edu
--**Roles:** Location data stream/nearby users, ops/architecture, Branding / Marketing
+- **Roles:** Location data stream/nearby users, ops/architecture, Branding / Marketing
 
 Senior; Software engineer at fastly; Bowling enthusiast.
 
 ### Caleb Larson
 
 - **Email** cllarson@umass.edu
--**Roles:** Authentication (Facebook / Twitter), Database implementation, Sharing selfies
+- **Roles:** Authentication (Facebook / Twitter), Database implementation, Sharing selfies
 
 Senior computer science and economics double major; Born in Japan, moved to the Bay Area, and then to the Boston area; Likes playing and watching all sports.
 
 ### Oskar Singer
 
 - **Email** hosinger@umass.edu
--**Roles:** Matching nearby algorithms, Suggest times / places, Sharing selfies
+- **Roles:** Matching nearby algorithms, Suggest times / places, Sharing selfies
 
 Senior computer science major; Born in Tulsa, OK; Spent senior year of high school in Beijing, China; Likes watching movies and listening to music
 
 ### Wesley Fung
 
 - **Email** wfung@umass.edu
--**Roles:** Authentication (Facebook / Twitter), Database implementation, Branding / Marketing
+- **Roles:** Authentication (Facebook / Twitter), Database implementation, Branding / Marketing
 
 Junior computer science exchange student; home university is Trinity College Dublin; glad to be here studying at UMass
 
 ### Zac May
 
 - **Email** zmay@umass.edu
--**Roles:** Sharing selfies, Taking Selfies, Question Asking Engine
+- **Roles:** Sharing selfies, Taking Selfies, Question Asking Engine
 
 Journalism double major; former janitor at Disney World
 
 
-**By:** Whole Team
+**By:** Whole Team 2/21/15
 
 ## Privacy and Safety
 
