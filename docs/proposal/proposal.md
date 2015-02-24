@@ -8,7 +8,7 @@ Sometimes you desperately need to take a selfie, but none of your friends are ar
 
 The selfie is the perfect way to do this. By using the selfie, Selfie with Strangers is the best way for people to meet each other, be adventurous, and have photographic evidence they can share with their friends later.
 
-**By:** Bruce Spang
+**By:** Bruce Spang 2/22/15
 
 ## Description
 
@@ -18,7 +18,7 @@ If you like the person you met, or maybe if their answer intrigues you, you can 
 
 You can view the feed of selfies and answers to get selfie-spiration, to read answers to questions that are amusing or heartbreaking, and to find interesting places near you.
 
-**By:** Bruce Spang
+**By:** Bruce Spang 2/22/15
 
 ## Relation to other courses
 
@@ -56,7 +56,7 @@ There are many selfie apps (e.g. b612). They do not tell you when someone you kn
 
 Rando is like Selfie with Strangers, if the "with" meant "send to" instead of "take with".
 
-**By:** Bruce Spang
+**By:** Bruce Spang 2/22/15
 
 ## Timeline
 
@@ -66,6 +66,8 @@ Rando is like Selfie with Strangers, if the "with" meant "send to" instead of "t
 3/21 - Meet someone not nearby
 4/4 - Feature complete; begin marketing
 Early May - Project due
+
+**By:** Wesley Fung 2/21/15
 
 ## Cost of Project and Budget Request
 
@@ -167,4 +169,4 @@ Another sensitive topic relevant to our proposed application is the privacy of s
 - We would like pictures taken with the app to be accessible only through the app. There will possibly be a timer on the availability similar to snapchat.
 - Both users must see the picture and approve before it is uploaded to the public selfie stream. 
 
-**By:** Oskar Singer
+**By:** Oskar Singer 2/23/15
