@@ -18,6 +18,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     web.vm.provision "ansible" do |ansible|
       ansible.playbook = "playbooks/web.yml"
+      ansible.extra_vars = {
+        env: 'dev'
+      }
     end
   end
 
