@@ -1,0 +1,41 @@
+---
+# Defines tasks applicable across all machines in the infrastructure.
+- name: Set up closest mirror autoselect (ubuntu-only)
+  template: src=apt_sources.list.j2 dest=/etc/apt/sources.list
+  when: ansible_distribution == 'Ubuntu'
+
+# - name: Update apt cache
+#   apt: update_cache=yes
+
+- name: Install necessities and nice-to-haves
+  apt: pkg={{ item }} state=installed
+  with_items:
+    - apache2
+    - sudo
+    - emacs
+    - vim
+
+- name: Set timezone to UTC
+  action: shell echo Etc/UTC > /etc/timezone
+
+- name: Set localtime to UTC
+  file: src=/usr/share/zoneinfo/Etc/UTC dest=/etc/localtime
+
+- name: Reconfigure tzdata
+  action: command dpkg-reconfigure -f noninteractive tzdata
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: Install unattended upgrades (Debian/Ubuntu only)
+  apt: pkg=unattended-upgrades state=installed
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: Disable default Apache site
+  command: a2dissite 000-default removes=/etc/apache2/sites-enabled/000-default.conf
+  notify: restart apache
+
+- name: Enable Apache headers module
+  command: a2enmod headers creates=/etc/apache2/mods-enabled/headers.load
+  notify: restart apache
+
+- include: ntp.yml tags=ntp
+- include: ufw.yml tags=ufw

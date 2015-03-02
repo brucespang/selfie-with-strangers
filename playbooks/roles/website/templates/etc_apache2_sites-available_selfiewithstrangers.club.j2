@@ -1,0 +1,20 @@
+<VirtualHost *:80>
+    ServerName selfiewithstrangers.club
+
+    DocumentRoot            /var/www/selfiewithstrangers.club
+    Options                 -Indexes
+
+    ErrorLog                /var/log/apache2/selfiewithstrangers.club-error.log
+    CustomLog               /var/log/apache2/selfiewithstrangers.club-access.log common
+
+    <Directory /var/www/selfiewithstrangers.club>
+        AllowOverride All
+        Order allow,deny
+        allow from all
+        DirectoryIndex index.html
+
+        SetOutputFilter DEFLATE
+
+        Header set Cache-Control "public"
+    </Directory>
+</VirtualHost>

@@ -1,0 +1,16 @@
+---
+
+- name: Add our packagecloud repository
+  script: script.deb creates=/etc/apt/sources.list.d/brucespang_packages.list
+
+- name: install dependencies
+  apt: pkg={{ item }} state=present
+  with_items:
+    - selfiewithstrangers.club
+
+- name: configure apache for selfiewithstrangers.club
+  template: src=etc_apache2_sites-available_selfiewithstrangers.club.j2 dest=/etc/apache2/sites-available/selfiewithstrangers.club.conf group=root owner=root
+
+- name: enable selfiewithstrangers.club
+  command: a2ensite selfiewithstrangers.club.conf creates=/etc/apache2/sites-enabled/selfiewithstrangers.club.conf
+  notify: restart apache
