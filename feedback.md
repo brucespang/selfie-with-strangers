@@ -12,6 +12,8 @@ I found your budget breakdown great, and awesome job at keeping up on weekly mee
 
 You've been fully funded and have received a *strong thumbs up*. 
 
+PS- Really cool to see you've bought a domain already! 
+
 <img src="http://www.washingtonsblog.com/wp-content/uploads/2013/01/money.jpg">
 
 # Project 1 Feedback
