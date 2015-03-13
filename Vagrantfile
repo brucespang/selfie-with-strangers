@@ -24,4 +24,17 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   end
 
+  config.vm.define "app" do |app|
+    app.vm.network "forwarded_port", guest: 80, host: 8081
+    app.vm.network "private_network", ip: "192.168.50.2"
+
+
+    app.vm.provision "ansible" do |ansible|
+      ansible.playbook = "playbooks/app.yml"
+      ansible.extra_vars = {
+        env: 'dev'
+      }
+    end
+  end
+
 end

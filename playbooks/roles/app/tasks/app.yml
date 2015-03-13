@@ -1,0 +1,12 @@
+---
+
+- name: install dependencies
+  file: src=/vagrant/src/app dest=/var/www/app.selfiewithstrangers.club state=link
+  when: env == 'dev'
+
+- name: configure apache for selfiewithstrangers.club
+  template: src=etc_apache2_sites-available_app.selfiewithstrangers.club.j2 dest=/etc/apache2/sites-available/app.selfiewithstrangers.club.conf group=root owner=root
+
+- name: enable selfiewithstrangers.club
+  command: a2ensite app.selfiewithstrangers.club.conf creates=/etc/apache2/sites-enabled/app.selfiewithstrangers.club.conf
+  notify: restart apache

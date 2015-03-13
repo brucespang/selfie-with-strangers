@@ -1,0 +1,7 @@
+- hosts: app
+  sudo: yes
+  vars_files:
+    - vars/defaults.yml
+  roles:
+    - common
+    - app
