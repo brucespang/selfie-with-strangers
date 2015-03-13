@@ -1,8 +1,23 @@
 #logo {
-		margin-top: 100px;
+		margin-top: 50px;
 		text-align: center;
 }
 
-#logo img {
-		width: 66%;
+#logo .logo-icon {
+		width: 100px;
+}
+
+#wrap.login {
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+#wrap.login form {
+    margin-top: 40px;
+}
+
+#wrap.login form input[type="text"], #wrap.login form input[type="password"]{
+    font-size: 18px;
+    margin-bottom: 10px;
+    width: 100%;
 }
