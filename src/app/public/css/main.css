@@ -7,16 +7,16 @@
 		width: 100px;
 }
 
-#wrap.login {
+#wrap {
     max-width: 300px;
     margin: 0 auto;
 }
 
-#wrap.login form {
+#wrap form {
     margin-top: 40px;
 }
 
-#wrap.login form input[type="text"], #wrap.login form input[type="password"]{
+#wrap form input[type="text"], #wrap form input[type="password"]{
     font-size: 18px;
     margin-bottom: 10px;
     width: 100%;
