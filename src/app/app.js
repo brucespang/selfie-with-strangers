@@ -8,39 +8,39 @@ var app = express();
 app.set('view engine', 'ejs');
 
 // set up logging
-app.use(morgan('combined'))
+app.use(morgan('combined'));
 app.use(express.static('public'));
 
 function render(res, template, args) {
     res.render(template, args, function (err, html) {
         if (err) {
-            console.error(err)
-            res.status(500)
-            res.send("Internal server error")
+            console.error(err);
+            res.status(500);
+            res.send("Internal server error");
         } else {
-            res.send(html)
+            res.send(html);
         }
-    })
+    });
 }
 
 app.locals.static_file = function(path) {
 		if (path[0] != "/") {
-				throw "path must start with a /"
+				throw "path must start with a /";
 		}
 		return path;
-}
+};
 
 app.get('/', function(req, res) {
 		render(res, 'index');
 });
 
 app.post('/login', function(req, res) {
-		res.redirect('/newsfeed')
-})
+		res.redirect('/newsfeed');
+});
 
 app.post('/logout', function(req, res) {
-		res.redirect('/newsfeed')
-})
+		res.redirect('/newsfeed');
+});
 
 app.get('/newsfeed', function(req, res) {
 		render(res, 'newsfeed');
