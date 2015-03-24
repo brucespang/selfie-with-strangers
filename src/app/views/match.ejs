@@ -1,0 +1,17 @@
+<h1>It's a Match!</h1>
+<a href="/nearby">Back</a>
+
+<div class="partner">
+	<img src="<%= static_file("/img/avatar.png") %>" />
+	<h2>Their Name</h2>
+	<p>5ft from here</p>
+</div>
+
+<form action="/selfie">
+	<h2>Question</h2>
+	<fieldset>
+		<label for="question">What is your selfie partner's deepest fear?</p>
+		<textarea name="question"></textarea>
+	</fieldset>
+	<input type="submit" value="Selfie!" />
+</form>
