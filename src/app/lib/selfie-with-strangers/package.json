@@ -1,0 +1,2 @@
+{ "name" : "selfie-with-strangers",
+  "main" : "./lib/client.js" }

@@ -2,6 +2,7 @@
 var express = require('express');
 var morgan = require('morgan');
 var ejs = require('ejs');
+var selfie_client = require('selfie-with-strangers');
 
 // Create an app:
 var app = express();
@@ -51,11 +52,13 @@ app.get('/selfies/new', function(req, res) {
 });
 
 app.get('/users/nearby', function(req, res) {
-		render(res, 'users/nearby');
+		render(res, 'users/nearby', users=selfie_client.users.nearby());
 });
 
-app.get('/users/match', function(req, res) {
-		render(res, 'users/match');
+app.get('/matches/:id', function(req, res) {
+		render(res, 'matches/show',
+					 user=selfie_client.users.show(req.params.id),
+					 question=selfie_client.questions.random());
 });
 
 app.get('/settings', function(req, res) {

@@ -2,15 +2,15 @@
 <a href="/users/nearby">Back</a>
 
 <div class="partner">
-	<img src="<%= static_file("/img/avatar.png") %>" />
-	<h2>Their Name</h2>
+	<img src="<%= user.avatar_url %>" />
+	<h2><%= user.name %></h2>
 	<p>5ft from here</p>
 </div>
 
-<form action="/selfies/new">
+<form action="/selfies/new?question=<%= question.id %>">
 	<h2>Question</h2>
 	<fieldset>
-		<label for="question">What is your selfie partner's deepest fear?</p>
+		<label for="question"><%= question.question %></p>
 		<textarea name="question"></textarea>
 	</fieldset>
 	<input type="submit" value="Selfie!" />
