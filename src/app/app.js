@@ -35,35 +35,35 @@ app.get('/', function(req, res) {
 });
 
 app.post('/login', function(req, res) {
-		res.redirect('/newsfeed');
+		res.redirect('/selfies');
 });
 
 app.post('/logout', function(req, res) {
-		res.redirect('/newsfeed');
+		res.redirect('/');
 });
 
-app.get('/newsfeed', function(req, res) {
-		render(res, 'newsfeed');
+app.get('/selfies', function(req, res) {
+		render(res, 'selfies/index');
 });
 
-app.get('/nearby', function(req, res) {
-		render(res, 'nearby');
+app.get('/selfies/new', function(req, res) {
+		render(res, 'selfies/new');
+});
+
+app.get('/users/nearby', function(req, res) {
+		render(res, 'users/nearby');
+});
+
+app.get('/users/match', function(req, res) {
+		render(res, 'users/match');
 });
 
 app.get('/settings', function(req, res) {
 		render(res, 'settings');
 });
 
-app.get('/schedule', function(req, res) {
-		render(res, 'schedule');
-});
-
-app.get('/match', function(req, res) {
-		render(res, 'match');
-});
-
-app.get('/selfie', function(req, res) {
-		render(res, 'selfie');
+app.get('/schedules/new', function(req, res) {
+		render(res, 'schedules/new');
 });
 
 // Start the server:
