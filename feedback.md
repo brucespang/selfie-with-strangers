@@ -1,3 +1,20 @@
+# Project 3 Feedback
+
+Hello again Selfies,
+ 
+Before I start, I’d like to mention that your peace sign icon does resemble AngelList’s icon. I know I should’ve mentioned this sooner, so I won’t count it against you if you keep it. If you plan on launching SwS after 326 has ended, it may be wise to rethink your icon as AngelList is a large player in the startup world.
+ 
+I wish your Use Cases were more expansive. There were no use cases of creating an account, changing personal settings, or sharing a selfie outside of SwS. (with the Share button, referring to your wireframes) The characters and scenarios of your cases were varied and fantastic, but the functionality of SwS they portrayed were all the same. (Finding someone, taking a picture, becoming friends)
+ 
+Speaking of becoming friends, I found it intriguing that one of your non-goals was that SwS is not an app for staying in touch! I would like to see a use case of what happens after the selfie to sustain the new friendship. Do the two exchange numbers? Does one find the other on FB? If you really don’t want to have friend functionality on SwS, you may want to consider assisting the two by connecting them on another platform. (ex: could you add button on SwS for one to send the other a FB friend request?)
+ 
+I also really enjoyed your hand-drawn wireframes!
+ 
+Dear Strangers, I’m going to give you a **4 out of 5**. If you redo your Use Cases to show all of SwS’s functionalities (even the dull ones!) by **Saturday, April 4th**, then you will get a **5**.
+ 
+Until we meet again,
+Helga G. Pataki 
+
 # Project 2 Feedback
 
 My dear Selfies,
