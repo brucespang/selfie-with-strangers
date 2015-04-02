@@ -13,3 +13,7 @@ ntp_servers:
   # - 1.north-america.pool.ntp.org
   # - 2.north-america.pool.ntp.org
   # - 3.north-america.pool.ntp.org
+
+db_host: 192.168.50.5
+db_admin_username: postgres
+db_admin_password: "1lyWtKHdPw%gguCtU4isHbjgPHUQ4&6E"

@@ -1,0 +1,10 @@
+---
+
+- name: Install psycopg2
+  apt: pkg=python-psycopg2 state=installed
+
+- name: Create database user for app
+  postgresql_user: login_host={{ db_host }} login_user={{ db_admin_username }} login_password="{{ db_admin_password }}" name={{ api_db_username }} password="{{ api_db_password }}" state=present
+
+- name: Create database for api
+  postgresql_db: login_host={{ db_host }} login_user={{ db_admin_username }} login_password="{{ db_admin_password }}" name={{ api_db_database }} state=present owner={{ api_db_username }}

@@ -1,0 +1,8 @@
+- hosts: api
+  sudo: yes
+  vars_files:
+    - vars/defaults.yml
+    - vars/api.yml
+  roles:
+    - common
+    - api
