@@ -7,14 +7,14 @@
 - `src/` - code
     - `src/website` - code for the website
     - `src/app` - code for the app
+    - `src/api` - code for the api
 - `playbooks/` - ansible roles for provisioning servers
 
 # Design Specification
 
-Our recently created design specification is located in /docs/dspec/dspec.pdf and our recently created
-presentation is located in /presentation/Presentation - Design Specification.pdf. These documents provide
-an overview of our technical specifications. This includes our vision, api and a workflow of our behavior
-, necessary external libraries, components, operation details, and our database schema.  
+Our design specification is at `docs/dspec/dspec.pdf` and our presentation is at `presentation/Presentation - Design Specification.pdf`.
+
+These documents provide an overview of our technical specifications. This includes our vision, a description of the behavior at a level sufficient for implementation, an architecture diagram, a description of components, necessary external libraries, operation details, and our database schema.  
 
 ## Running the dev environment
 
