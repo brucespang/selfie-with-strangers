@@ -2,7 +2,7 @@
 var express = require('express');
 var morgan = require('morgan');
 var ejs = require('ejs');
-var selfie_client = require('selfie-with-strangers');
+//var selfie_client = require('lib/selfie-with-strangers');
 
 // Create an app:
 var app = express();
@@ -10,7 +10,8 @@ app.set('view engine', 'ejs');
 
 // set up logging
 app.use(morgan('combined'));
-app.use(express.static('public'));
+app.use(express.static(__dirname + '/public'));
+//app.use(express.static('public'));
 
 function render(res, template, args) {
     res.render(template, args, function (err, html) {
