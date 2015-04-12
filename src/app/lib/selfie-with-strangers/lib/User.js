@@ -2,9 +2,9 @@ function User(name) {
   this.name = name;
 }
 
-var userdb = [];
+var termporarydb = [];
 
-// Determines if the user is an admin. 
+// Adds a user to the termporary database. 
 exports.addUser = function(profile, cb) {
   userdb.push(new User(profile.givenName))
   cb(undefined, 'User successfully added!!!');
