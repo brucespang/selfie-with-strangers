@@ -1,19 +1,8 @@
 <% include header %>
 
-<a href="/selfies">selfies</a>
-
-<a href="/auth/facebook">Login with Facebook</a>
-
-<form action="/login" method="POST">
-	<fieldset>
-		<input type="text" name="username" value="username" />
-	</fieldset>
-	<fieldset>
-		<input type="password" name="password" value="password" />
-	</fieldset>
-	<fieldset>
-		<input type="submit" value="Login"/>
-	</fieldset>
+<h1> Selfies With Strangers</h1>
+<form method="get" action="/auth/facebook">
+	<button>Log In With Facebook</button>
 </form>
 
 <% include footer %>
