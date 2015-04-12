@@ -21,3 +21,9 @@
     margin-bottom: 10px;
     width: 100%;
 }
+
+.selected {
+    outline-style: solid;
+    outline-width: 2px;
+    outline-color : blue;
+}

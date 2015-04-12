@@ -6,6 +6,9 @@
 
     <link rel="stylesheet" href="<%= static_file("/css/reset.css") %>" media="screen" />
     <link rel="stylesheet" href="<%= static_file("/css/main.css") %>" media="screen" />
+    <% stylesheets.forEach(function(path) { %>
+    <link rel="stylesheet" href="<%= static_file(path) %>" media="screen" />
+    <% }) %>
   </head>
 
   <body>

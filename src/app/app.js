@@ -10,6 +10,8 @@ var User = require('selfie-with-strangers/lib/User.js');
 var passport = require('passport')
   , FacebookStrategy = require('passport-facebook').Strategy;
 
+var extend = require('util')._extend
+
 // Create an app:
 var app = express();
 app.set('view engine', 'ejs');
@@ -37,15 +39,20 @@ function(accessToken, refreshToken, profile, done) {
 ));
 
 function render(res, template, args) {
-    res.render(template, args, function (err, html) {
-        if (err) {
-            console.error(err);
-            res.status(500);
-            res.send("Internal server error");
-        } else {
-            res.send(html);
-        }
-    });
+  var default_args = {
+    stylesheets: [],
+    javascripts: []
+  }
+
+  res.render(template, extend(default_args, args || {}), function (err, html) {
+    if (err) {
+      console.error(err);
+      res.status(500);
+      res.send("Internal server error");
+    } else {
+      res.send(html);
+    }
+  });
 }
 
 app.locals.static_file = function(path) {
@@ -86,8 +93,15 @@ app.get('/selfies', function(req, res) {
     render(res, 'selfies/index');
 });
 
+app.post('/selfies', function(req, res) {
+  console.log(req.files)
+  res.redirect("/selfies")
+})
+
 app.get('/selfies/new', function(req, res) {
-    render(res, 'selfies/new');
+  render(res, 'selfies/new', {
+    javascripts: ["/javascripts/camera.js", "/javascripts/jquery.min.js"]
+  });
 });
 
 app.get('/users/nearby', function(req, res) {

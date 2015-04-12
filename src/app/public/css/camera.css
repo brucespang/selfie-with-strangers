@@ -1,9 +1,0 @@
-canvas {
-	margin: 10px 10px 10px 10px;
-}
-
-.selected {
-	outline-style: solid;
-    outline-width: 2px;
-	outline-color : blue;
-}
