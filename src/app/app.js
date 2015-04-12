@@ -2,9 +2,10 @@
 var express = require('express');
 var morgan = require('morgan');
 var ejs = require('ejs');
-// var selfie_client = require('lib/selfie-with-strangers');
+var selfie_client = require('selfie-with-strangers');
 
-var User = require('./lib/selfie-with-strangers/lib/User.js');
+var User = require('selfie-with-strangers/lib/User.js');
+
 // passport is used to implement facebook authentication
 var passport = require('passport')
   , FacebookStrategy = require('passport-facebook').Strategy;
@@ -12,6 +13,7 @@ var passport = require('passport')
 // Create an app:
 var app = express();
 app.set('view engine', 'ejs');
+app.set('port', process.env.NODE_PORT || 3000);
 
 // set up logging
 app.use(morgan('combined'));
@@ -20,17 +22,17 @@ app.use(passport.initialize())
 //app.use(express.static('public'));
 
 passport.use(new FacebookStrategy({
-  // These parameters are associated with an app created using Facebook Developers. 
+  // These parameters are associated with an app created using Facebook Developers.
   clientID: "623832804414897",
   clientSecret: "8b0c3546f60448a4b4e9057eeefe129a",
   callbackURL: "http://localhost:3000/auth/facebook/callback"
 },
 function(accessToken, refreshToken, profile, done) {
-  // Currently, the returned user is added to a termporary database. 
+  // Currently, the returned user is added to a termporary database.
   User.addUser(profile, function(err, user) {
     if (err) { return done(err); }
      done(null, user);
-  }); 
+  });
   }
 ));
 
@@ -71,8 +73,8 @@ app.post('/login', function(req, res) {
 
 app.get('/auth/facebook', passport.authenticate('facebook'));
 
-// This route is called by passport. 
-app.get('/auth/facebook/callback', 
+// This route is called by passport.
+app.get('/auth/facebook/callback',
   passport.authenticate('facebook', { successRedirect: '/selfies',
                                       failureRedirect: '/' }));
 
@@ -107,6 +109,6 @@ app.get('/schedules/new', function(req, res) {
 });
 
 // Start the server:
-var server = app.listen(3000, function () {
+var server = app.listen(app.get('port'), function () {
     console.log('App running on port %d', server.address().port);
 });

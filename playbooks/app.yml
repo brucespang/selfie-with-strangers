@@ -2,6 +2,9 @@
   sudo: yes
   vars_files:
     - vars/defaults.yml
+    - vars/app.yml
   roles:
     - common
+    - nodejs
+    - nginx
     - app

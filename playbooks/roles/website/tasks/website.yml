@@ -26,11 +26,11 @@
   apt: pkg={{ item }} state=present
   with_items:
     - selfiewithstrangers.club
-  when: env != 'dev'
+  when: ansible_env != 'dev'
 
 - name: install dependencies
   file: src=/vagrant/src/website dest=/var/www/selfiewithstrangers.club state=link
-  when: env == 'dev'
+  when: ansible_env == 'dev'
 
 - name: configure apache for selfiewithstrangers.club
   template: src=etc_apache2_sites-available_selfiewithstrangers.club.j2 dest=/etc/apache2/sites-available/selfiewithstrangers.club.conf group=root owner=root

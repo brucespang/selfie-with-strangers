@@ -19,20 +19,19 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     web.vm.provision "ansible" do |ansible|
       ansible.playbook = "playbooks/web.yml"
       ansible.extra_vars = {
-        env: 'dev'
+        ansible_env: 'dev'
       }
     end
   end
 
   config.vm.define "app" do |app|
-    app.vm.network "forwarded_port", guest: 80, host: 8081
+    app.vm.network "forwarded_port", guest: 80, host: 3000
     app.vm.network "private_network", ip: "192.168.50.3"
-
 
     app.vm.provision "ansible" do |ansible|
       ansible.playbook = "playbooks/app.yml"
       ansible.extra_vars = {
-        env: 'dev'
+        ansible_env: 'dev'
       }
     end
   end
@@ -44,7 +43,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     app.vm.provision "ansible" do |ansible|
       ansible.playbook = "playbooks/api.yml"
       ansible.extra_vars = {
-        env: 'dev'
+        ansible_env: 'dev'
       }
     end
   end
@@ -55,7 +54,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     app.vm.provision "ansible" do |ansible|
       ansible.playbook = "playbooks/db.yml"
       ansible.extra_vars = {
-        env: 'dev'
+        ansible_env: 'dev'
       }
     end
   end

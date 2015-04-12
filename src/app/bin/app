@@ -1,7 +1,4 @@
 #!/bin/bash
 
-export PATH=/opt/node/0.12.2/bin:$PATH
-export NODE_PATH=node_modules:lib
-
 cd "$(dirname $BASH_SOURCE[0])/.."
-node app.js
+NODE_PATH=node_modules:lib NODE_PORT=3000 node app.js

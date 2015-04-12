@@ -1,12 +1,23 @@
 ---
 
-- name: install dependencies
-  file: src=/vagrant/src/app dest=/var/www/app.selfiewithstrangers.club state=link
-  when: env == 'dev'
+- name: app | Set firewall rules for web traffic
+  ufw: rule=allow port={{ item }} proto=tcp
+  with_items:
+    - http
+    - https
 
-- name: configure apache for selfiewithstrangers.club
-  template: src=etc_apache2_sites-available_app.selfiewithstrangers.club.j2 dest=/etc/apache2/sites-available/app.selfiewithstrangers.club.conf group=root owner=root
+- name: app | install dependencies
+  file: src=/vagrant/src/app dest=/opt/app state=link
+  when: ansible_env == 'dev'
 
-- name: enable selfiewithstrangers.club
-  command: a2ensite app.selfiewithstrangers.club.conf creates=/etc/apache2/sites-enabled/app.selfiewithstrangers.club.conf
-  notify: restart apache
+- name: app | create app group
+  group: name=app state=present system=yes
+
+- name: app | create app user
+  user: name=app group=app createhome=no shell=/bin/false system=yes state=present
+
+- name: app | create service
+  template: src=service.conf.j2 dest=/etc/init/app.conf backup=yes mode=0644
+
+- name: app | start service
+  service: name=app state=started enabled=yes
