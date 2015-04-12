@@ -6,6 +6,6 @@ var termporarydb = [];
 
 // Adds a user to the termporary database. 
 exports.addUser = function(profile, cb) {
-  userdb.push(new User(profile.givenName))
+  termporarydb.push(new User(profile.givenName))
   cb(undefined, 'User successfully added!!!');
 };
