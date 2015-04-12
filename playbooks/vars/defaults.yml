@@ -22,8 +22,6 @@ api_db_password: &api_db_password "@2NjJpbwS25AAJ4vFb9c9h4^X2Wr2huH"
 
 # postgres settings
 
-db_host: 192.168.50.5
-
 postgresql_version: 9.3
 postgresql_encoding: 'UTF-8'
 postgresql_locale: 'en_US.UTF-8'

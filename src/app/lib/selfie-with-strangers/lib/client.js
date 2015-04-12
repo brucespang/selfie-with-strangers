@@ -1,41 +1,40 @@
-module.exports = (function() {
-		var users = [
-				{
-						id: "428e1620-d2f9-11e4-b9d6-1681e6b88ec1",
-						name: "Dennis Sutton",
-						avatar_url: "/img/avatar.png",
-				},
-				{
-						id: "428e1864-d2f9-11e4-b9d6-1681e6b88ec1",
-						name: "Betty Daily",
-						avatar_url: "/img/avatar.png",
-				},
-		]
+var http = require('http');
 
-		var questions = [
-				{
-						id: "7dc55158-d2fa-11e4-b9d6-1681e6b88ec1",
-						question: "What is your selfie partner's deepest fear?"
-				},
-				{
-						id: "8793eece-d2fa-11e4-b9d6-1681e6b88ec1",
-						question: "If your selfie partner had a memoir, what would it be titled?"
-				}
-		]
+module.exports = function(hostname) {
+  var users = []
 
-		return {
-				users: {
-						nearby: function() {
-								return users;
-						},
-						show: function(uid) {
-								return users.filter(function(u) {return u.id == uid})[0]
-						}
-				},
-				questions: {
-						random: function() {
-								return questions[Math.floor(Math.random()*questions.length)]
-						}
-				},
-		}
-})()
+  return {
+		users: {
+			nearby: function(cb) {
+        var options = {
+          host: hostname,
+          path: "/users/nearby"
+        };
+
+        http.request(options, function(res) {
+          var str = '';
+          res.setEncoding('utf8');
+
+          //another chunk of data has been recieved, so append it to `str`
+          res.on('data', function (chunk) {
+            str += chunk;
+          });
+
+          //the whole response has been recieved, so we just print it out here
+          res.on('end', function () {
+            console.log(str);
+            cb(JSON.parse(str)['users'])
+          });
+        }).end();
+			},
+			show: function(uid, cb) {
+				cb(undefined, users.filter(function(u) {return u.id == uid})[0])
+			}
+		},
+		questions: {
+			random: function(cb) {
+				cb(undefined, questions[Math.floor(Math.random()*questions.length)])
+			}
+		},
+	};
+};

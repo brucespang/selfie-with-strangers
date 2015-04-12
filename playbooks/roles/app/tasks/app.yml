@@ -16,6 +16,9 @@
 - name: app | create app user
   user: name=app group=app createhome=no shell=/bin/false system=yes state=present
 
+- name: app | create config
+  template: src=config.yaml.j2 dest=/opt/app/config.yaml backup=yes mode=0644
+
 - name: app | create service
   template: src=service.conf.j2 dest=/etc/init/app.conf backup=yes mode=0644
 

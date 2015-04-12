@@ -4,7 +4,7 @@
 <a href="/selfies">Back</a>
 <ul>
 	<% users.forEach(function(user) { %>
-	<li><a href="/matches/<%= user.id %>"><%= user.name %></a></li>
+	<li><a href="/matches/<%= user.username %>"><%= user.name %></a></li>
 	<% }) %>
 </ul>
 

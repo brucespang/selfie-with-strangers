@@ -11,50 +11,60 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Default value: false
   config.ssh.forward_agent = true
 
+  hosts = {
+    web: "192.168.50.2",
+    app: "192.168.50.3",
+    api: "192.168.50.4",
+    db: "192.168.50.5"
+  }
+
   config.vm.define "web" do |web|
     web.vm.network "forwarded_port", guest: 80, host: 8080
-    web.vm.network "private_network", ip: "192.168.50.2"
-
+    web.vm.network "private_network", ip: hosts[:web]
 
     web.vm.provision "ansible" do |ansible|
       ansible.playbook = "playbooks/web.yml"
       ansible.extra_vars = {
-        ansible_env: 'dev'
+        ansible_env: 'dev',
+        hosts: hosts
       }
     end
   end
 
   config.vm.define "app" do |app|
     app.vm.network "forwarded_port", guest: 80, host: 3000
-    app.vm.network "private_network", ip: "192.168.50.3"
+    app.vm.network "private_network", ip: hosts[:app]
 
     app.vm.provision "ansible" do |ansible|
       ansible.playbook = "playbooks/app.yml"
       ansible.extra_vars = {
-        ansible_env: 'dev'
+        ansible_env: 'dev',
+        hosts: hosts
       }
     end
   end
 
   config.vm.define "api" do |app|
     app.vm.network "forwarded_port", guest: 80, host: 1800
-    app.vm.network "private_network", ip: "192.168.50.4"
+    app.vm.network "private_network", ip: hosts[:api]
 
     app.vm.provision "ansible" do |ansible|
       ansible.playbook = "playbooks/api.yml"
       ansible.extra_vars = {
-        ansible_env: 'dev'
+        ansible_env: 'dev',
+        hosts: hosts
       }
     end
   end
 
   config.vm.define "db" do |app|
-    app.vm.network "private_network", ip: "192.168.50.5"
+    app.vm.network "private_network", ip: hosts[:db]
 
     app.vm.provision "ansible" do |ansible|
       ansible.playbook = "playbooks/db.yml"
       ansible.extra_vars = {
-        ansible_env: 'dev'
+        ansible_env: 'dev',
+        hosts: hosts
       }
     end
   end

@@ -2,15 +2,15 @@
 var express = require('express');
 var morgan = require('morgan');
 var ejs = require('ejs');
-var selfie_client = require('selfie-with-strangers');
-
-var User = require('selfie-with-strangers/lib/User.js');
+var SWS = require('selfie-with-strangers');
 
 // passport is used to implement facebook authentication
 var passport = require('passport')
-  , FacebookStrategy = require('passport-facebook').Strategy;
+, FacebookStrategy = require('passport-facebook').Strategy;
 
 var extend = require('util')._extend
+var fs = require('fs');
+var yaml = require('js-yaml');
 
 // Create an app:
 var app = express();
@@ -23,20 +23,25 @@ app.use(express.static(__dirname + '/public'));
 app.use(passport.initialize())
 //app.use(express.static('public'));
 
-passport.use(new FacebookStrategy({
-  // These parameters are associated with an app created using Facebook Developers.
-  clientID: "623832804414897",
-  clientSecret: "8b0c3546f60448a4b4e9057eeefe129a",
-  callbackURL: "http://localhost:3000/auth/facebook/callback"
-},
-function(accessToken, refreshToken, profile, done) {
-  // Currently, the returned user is added to a termporary database.
-  User.addUser(profile, function(err, user) {
-    if (err) { return done(err); }
-     done(null, user);
-  });
+var config = yaml.safeLoad(fs.readFileSync('config.yaml', 'utf8'));
+
+passport.use(new FacebookStrategy(
+  {
+    // These parameters are associated with an app created using Facebook Developers.
+    clientID: config.facebook_client.id,
+    clientSecret: config.facebook_client.secret,
+    callbackURL: "http://localhost:3000/auth/facebook/callback"
+  },
+  function(accessToken, refreshToken, profile, done) {
+    // Currently, the returned user is added to a termporary database.
+    User.addUser(profile, function(err, user) {
+      if (err) { return done(err); }
+      done(null, user);
+    });
   }
 ));
+
+var selfie_client = SWS(config.api_host);
 
 function render(res, template, args) {
   var default_args = {
@@ -56,10 +61,10 @@ function render(res, template, args) {
 }
 
 app.locals.static_file = function(path) {
-    if (path[0] != "/") {
-        throw "path must start with a /";
-    }
-    return path;
+  if (path[0] != "/") {
+    throw "path must start with a /";
+  }
+  return path;
 };
 
 passport.serializeUser(function(user, done) {
@@ -71,26 +76,26 @@ passport.deserializeUser(function(user, done) {
 });
 
 app.get('/', function(req, res) {
-    render(res, 'index');
+  render(res, 'index');
 });
 
 app.post('/login', function(req, res) {
-    res.redirect('/selfies');
+  res.redirect('/selfies');
 });
 
 app.get('/auth/facebook', passport.authenticate('facebook'));
 
 // This route is called by passport.
 app.get('/auth/facebook/callback',
-  passport.authenticate('facebook', { successRedirect: '/selfies',
-                                      failureRedirect: '/' }));
+        passport.authenticate('facebook', { successRedirect: '/selfies',
+                                            failureRedirect: '/' }));
 
 app.post('/logout', function(req, res) {
-    res.redirect('/');
+  res.redirect('/');
 });
 
 app.get('/selfies', function(req, res) {
-    render(res, 'selfies/index');
+  render(res, 'selfies/index');
 });
 
 app.post('/selfies', function(req, res) {
@@ -105,24 +110,26 @@ app.get('/selfies/new', function(req, res) {
 });
 
 app.get('/users/nearby', function(req, res) {
-    render(res, 'users/nearby', users=selfie_client.users.nearby());
+  selfie_client.users.nearby(function(users) {
+    render(res, 'users/nearby', {users: users});
+  })
 });
 
 app.get('/matches/:id', function(req, res) {
-    render(res, 'matches/show',
-           user=selfie_client.users.show(req.params.id),
-           question=selfie_client.questions.random());
+  render(res, 'matches/show',
+         user=selfie_client.users.show(req.params.id),
+         question=selfie_client.questions.random());
 });
 
 app.get('/settings', function(req, res) {
-    render(res, 'settings');
+  render(res, 'settings');
 });
 
 app.get('/schedules/new', function(req, res) {
-    render(res, 'schedules/new');
+  render(res, 'schedules/new');
 });
 
 // Start the server:
 var server = app.listen(app.get('port'), function () {
-    console.log('App running on port %d', server.address().port);
+  console.log('App running on port %d', server.address().port);
 });

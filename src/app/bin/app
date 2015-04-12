@@ -1,4 +1,10 @@
 #!/bin/bash
 
 cd "$(dirname $BASH_SOURCE[0])/.."
-NODE_PATH=node_modules:lib NODE_PORT=3000 node app.js
+
+if [ "$NODE_ENV" == "dev" ]; then
+   mkdir /tmp/app
+   NODE_PATH=node_modules:lib NODE_PORT=3000 HOME=/tmp/app node_modules/nodemon/bin/nodemon.js app.js
+else
+  NODE_PATH=node_modules:lib NODE_PORT=3000 node app.js
+fi
