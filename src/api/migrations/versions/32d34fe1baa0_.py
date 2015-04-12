@@ -34,8 +34,8 @@ def upgrade():
     user_id           VARCHAR(32) REFERENCES users(id),
     lat               FLOAT NOT NULL,
     long              FLOAT NOT NULL,
-    when              DATETIME NOT NULL,
-    PRIMARY KEY(user_id, when)
+    created_at        DATETIME NOT NULL,
+    PRIMARY KEY(user_id, created_at)
     );
     """)
 
@@ -63,7 +63,7 @@ def upgrade():
     id             VARCHAR(32) NOT NULL,
     selfie_id      VARCHAR(32) REFERENCES selfies(id),
     question_id    VARCHAR(32) REFERENCES questions(id),
-    user_id        VARCHAR(32) REFERENCES users(id)
+    user_id        VARCHAR(32) REFERENCES users(id),
     answer         TEXT NOT NULL,
     created        DATETIME NOT NULL,
     PRIMARY KEY(id)
