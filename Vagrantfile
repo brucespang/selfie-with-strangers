@@ -37,7 +37,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.define "api" do |app|
-    app.vm.network "forwarded_port", guest: 5000, host: 5000
+    app.vm.network "forwarded_port", guest: 80, host: 1800
     app.vm.network "private_network", ip: "192.168.50.4"
 
     app.vm.provision "ansible" do |ansible|

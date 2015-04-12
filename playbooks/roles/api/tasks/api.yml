@@ -1,10 +1,32 @@
 ---
 
-- name: Install psycopg2
-  apt: pkg=python-psycopg2 state=installed
+- name: api | Set firewall rules for web traffic
+  ufw: rule=allow port={{ item }} proto=tcp
+  with_items:
+    - http
+    - https
 
-- name: Create database user for app
-  postgresql_user: login_host={{ db_host }} login_user={{ db_admin_username }} login_password="{{ db_admin_password }}" name={{ api_db_username }} password="{{ api_db_password }}" state=present
+- name: api | install dependencies
+  file: src=/vagrant/src/api dest=/opt/api state=link
+  when: ansible_env == 'dev'
 
-- name: Create database for api
-  postgresql_db: login_host={{ db_host }} login_user={{ db_admin_username }} login_password="{{ db_admin_password }}" name={{ api_db_database }} state=present owner={{ api_db_username }}
+# - name: api | Install psycopg2
+#   apt: pkg=python-psycopg2 state=installed
+
+# - name: api | Create database user for app
+#   postgresql_user: login_host={{ db_host }} login_user={{ db_admin_username }} login_password="{{ db_admin_password }}" name={{ api_db_username }} password="{{ api_db_password }}" state=present
+
+# - name: api | Create database for api
+#   postgresql_db: login_host={{ db_host }} login_user={{ db_admin_username }} login_password="{{ db_admin_password }}" name={{ api_db_database }} state=present owner={{ api_db_username }}
+
+- name: api | create group
+  group: name=api state=present system=yes
+
+- name: api | create user
+  user: name=api group=api createhome=no shell=/bin/false system=yes state=present
+
+- name: api | create service
+  template: src=service.conf.j2 dest=/etc/init/api.conf backup=yes mode=0644
+
+- name: api | start service
+  service: name=api state=started enabled=yes

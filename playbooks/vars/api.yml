@@ -2,3 +2,31 @@
 
 api_db_username: api
 api_db_password: "@2NjJpbwS25AAJ4vFb9c9h4^X2Wr2huH"
+
+# The max clients allowed
+nginx_max_clients: 1024
+
+# The user to run nginx
+nginx_user: "www-data"
+
+# A list of hashs that define the servers for nginx,
+# as with http parameters. Any valid server parameters
+# can be defined here.
+nginx_sites:
+ default:
+     - listen 80
+     - location / {
+         proxy_pass http://api/;
+         proxy_redirect off;
+       }
+
+# A list of hashs that define additional configuration
+nginx_configs:
+  proxy:
+      - proxy_set_header X-Real-IP  $remote_addr
+      - proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for
+  upstream:
+      - upstream api { server 127.0.0.1:1800 weight=10; }
+  gzip:
+      - gzip on
+      - gzip_disable msie6
