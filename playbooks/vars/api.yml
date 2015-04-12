@@ -1,7 +1,6 @@
 ---
 
-api_db_username: api
-api_db_password: "@2NjJpbwS25AAJ4vFb9c9h4^X2Wr2huH"
+api_secret_key: "JBO2$IK2aBlE^GVVt6qsigz3az*q0TMB"
 
 # The max clients allowed
 nginx_max_clients: 1024

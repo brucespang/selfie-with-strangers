@@ -14,6 +14,40 @@ ntp_servers:
   # - 2.north-america.pool.ntp.org
   # - 3.north-america.pool.ntp.org
 
+# api credentials
+
+api_db_name: &api_db_name api
+api_db_username: &api_db_username api
+api_db_password: &api_db_password "@2NjJpbwS25AAJ4vFb9c9h4^X2Wr2huH"
+
+# postgres settings
+
 db_host: 192.168.50.5
-db_admin_username: postgres
-db_admin_password: "1lyWtKHdPw%gguCtU4isHbjgPHUQ4&6E"
+
+postgresql_version: 9.3
+postgresql_encoding: 'UTF-8'
+postgresql_locale: 'en_US.UTF-8'
+
+postgresql_admin_user: "postgres"
+postgresql_default_auth_method: "trust"
+
+postgresql_cluster_name: "main"
+postgresql_cluster_reset: false
+
+# List of databases to be created
+postgresql_databases:
+  - name: *api_db_name
+    uuid_ossp: yes
+
+# List of users to be created
+postgresql_users:
+  - name: *api_db_username
+    pass: *api_db_password
+    encrypted: no       # denotes if the password is already encrypted.
+
+# List of user privileges to be applied (optional)
+postgresql_user_privileges:
+  - name: *api_db_username
+    db: *api_db_name
+    priv: "ALL"
+    role_attr_flags: "NOSUPERUSER,NOCREATEDB"

@@ -4,4 +4,4 @@
     - vars/defaults.yml
   roles:
     - common
-    - db
+    - postgresql
