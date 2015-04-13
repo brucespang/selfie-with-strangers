@@ -121,9 +121,16 @@ app.get('/users/nearby', function(req, res) {
 });
 
 app.get('/matches/:id', function(req, res) {
-  render(res, 'matches/show',
-         user=selfie_client.users.show(req.params.id),
-         question=selfie_client.questions.random());
+  selfie_client.questions.random(function(err, question) {
+    selfie_client.users.show(req.params.id, function(err, user) {
+      if (err) {
+        console.error(err);
+        res.status(500).send('Internal error')
+      } else {
+        render(res, 'matches/show', {question: question, user: user});
+      }
+    })
+  })
 });
 
 app.get('/settings', function(req, res) {

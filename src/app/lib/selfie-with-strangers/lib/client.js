@@ -5,7 +5,7 @@ module.exports = function(hostname) {
   var users = []
 
   function apiRequest(path, cb) {
-    request(hostname + "/users/nearby", function(err, res, body) {
+    request(hostname + path, function(err, res, body) {
       if (err) {
         cb(err)
       } else {
@@ -29,12 +29,12 @@ module.exports = function(hostname) {
         apiRequest("/users/nearby", cb)
 			},
 			show: function(uid, cb) {
-				cb(undefined, users.filter(function(u) {return u.id == uid})[0])
+        apiRequest("/users/" + uid, cb)
 			}
 		},
 		questions: {
 			random: function(cb) {
-				cb(undefined, questions[Math.floor(Math.random()*questions.length)])
+        apiRequest("/questions/random", cb)
 			}
 		},
 	};

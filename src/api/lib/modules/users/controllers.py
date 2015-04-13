@@ -1,4 +1,3 @@
-# Import flask dependencies
 from flask import Blueprint, request, jsonify
 
 users = Blueprint('users', __name__, url_prefix='/users')

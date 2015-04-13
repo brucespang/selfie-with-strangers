@@ -18,5 +18,8 @@ db = SQLAlchemy(app)
 for code in default_exceptions.iterkeys():
     app.error_handler_spec[None][code] = helpers.make_json_error
 
-from modules.users.controllers import users as users_module
-app.register_blueprint(users_module)
+from modules.users.controllers import users
+from modules.questions.controllers import questions
+
+app.register_blueprint(users)
+app.register_blueprint(questions)
