@@ -1,6 +1,7 @@
 from app import db
 
 class User(db.Model):
+    __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     created = db.Column(db.DateTime, default=db.func.current_timestamp())
     updated = db.Column(db.DateTime, default=db.func.current_timestamp(),

@@ -16,14 +16,15 @@ import sqlalchemy as sa
 def upgrade():
     conn = op.get_bind()
     conn.execute("""
-    CREATE TABLE  users (
+    CREATE TABLE users (
     id		     VARCHAR(32),
     username         VARCHAR(32),
     name	     TEXT NOT NULL,
     email	     TEXT NOT NULL,
     password_hash    TEXT NOT NULL,
-    created          DATETIME NOT NULL,
-    updated          DATETIME,
+    created          TIMESTAMP NOT NULL,
+    updated          TIMESTAMP,
+    role             INTEGER NOT NULL,
     PRIMARY KEY(id),
     UNIQUE(username)
     );
@@ -34,7 +35,7 @@ def upgrade():
     user_id           VARCHAR(32) REFERENCES users(id),
     lat               FLOAT NOT NULL,
     long              FLOAT NOT NULL,
-    created_at        DATETIME NOT NULL,
+    created_at        TIMESTAMP NOT NULL,
     PRIMARY KEY(user_id, created_at)
     );
     """)
@@ -50,10 +51,20 @@ def upgrade():
 
     conn.execute("""
     CREATE TABLE  locations(
-    id          INTEGER AUTO_INCREMENT,
+    id          VARCHAR(32),
     name 	VARCHAR(125) NOT NULL,
     lat		VARCHAR(10) NOT NULL,
     long	VARCHAR(10) NOT NULL,
+    PRIMARY KEY(id)
+    );
+    """)
+
+    conn.execute("""
+    CREATE TABLE  selfies (
+    id		   VARCHAR(32),
+    outcome_id	   INTEGER,
+    proposal_id    INTEGER,
+    created 	   TIMESTAMP NOT NULL,
     PRIMARY KEY(id)
     );
     """)
@@ -65,7 +76,7 @@ def upgrade():
     question_id    VARCHAR(32) REFERENCES questions(id),
     user_id        VARCHAR(32) REFERENCES users(id),
     answer         TEXT NOT NULL,
-    created        DATETIME NOT NULL,
+    created        TIMESTAMP NOT NULL,
     PRIMARY KEY(id)
     );
     """)
@@ -76,7 +87,7 @@ def upgrade():
     rater_id	VARCHAR(32) REFERENCES users(id),
     ratee_id	VARCHAR(32) REFERENCES users(id),
     rating      INTEGER NOT NULL,
-    created 	DATETIME NOT NULL,
+    created 	TIMESTAMP NOT NULL,
     PRIMARY KEY(selfie_id, rater_id, ratee_id)
     );
     """)
@@ -90,21 +101,11 @@ def upgrade():
     """)
 
     conn.execute("""
-    CREATE TABLE  selfies (
-    id		   VARCHAR(32),
-    outcome_id	   INTEGER,
-    proposal_id    INTEGER,
-    created 	   DATETIME NOT NULL,
-    PRIMARY KEY(id)
-    );
-    """)
-
-    conn.execute("""
     CREATE TABLE  feedback (
     user_id 	VARCHAR(32) REFERENCES users(id),
     selfie_id 	VARCHAR(32) REFERENCES selfies(id),
     feedback 	TEXT NOT NULL,
-    created 	DATETIME NOT NULL,
+    created 	TIMESTAMP NOT NULL,
     PRIMARY KEY(user_id, selfie_id)
     );
     """)
@@ -124,23 +125,23 @@ def upgrade():
     proposer_id	   VARCHAR(32) REFERENCES users(id),
     recipient_id   VARCHAR(32) REFERENCES users(id),
     location	   POINT,
-    meeting_time   DATETIME,
+    meeting_time   TIMESTAMP,
     accepted	   BOOLEAN,
-    created        DATETIME,
+    created        TIMESTAMP,
     PRIMARY KEY(id)
     );
     """)
 
 def downgrade():
     conn = op.get_bind()
-    conn.execute("DROP TABLE users")
-    conn.execute("DROP TABLE user_locations")
-    conn.execute("DROP TABLE questions")
-    conn.execute("DROP TABLE locations")
-    conn.execute("DROP TABLE answers")
-    conn.execute("DROP TABLE ratings")
-    conn.execute("DROP TABLE selfie_users")
-    conn.execute("DROP TABLE selfies")
-    conn.execute("DROP TABLE feedback")
-    conn.execute("DROP TABLE outcome_codes")
-    conn.execute("DROP TABLE proposals")
+    conn.execute("DROP TABLE users CASCADE")
+    conn.execute("DROP TABLE user_locations CASCADE")
+    conn.execute("DROP TABLE questions CASCADE")
+    conn.execute("DROP TABLE locations CASCADE")
+    conn.execute("DROP TABLE answers CASCADE")
+    conn.execute("DROP TABLE ratings CASCADE")
+    conn.execute("DROP TABLE selfie_users CASCADE")
+    conn.execute("DROP TABLE selfies CASCADE")
+    conn.execute("DROP TABLE feedback CASCADE")
+    conn.execute("DROP TABLE outcome_codes CASCADE")
+    conn.execute("DROP TABLE proposals CASCADE")

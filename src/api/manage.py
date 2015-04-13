@@ -3,9 +3,8 @@ from flask.ext.script import Manager
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.migrate import Migrate, MigrateCommand
 
-from lib.app import app
+from app import app, db
 
-db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
 manager = Manager(app)
