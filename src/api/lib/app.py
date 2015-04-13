@@ -8,7 +8,10 @@ from werkzeug.exceptions import default_exceptions
 app = Flask(__name__)
 
 config_path = os.environ.get('CONFIG', "config.yaml")
-app.config.from_object(yaml.safe_load(open(config_path)))
+config_obj = yaml.safe_load(open(config_path))
+app.config.from_object(helpers.Struct(**config_obj))
+
+app.debug = app.config.get('DEBUG', False)
 
 db = SQLAlchemy(app)
 

@@ -8,3 +8,7 @@ def make_json_error(ex):
                             if isinstance(ex, HTTPException)
                             else 500)
     return response
+
+class Struct:
+    def __init__(self, **entries):
+        self.__dict__.update(entries)
