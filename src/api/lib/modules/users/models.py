@@ -1,4 +1,7 @@
+import uuid
+import bcrypt
 from app import db
+from datetime import datetime
 
 class User(db.Model):
     __tablename__ = 'users'
@@ -12,12 +15,24 @@ class User(db.Model):
     password_hash = db.Column(db.String(192), nullable=False)
     role = db.Column(db.SmallInteger, nullable=False)
 
+    user_role = 1
+    admin_role = 2
+
+    def __init__(self, name, username, email, password):
+        self.id = str(uuid.uuid1())
+        self.name = name
+        self.username = username
+        self.email = email
+        self.password_hash = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+        self.created = datetime.now()
+        self.role = User.user_role
+
     def as_json(self):
         return {
-            "id": id,
-            "created": created,
-            "updated": updated,
-            "name": name,
-            "username": username,
-            "email": email
+            "id": self.id,
+            "created": self.created,
+            "updated": self.updated,
+            "name": self.name,
+            "username": self.username,
+            "email": self.email
         }

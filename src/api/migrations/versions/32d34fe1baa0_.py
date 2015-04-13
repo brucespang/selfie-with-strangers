@@ -17,8 +17,8 @@ def upgrade():
     conn = op.get_bind()
     conn.execute("""
     CREATE TABLE users (
-    id		     VARCHAR(32),
-    username         VARCHAR(32),
+    id		     VARCHAR(36),
+    username         VARCHAR(36),
     name	     TEXT NOT NULL,
     email	     TEXT NOT NULL,
     password_hash    TEXT NOT NULL,
@@ -32,7 +32,7 @@ def upgrade():
 
     conn.execute("""
     CREATE TABLE user_locations (
-    user_id           VARCHAR(32) REFERENCES users(id),
+    user_id           VARCHAR(36) REFERENCES users(id),
     lat               FLOAT NOT NULL,
     long              FLOAT NOT NULL,
     created_at        TIMESTAMP NOT NULL,
@@ -42,7 +42,7 @@ def upgrade():
 
     conn.execute("""
     CREATE TABLE  questions (
-    id		 VARCHAR(32) NOT NULL,
+    id		 VARCHAR(36) NOT NULL,
     question	 TEXT NOT NULL,
     PRIMARY KEY(id),
     UNIQUE(question)
@@ -51,7 +51,7 @@ def upgrade():
 
     conn.execute("""
     CREATE TABLE  locations(
-    id          VARCHAR(32),
+    id          VARCHAR(36),
     name 	VARCHAR(125) NOT NULL,
     lat		VARCHAR(10) NOT NULL,
     long	VARCHAR(10) NOT NULL,
@@ -61,7 +61,7 @@ def upgrade():
 
     conn.execute("""
     CREATE TABLE  selfies (
-    id		   VARCHAR(32),
+    id		   VARCHAR(36),
     outcome_id	   INTEGER,
     proposal_id    INTEGER,
     created 	   TIMESTAMP NOT NULL,
@@ -71,10 +71,10 @@ def upgrade():
 
     conn.execute("""
     CREATE TABLE  answers (
-    id             VARCHAR(32) NOT NULL,
-    selfie_id      VARCHAR(32) REFERENCES selfies(id),
-    question_id    VARCHAR(32) REFERENCES questions(id),
-    user_id        VARCHAR(32) REFERENCES users(id),
+    id             VARCHAR(36) NOT NULL,
+    selfie_id      VARCHAR(36) REFERENCES selfies(id),
+    question_id    VARCHAR(36) REFERENCES questions(id),
+    user_id        VARCHAR(36) REFERENCES users(id),
     answer         TEXT NOT NULL,
     created        TIMESTAMP NOT NULL,
     PRIMARY KEY(id)
@@ -83,9 +83,9 @@ def upgrade():
 
     conn.execute("""
     CREATE TABLE  ratings (
-    selfie_id 	VARCHAR(32) REFERENCES selfies(id),
-    rater_id	VARCHAR(32) REFERENCES users(id),
-    ratee_id	VARCHAR(32) REFERENCES users(id),
+    selfie_id 	VARCHAR(36) REFERENCES selfies(id),
+    rater_id	VARCHAR(36) REFERENCES users(id),
+    ratee_id	VARCHAR(36) REFERENCES users(id),
     rating      INTEGER NOT NULL,
     created 	TIMESTAMP NOT NULL,
     PRIMARY KEY(selfie_id, rater_id, ratee_id)
@@ -94,16 +94,16 @@ def upgrade():
 
     conn.execute("""
     CREATE TABLE  selfie_users (
-    selfie_id VARCHAR(32),
-    user_id VARCHAR(32) REFERENCES users(id),
+    selfie_id VARCHAR(36),
+    user_id VARCHAR(36) REFERENCES users(id),
     PRIMARY KEY(selfie_id, user_id)
     );
     """)
 
     conn.execute("""
     CREATE TABLE  feedback (
-    user_id 	VARCHAR(32) REFERENCES users(id),
-    selfie_id 	VARCHAR(32) REFERENCES selfies(id),
+    user_id 	VARCHAR(36) REFERENCES users(id),
+    selfie_id 	VARCHAR(36) REFERENCES selfies(id),
     feedback 	TEXT NOT NULL,
     created 	TIMESTAMP NOT NULL,
     PRIMARY KEY(user_id, selfie_id)
@@ -112,7 +112,7 @@ def upgrade():
 
     conn.execute("""
     CREATE TABLE  outcome_codes (
-    outcomeid	   VARCHAR(32),
+    outcomeid	   VARCHAR(36),
     description    TEXT NOT NULL,
     PRIMARY KEY(outcomeid),
     UNIQUE(description)
@@ -121,9 +121,9 @@ def upgrade():
 
     conn.execute("""
     CREATE TABLE  proposals (
-    id		   VARCHAR(32),
-    proposer_id	   VARCHAR(32) REFERENCES users(id),
-    recipient_id   VARCHAR(32) REFERENCES users(id),
+    id		   VARCHAR(36),
+    proposer_id	   VARCHAR(36) REFERENCES users(id),
+    recipient_id   VARCHAR(36) REFERENCES users(id),
     location	   POINT,
     meeting_time   TIMESTAMP,
     accepted	   BOOLEAN,

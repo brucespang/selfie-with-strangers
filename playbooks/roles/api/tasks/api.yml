@@ -11,6 +11,7 @@
   with_items:
     - libpq-dev
     - python-dev
+    - libffi-dev
 
 - name: api | install source tree
   file: src=/vagrant/src/api dest=/opt/api state=link
