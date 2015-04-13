@@ -1,5 +1,5 @@
 {% if ansible_env == 'dev' %}
-DEBUG: True
+DEBUG: true
 {% endif %}
 
 SQLALCHEMY_DATABASE_URI: "postgresql:///{{ api_db_username }}:{{ api_db_password }}@{{ hosts.db }}:5432/{{ api_db_name }}"

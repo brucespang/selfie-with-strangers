@@ -1,31 +1,32 @@
-var http = require('http');
+var request = require('request');
+
 
 module.exports = function(hostname) {
   var users = []
 
+  function apiRequest(path, cb) {
+    request(hostname + "/users/nearby", function(err, res, body) {
+      if (err) {
+        cb(err)
+      } else {
+        try {
+          var json = JSON.parse(body)
+          if (res.statusCode == 200) {
+            cb(undefined, json);
+          } else {
+            cb(json['error'])
+          }
+        } catch(e) {
+          cb(e.stack)
+        }
+      }
+    })
+  }
+
   return {
 		users: {
 			nearby: function(cb) {
-        var options = {
-          host: hostname,
-          path: "/users/nearby"
-        };
-
-        http.request(options, function(res) {
-          var str = '';
-          res.setEncoding('utf8');
-
-          //another chunk of data has been recieved, so append it to `str`
-          res.on('data', function (chunk) {
-            str += chunk;
-          });
-
-          //the whole response has been recieved, so we just print it out here
-          res.on('end', function () {
-            console.log(str);
-            cb(JSON.parse(str)['users'])
-          });
-        }).end();
+        apiRequest("/users/nearby", cb)
 			},
 			show: function(uid, cb) {
 				cb(undefined, users.filter(function(u) {return u.id == uid})[0])

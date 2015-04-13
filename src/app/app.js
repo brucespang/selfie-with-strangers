@@ -110,8 +110,13 @@ app.get('/selfies/new', function(req, res) {
 });
 
 app.get('/users/nearby', function(req, res) {
-  selfie_client.users.nearby(function(users) {
-    render(res, 'users/nearby', {users: users});
+  selfie_client.users.nearby(function(err, users) {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Internal error')
+    } else {
+      render(res, 'users/nearby', {users: users['users']});
+    }
   })
 });
 
