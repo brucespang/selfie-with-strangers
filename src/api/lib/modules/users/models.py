@@ -10,3 +10,13 @@ class User(db.Model):
     email = db.Column(db.Text(), nullable=False, unique=True)
     password_hash = db.Column(db.String(192), nullable=False)
     role = db.Column(db.SmallInteger, nullable=False)
+
+    def as_json(self):
+        return {
+            "id": id,
+            "created": created,
+            "updated": updated,
+            "name": name,
+            "username": username,
+            "email": email
+        }

@@ -2,5 +2,5 @@
 DEBUG: true
 {% endif %}
 
-SQLALCHEMY_DATABASE_URI: "postgresql:///{{ api_db_username }}:{{ api_db_password }}@{{ hosts.db }}:5432/{{ api_db_name }}"
+SQLALCHEMY_DATABASE_URI: "postgresql://{{ api_db_username }}:{{ api_db_password }}@{{ hosts.db }}:5432/{{ api_db_name }}"
 SECRET_KEY: {{ api_secret_key }}

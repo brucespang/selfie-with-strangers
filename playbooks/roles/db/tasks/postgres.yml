@@ -1,0 +1,4 @@
+---
+
+- name: Set firewall rules for postgres
+  ufw: rule=allow port=5432 proto=tcp

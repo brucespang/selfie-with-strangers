@@ -4,8 +4,8 @@
   template: src=apt_sources.list.j2 dest=/etc/apt/sources.list
   when: ansible_distribution == 'Ubuntu'
 
-- name: Update apt cache
-  apt: update_cache=yes
+# - name: Update apt cache
+#   apt: update_cache=yes
 
 - name: Install necessities and nice-to-haves
   apt: pkg={{ item }} state=installed

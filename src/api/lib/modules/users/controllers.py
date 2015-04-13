@@ -1,10 +1,12 @@
 from flask import Blueprint, request, jsonify
+from models import User
 
 users = Blueprint('users', __name__, url_prefix='/users')
 
 @users.route('/', methods=['GET'])
 def list():
-    return jsonify({"users": [{"username": "test"}]})
+    users = User.query.all()
+    return jsonify({"users": [u.as_json() for u in users]})
 
 @users.route('/nearby', methods=['GET'])
 def nearby():
