@@ -18,6 +18,7 @@ These documents provide an overview of our technical specifications. This includ
 
 ## Running the dev environment
 
+1. Install ansible on your computer: [http://docs.ansible.com/intro_installation.html](http://docs.ansible.com/intro_installation.html)
 1. Run `vagrant up`
 1. Do some development:
     - The website should be accessible at `127.0.0.1:8080`
