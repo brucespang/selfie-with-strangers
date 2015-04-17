@@ -42,6 +42,14 @@ window.addEventListener("DOMContentLoaded", function() {
     document.getElementById("pictures").appendChild(canvas);
   });
 
+  /*
+    how to get form to check for "input":
+    http://stackoverflow.com/questions/17865148/using-jquery-to-prevent-form-submission-when-input-fields-are-empty
+    
+    maybe how to send pictures?
+    http://stackoverflow.com/questions/8726400/how-can-i-add-an-image-file-into-json-object
+    http://stackoverflow.com/questions/21926893/sending-an-image-and-json-data-to-server-using-ajax-post-request
+  */
   document.getElementById("done").addEventListener("click", function() {
     var numItems = $('.selected').length;
     if($("canvas").length === 0){
