@@ -1,3 +1,23 @@
+# Project 4 Feedback
+
+Dearest Selfies,
+
+In your “Software Components” section, I really appreciated how you included sample code of how the library/API is used! Great job overall!
+
+A few points:
+
+You mention that you plan to create a SwS API with Flask. You didn’t go into specifics on what features the API would have or how it fits into your application flow. (Note: In your team notes for 04/09/2015, you mention deciding to include an API section in your dspec, so I’m not sure if you forgot to include it.)
+
+I thought the browser-camera was a cool solution, but I’m worried that it isn’t supported in mobile browsers. There are several comments on that blog post from users having difficulty using browser-camera on mobile. (I suspect that the problem is that the HTML5 function that browser-camera relies on “getUserMedia” doesn’t seem to be supported by any mobile browser: http://mobilehtml5.org/) Still, you should definitely test out browser-camera and see if it works on your mobile devices. (Or hack a solution to make it work)
+
+EDIT: I opened the browser-camera demo (http://davidwalsh.name/demo/camera.php) on my iPhone and it didn't work. Also, the demo page states that "Using Opera Next or Chrome Canary, use this page to take your picture!" 
+
+Selfies, I’m giving you a **4** out of 5. If you test browser-camera on iPhone and/or Android and give a rough summary of the SwS API’s functionalities and place in the app, by Tuesday April 21st, then I’ll give you a 5. If you find a way to make browser-camera work, you can just write in your dspec that you tested it successfully, if not, you’ll need to find an alternative way to access the phone’s camera. Totally optional, but I think it’d be really helpful to make sure the camera will work.
+
+If you have any questions, you can email me at helgapataki326@gmail.com
+
+Helga
+
 # Project 3 Re-evalutation
 
 Hello my Selfies,
