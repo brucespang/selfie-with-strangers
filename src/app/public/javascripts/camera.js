@@ -60,6 +60,7 @@ window.addEventListener("DOMContentLoaded", function() {
     }
     else{
       $("#message").text("Picture is sent");    //will actually send the pic
+      
     }
   });
 }, false);
