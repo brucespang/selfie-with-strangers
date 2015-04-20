@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, redirect, abort
+from flask import Blueprint, request, jsonify, abort, redirect
 from models import User
 import json
 from app import db

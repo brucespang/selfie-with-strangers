@@ -59,8 +59,11 @@ app.locals.static_file = function(path) {
 };
 
 function is_logged_in(req, opts) {
-  var cookie = req.cookies.session
+  if (!req.cookies) {
+    return opts.error()
+  }
 
+  var cookie = req.cookies.session
 	if (cookie === undefined) {
     return opts.error()
   }
@@ -75,15 +78,27 @@ function is_logged_in(req, opts) {
 }
 
 function check_logged_in(cb) {
-  return function(req, req) {
+  return function(req, res) {
     is_logged_in(req, {
       error: function() {
-        res.cookie("session", "")
         res.redirect("/login")
       },
       ok: function(current_user) {
         req.current_user = current_user
         return cb(req, res)
+      }
+    })
+  }
+}
+
+function check_logged_out(cb) {
+  return function(req, res) {
+    is_logged_in(req, {
+      error: function() {
+        cb(req, res)
+      },
+      ok: function(current_user) {
+        res.redirect("/")
       }
     })
   }
@@ -100,18 +115,11 @@ app.get('/', function(req, res) {
   })
 });
 
-app.get('/login', function(req, res) {
-  is_logged_in(req, {
-    error: function() {
-      render(res, 'login')
-    },
-    ok: function(current_user) {
-      res.redirect("/selfies")
-    }
-  })
-})
+app.get('/login', check_logged_out(function(req, res) {
+  render(res, 'login')
+}))
 
-app.post('/login', function(req, res) {
+app.post('/login', check_logged_out(function(req, res) {
   var email = req.body.email
   var password = req.body.password
   selfie_client.sessions.new({email: email, password: password}, function(err, cookie) {
@@ -122,11 +130,35 @@ app.post('/login', function(req, res) {
       res.redirect("/")
     }
   })
-});
+}));
 
-app.post('/users/new', function(req, res) {
+app.get('/users/new', check_logged_out(function(req, res) {
+  render(res, 'users/new')
+}));
 
-});
+app.post('/users', check_logged_out(function(req, res) {
+  var user = {
+    email: req.body.email,
+    password: req.body.password,
+    username: req.body.username,
+    name: req.body.name,
+  }
+
+  selfie_client.users.new(user, function(err, cookie) {
+    if (err) {
+      res.redirect("/users/new")
+    } else {
+      selfie_client.sessions.new({email: user.email, password: user.password}, function(err, cookie) {
+        if (err) {
+          res.redirect("/login")
+        } else {
+          res.cookie("session", cookie)
+          res.redirect("/")
+        }
+      })
+    }
+  })
+}));
 
 // This route is called by passport.
 app.get('/auth/facebook', passport.authenticate('facebook'));

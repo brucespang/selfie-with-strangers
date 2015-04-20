@@ -24,16 +24,15 @@ module.exports = function(hostname) {
       })
     },
     post: function(path, body, cb) {
-      request.post({url: hostname + path, json: body}, function(err, res, body) {
+      request.post({url: hostname + path, json: body, followAllRedirects: true}, function(err, res, body) {
         if (err) {
           cb(err)
         } else {
           try {
-            var json = JSON.parse(body)
             if (res.statusCode == 200) {
-              cb(undefined, json);
+              cb(undefined, body);
             } else {
-              cb(json['error'])
+              cb(body['error'])
             }
           } catch(e) {
             cb(e.stack)
@@ -50,7 +49,10 @@ module.exports = function(hostname) {
 			},
 			show: function(uid, cb) {
         api.get("/users/" + uid, cb)
-			}
+			},
+      new: function(user, cb) {
+        api.post("/users/", user, cb)
+      }
 		},
     sessions: {
       new: function(params, cb) {

@@ -16,6 +16,7 @@ nginx_sites:
      - listen 80
      - location / {
          proxy_pass http://api/;
+         proxy_set_header Host $host;
          proxy_redirect off;
        }
 
