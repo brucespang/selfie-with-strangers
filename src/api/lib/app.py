@@ -20,6 +20,8 @@ for code in default_exceptions.iterkeys():
 
 from modules.users.controllers import users
 from modules.questions.controllers import questions
+from modules.sessions.controllers import sessions
 
 app.register_blueprint(users)
 app.register_blueprint(questions)
+app.register_blueprint(sessions)
