@@ -20,26 +20,17 @@ app.set('port', process.env.NODE_PORT || 3000);
 // set up logging
 app.use(morgan('combined'));
 app.use(express.static(__dirname + '/public'));
-app.use(passport.initialize())
-//app.use(express.static('public'));
+
+var bodyParser = require('body-parser');
+var multer = require('multer');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(multer());
+
+var cookieParser = require('cookie-parser')
+app.use(cookieParser())
 
 var config = yaml.safeLoad(fs.readFileSync('config.yaml', 'utf8'));
-
-passport.use(new FacebookStrategy(
-  {
-    // These parameters are associated with an app created using Facebook Developers.
-    clientID: config.facebook_client.id,
-    clientSecret: config.facebook_client.secret,
-    callbackURL: "http://localhost:3000/auth/facebook/callback"
-  },
-  function(accessToken, refreshToken, profile, done) {
-    // Currently, the returned user is added to a termporary database.
-    User.addUser(profile, function(err, user) {
-      if (err) { return done(err); }
-      done(null, user);
-    });
-  }
-));
 
 var selfie_client = SWS(config.api_host);
 
@@ -67,31 +58,85 @@ app.locals.static_file = function(path) {
   return path;
 };
 
-passport.serializeUser(function(user, done) {
-  done(null, user);
-});
+function is_logged_in(req, opts) {
+  var cookie = req.cookies.session
 
-passport.deserializeUser(function(user, done) {
-  done(null, user);
-});
+	if (cookie === undefined) {
+    return opts.error()
+  }
+
+  selfie_client.sessions.current(cookie, function(err, user) {
+    if (err) {
+      return opts.error()
+    } else {
+      return opts.ok(user)
+    }
+  })
+}
+
+function check_logged_in(cb) {
+  return function(req, req) {
+    is_logged_in(req, {
+      error: function() {
+        res.cookie("session", "")
+        res.redirect("/login")
+      },
+      ok: function(current_user) {
+        req.current_user = current_user
+        return cb(req, res)
+      }
+    })
+  }
+}
 
 app.get('/', function(req, res) {
-  render(res, 'index');
+  is_logged_in(req, {
+    error: function() {
+      res.redirect("/login")
+    },
+    ok: function(current_user) {
+      res.redirect("/selfies")
+    }
+  })
 });
+
+app.get('/login', function(req, res) {
+  is_logged_in(req, {
+    error: function() {
+      render(res, 'login')
+    },
+    ok: function(current_user) {
+      res.redirect("/selfies")
+    }
+  })
+})
 
 app.post('/login', function(req, res) {
-  res.redirect('/selfies');
+  var email = req.body.email
+  var password = req.body.password
+  selfie_client.sessions.new({email: email, password: password}, function(err, cookie) {
+    if (err) {
+      res.redirect("/login")
+    } else {
+      res.cookie("session", cookie)
+      res.redirect("/")
+    }
+  })
 });
 
-app.get('/auth/facebook', passport.authenticate('facebook'));
+app.post('/users/new', function(req, res) {
+
+});
 
 // This route is called by passport.
+app.get('/auth/facebook', passport.authenticate('facebook'));
 app.get('/auth/facebook/callback',
         passport.authenticate('facebook', { successRedirect: '/selfies',
                                             failureRedirect: '/' }));
 
 app.post('/logout', function(req, res) {
-  res.redirect('/');
+  res.cookie("session", "")
+  res.redirect("/login")
 });
 
 app.get('/selfies', function(req, res) {

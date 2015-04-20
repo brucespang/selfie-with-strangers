@@ -41,8 +41,6 @@ class User(db.Model):
 
     def check_password(self, password):
         hashed = bcrypt.hashpw(password.encode('utf-8'), self.password_salt.encode('utf-8'))
-        print self.password_hash
-        print hashed
         return self.secure_equals(self.password_hash.encode('ascii'), hashed.encode('ascii'))
 
     def secure_equals(self, a, b):

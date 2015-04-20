@@ -23,6 +23,7 @@ def new():
 @sessions.route('/current', methods=['GET'])
 def current():
     user_id = session.get('user_id')
+    print user_id
     user = User.query.filter_by(id=user_id).first()
     if user:
         return jsonify(user.as_json())
