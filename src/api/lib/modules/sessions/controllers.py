@@ -1,7 +1,7 @@
 # Import flask dependencies
 from flask import Blueprint, request, render_template, \
     flash, g, session, redirect, url_for, abort, jsonify
-
+from helpers import current_user
 from app import db
 from modules.users.models import User
 
@@ -22,9 +22,7 @@ def new():
 
 @sessions.route('/current', methods=['GET'])
 def current():
-    user_id = session.get('user_id')
-    print user_id
-    user = User.query.filter_by(id=user_id).first()
+    user = current_user()
     if user:
         return jsonify(user.as_json())
     else:
