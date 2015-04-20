@@ -10,6 +10,9 @@
   file: src=/vagrant/src/app dest=/opt/app state=link
   when: ansible_env == 'dev'
 
+- name: app | install node_modules
+  shell: cd /opt/app && npm install .
+
 - name: app | create app group
   group: name=app state=present system=yes
 
