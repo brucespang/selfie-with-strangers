@@ -136,14 +136,16 @@ app.get('/users/nearby', function(req, res) {
       console.error(err);
       res.status(500).send('Internal error')
     } else {
-      render(res, 'users/nearby', {users: users['users']});
+      render(res, 'users/nearby', {users: users.data});
     }
   })
 });
 
-app.get('/matches/:id', function(req, res) {
+app.get('/matches/:username', function(req, res) {
   selfie_client.questions.random(function(err, question) {
-    selfie_client.users.show(req.params.id, function(err, user) {
+    selfie_client.users.show(req.params.username, function(err, user) {
+      console.log(err)
+      console.log(user)
       if (err) {
         console.error(err);
         res.status(500).send('Internal error')

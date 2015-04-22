@@ -21,7 +21,8 @@ def create():
 
 @users.route('/nearby', methods=['GET'])
 def nearby():
-    return jsonify({"users": [{"username": "test", "name": "test"}]})
+    users = User.query.all()
+    return jsonify({"data": [u.as_json() for u in users]})
 
 @users.route('/<username>', methods=['GET'])
 def get(username):

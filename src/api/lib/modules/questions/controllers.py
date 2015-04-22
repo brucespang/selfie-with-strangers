@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify, redirect
 from models import Question
 from app import db
+from  sqlalchemy.sql.expression import func
 
 questions = Blueprint('questions', __name__, url_prefix='/questions')
 
@@ -48,4 +49,5 @@ def delete(id):
 
 @questions.route('/random', methods=['GET'])
 def random():
-    return jsonify({"id": 123, "question": "do it ride good?"})
+    question = Question.query.order_by(func.random()).first()
+    return jsonify(question.as_json())

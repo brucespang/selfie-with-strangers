@@ -64,8 +64,8 @@ module.exports = function(hostname) {
 			nearby: function(cb) {
         api.get("/users/nearby", cb)
 			},
-			show: function(uid, cb) {
-        api.get("/users/" + uid, cb)
+			show: function(username, cb) {
+        api.get("/users/" + username, cb)
 			},
 			list: function(cb) {
         api.get("/users/", cb)
