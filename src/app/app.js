@@ -8,7 +8,6 @@ var SWS = require('selfie-with-strangers');
 var passport = require('passport')
 , FacebookStrategy = require('passport-facebook').Strategy;
 
-var extend = require('util')._extend
 var fs = require('fs');
 var yaml = require('js-yaml');
 
@@ -34,22 +33,8 @@ var config = yaml.safeLoad(fs.readFileSync('config.yaml', 'utf8'));
 
 var selfie_client = SWS(config.api_host);
 
-function render(res, template, args) {
-  var default_args = {
-    stylesheets: [],
-    javascripts: []
-  }
-
-  res.render(template, extend(default_args, args || {}), function (err, html) {
-    if (err) {
-      console.error(err);
-      res.status(500);
-      res.send("Internal server error");
-    } else {
-      res.send(html);
-    }
-  });
-}
+var render = require("helpers/render");
+var auth = require('helpers/auth')(selfie_client)
 
 app.locals.static_file = function(path) {
   if (path[0] != "/") {
@@ -58,54 +43,11 @@ app.locals.static_file = function(path) {
   return path;
 };
 
-function is_logged_in(req, opts) {
-  if (!req.cookies) {
-    return opts.error()
-  }
-
-  var cookie = req.cookies.session
-	if (cookie === undefined) {
-    return opts.error()
-  }
-
-  selfie_client.sessions.current(cookie, function(err, user) {
-    if (err) {
-      return opts.error()
-    } else {
-      return opts.ok(user)
-    }
-  })
-}
-
-function check_logged_in(cb) {
-  return function(req, res) {
-    is_logged_in(req, {
-      error: function() {
-        res.redirect("/login")
-      },
-      ok: function(current_user) {
-        req.current_user = current_user
-        return cb(req, res)
-      }
-    })
-  }
-}
-
-function check_logged_out(cb) {
-  return function(req, res) {
-    is_logged_in(req, {
-      error: function() {
-        cb(req, res)
-      },
-      ok: function(current_user) {
-        res.redirect("/")
-      }
-    })
-  }
-}
+var admin	= require('controllers/admin')(selfie_client);
+app.use('/admin', admin);
 
 app.get('/', function(req, res) {
-  is_logged_in(req, {
+  auth.is_logged_in(req, {
     error: function() {
       res.redirect("/login")
     },
@@ -115,11 +57,11 @@ app.get('/', function(req, res) {
   })
 });
 
-app.get('/login', check_logged_out(function(req, res) {
+app.get('/login', auth.check_logged_out(function(req, res) {
   render(res, 'login')
 }))
 
-app.post('/login', check_logged_out(function(req, res) {
+app.post('/login', auth.check_logged_out(function(req, res) {
   var email = req.body.email
   var password = req.body.password
   selfie_client.sessions.new({email: email, password: password}, function(err, cookie) {
@@ -132,11 +74,11 @@ app.post('/login', check_logged_out(function(req, res) {
   })
 }));
 
-app.get('/users/new', check_logged_out(function(req, res) {
+app.get('/users/new', auth.check_logged_out(function(req, res) {
   render(res, 'users/new')
 }));
 
-app.post('/users', check_logged_out(function(req, res) {
+app.post('/users', auth.check_logged_out(function(req, res) {
   var user = {
     email: req.body.email,
     password: req.body.password,
