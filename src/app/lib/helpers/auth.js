@@ -45,20 +45,9 @@ module.exports = function(selfie_client) {
     }
   }
 
-  function check_admin_logged_in(cb) {
-    return check_logged_in(function(req, res) {
-      if (req.current_user.admin) {
-        cb(req, res)
-      } else {
-        res.redirect("/")
-      }
-    })
-  }
-
   return {
     is_logged_in: is_logged_in,
     check_logged_in: check_logged_in,
-    check_admin_logged_in: check_admin_logged_in,
     check_logged_out: check_logged_out
   }
 }

@@ -22,12 +22,14 @@ app.use(express.static(__dirname + '/public'));
 
 var bodyParser = require('body-parser');
 var multer = require('multer');
+var cookieParser = require('cookie-parser')
+var methodOverride = require('method-override')
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(multer());
-
-var cookieParser = require('cookie-parser')
 app.use(cookieParser())
+app.use(methodOverride('_method'));
 
 var config = yaml.safeLoad(fs.readFileSync('config.yaml', 'utf8'));
 
