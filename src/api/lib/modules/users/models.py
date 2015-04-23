@@ -36,7 +36,8 @@ class User(db.Model):
             "updated": self.updated,
             "name": self.name,
             "username": self.username,
-            "email": self.email
+            "email": self.email,
+            "admin": self.role == User.admin_role
         }
 
     def check_password(self, password):

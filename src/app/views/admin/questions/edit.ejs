@@ -1,0 +1,11 @@
+<% include ../../header %>
+
+<form action="/admin/questions/<%= question.id %>" method="post">
+  <fieldset>
+    <label for="question">Question</label>
+    <textarea name="question"><%= question.question %></textarea>
+  </fieldset>
+  <input type="submit" value="Update" />
+</form>
+
+<% include ../../footer %>

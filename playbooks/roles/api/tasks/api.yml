@@ -31,3 +31,6 @@
 
 - name: api | start service
   service: name=api state=started enabled=yes
+
+- name: api | run migrations
+  shell: cd /opt/api && PYTHONPATH=lib env/bin/python manage.py db upgrade

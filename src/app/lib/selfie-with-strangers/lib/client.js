@@ -39,6 +39,23 @@ module.exports = function(hostname) {
           }
         }
       })
+    },
+    del: function(path, cb) {
+      request.del({url: hostname + path, followAllRedirects: true}, function(err, res, body) {
+        if (err) {
+          cb(err)
+        } else {
+          try {
+            if (res.statusCode == 200) {
+              cb(undefined, body);
+            } else {
+              cb(body['error'])
+            }
+          } catch(e) {
+            cb(e.stack)
+          }
+        }
+      })
     }
   }
 
@@ -47,8 +64,11 @@ module.exports = function(hostname) {
 			nearby: function(cb) {
         api.get("/users/nearby", cb)
 			},
-			show: function(uid, cb) {
-        api.get("/users/" + uid, cb)
+			show: function(username, cb) {
+        api.get("/users/" + username, cb)
+			},
+			list: function(cb) {
+        api.get("/users/", cb)
 			},
       new: function(user, cb) {
         api.post("/users/", user, cb)
@@ -79,9 +99,24 @@ module.exports = function(hostname) {
       }
     },
 		questions: {
+      list: function(cb) {
+        api.get("/questions/", cb)
+      },
 			random: function(cb) {
         api.get("/questions/random", cb)
-			}
+			},
+      show: function(id, cb) {
+        api.get("/questions/" + id, cb)
+      },
+      new: function(params, cb) {
+        api.post("/questions/", params, cb)
+      },
+      update: function(id, params, cb) {
+        api.post("/questions/"+id, params, cb)
+      },
+      delete: function(id, cb) {
+        api.del("/questions/"+id, cb)
+      }
 		},
 	};
 };
