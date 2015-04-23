@@ -172,13 +172,18 @@ app.post('/logout', function(req, res) {
 });
 
 app.get('/selfies', function(req, res) {
-  render(res, 'selfies/index');
+  var p = [];
+  render(res, 'selfies/index', { pics : p });
 });
 
 app.post('/selfies', function(req, res) {
-  console.log(req.files)
-  res.redirect("/selfies")
-})
+  console.log(req.files);
+  var p = [];
+  p.push(req.body.picture);
+
+  render(res, 'selfies/index', { pics : p });
+  //res.redirect("/selfies");
+});
 
 app.get('/selfies/new', function(req, res) {
   render(res, 'selfies/new', {
