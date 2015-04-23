@@ -22,7 +22,7 @@ These documents provide an overview of our technical specifications. This includ
 1. Run `vagrant up`
 1. Do some development:
    - The app is accessible at `127.0.0.1:3000`
-      - available users: `big@selfiewithstrangers.club/hi`, `thick@selfiewithstrangers.club/hi`
+      - available users: `big@selfiewithstrangers.club/hi` (admin), `thick@selfiewithstrangers.club/hi`
       - to restart: `sudo service app restart`
       - to view logs: `sudo tail -f /var/log/upstart/app.log`
     - The api is accessible at `127.0.0.1:1800`
