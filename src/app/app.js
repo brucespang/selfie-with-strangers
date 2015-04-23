@@ -115,17 +115,17 @@ app.post('/logout', function(req, res) {
   res.redirect("/login")
 });
 
+var selfiePics = [];
+
 app.get('/selfies', function(req, res) {
-  var p = [];
-  render(res, 'selfies/index', { pics : p });
+  render(res, 'selfies/index', { pics : selfiePics });
 });
 
 app.post('/selfies', function(req, res) {
   console.log(req.files);
-  var p = [];
-  p.push(req.body.picture);
+  selfiePics.push(req.body.picture);
 
-  render(res, 'selfies/index', { pics : p });
+  render(res, 'selfies/index', { pics : selfiePics });
   //res.redirect("/selfies");
 });
 
