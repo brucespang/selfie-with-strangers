@@ -44,12 +44,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   end
 
-  config.vm.define "api" do |app|
-    app.vm.network "forwarded_port", guest: 80, host: 1800
-    app.vm.network "private_network", ip: hosts[:api]
+  config.vm.define "db" do |app|
+    app.vm.network "private_network", ip: hosts[:db]
 
     app.vm.provision "ansible" do |ansible|
-      ansible.playbook = "playbooks/api.yml"
+      ansible.playbook = "playbooks/db.yml"
       ansible.extra_vars = {
         ansible_env: 'dev',
         hosts: hosts
@@ -57,11 +56,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   end
 
-  config.vm.define "db" do |app|
-    app.vm.network "private_network", ip: hosts[:db]
+  config.vm.define "api" do |app|
+    app.vm.network "forwarded_port", guest: 80, host: 1800
+    app.vm.network "private_network", ip: hosts[:api]
 
     app.vm.provision "ansible" do |ansible|
-      ansible.playbook = "playbooks/db.yml"
+      ansible.playbook = "playbooks/api.yml"
       ansible.extra_vars = {
         ansible_env: 'dev',
         hosts: hosts
