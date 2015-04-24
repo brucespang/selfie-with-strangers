@@ -27,3 +27,8 @@
     outline-width: 2px;
     outline-color : blue;
 }
+
+video {
+	position: relative;
+	left: -200px;
+}
