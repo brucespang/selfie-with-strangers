@@ -58,7 +58,7 @@ class User(db.Model):
 
 class AvailableUser(db.Model):
     __tablename__ = 'available_users'
-    username = db.Column(db.Text(), nullable=False, primary_key=True)
+    username = db.Column(db.String(), primary_key=True)
     joined = db.Column(db.DateTime)
     tile = db.Column(db.Integer)
     lat = db.Column(db.Float)
