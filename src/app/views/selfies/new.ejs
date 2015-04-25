@@ -1,17 +1,32 @@
 <% include ../header %>
 
-<h1>Take Some Pictures!</h1>
-<video id="video" width="640" height="480" autoplay></video>
-<button id="snap">Snap Photo</button>
-<h2>Choose Your Picture!</h2>
-<p id="message"></p>
-<div id="pictures">
+<div class="row">
+	<h1 class="col-md-12">Take Some Pictures!</h1>
 </div>
 
-<form id="send" action="/selfies" method="post">
-  <input id="pText" type="hidden" name="picture" />
-  <input type="submit" value="Done!" />
-</form>
-<a href="/selfies">Cancel</a>
+<div class="row">
+	<video id="video" class="col-md-12" width="640" height="480" autoplay></video>
+</div>
+
+<div class="row">
+	<button id="snap" type="button" class="col-md-12 btn btn-primary" onclick="snapShow()">SNAP!</button>
+</div>
+
+<div id="snapped" style="display:none;">
+	<h2>Choose Your Picture!</h2>
+
+	<div class="row">
+		<p id="message"></p>
+		<div id="pictures" class="col-md-12 col-md-offset-1"/>
+	</div>
+
+	<div class="row">
+		<form id="send" action="/selfies" method="post">
+  			<input id="pText" type="hidden" name="picture"/>
+  			<input type="submit" value="Done!" class="btn btn-success col-md-3 col-md-offset-2"/>
+		</form>
+		<a href="/selfies" class="btn btn-danger col-md-3 col-md-offset-2">Cancel</a>
+	</div>
+</div>
 
 <% include ../footer %>
