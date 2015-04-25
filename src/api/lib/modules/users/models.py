@@ -54,3 +54,28 @@ class User(db.Model):
         for x, y in zip(bytearray(a), bytearray(b)):
             result |= x ^ y
         return result == 0
+
+
+class AvailableUser(db.Model):
+    __tablename__ = 'available_users'
+    username = db.Column(db.Text(), nullable=False, primary_key=True)
+    joined = db.Column(db.DateTime)
+    tile = db.Column(db.Integer)
+    lat = db.Column(db.Float)
+    lon = db.Column(db.Float)
+
+    def __init__(self, username, location):
+        self.username = username
+        self.joined = db.func.current_timestamp()
+        tile.tile = get_tile(location)
+
+    def get_tile(location):
+
+        return 1
+
+    def as_json(self):
+        return {
+            "id": self.id,
+            "joined": self.joined,
+            "tile": self.tile
+        }

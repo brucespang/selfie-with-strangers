@@ -123,10 +123,12 @@ app.get('/selfies', function(req, res) {
 
 app.post('/selfies', function(req, res) {
   console.log(req.files);
-  selfiePics.push(req.body.picture);
+  selfiePics.unshift(req.body.picture);
+  if(selfiePics.length > 30){
+  	selfiePics.pop();
+  }
 
   render(res, 'selfies/index', { pics : selfiePics });
-  //res.redirect("/selfies");
 });
 
 app.get('/selfies/new', function(req, res) {

@@ -1,3 +1,7 @@
+function snapShow() {
+	document.getElementById('snapped').style.display="block";
+}
+
 //use http://davidwalsh.name/browser-camera as reference
 
 // Put event listeners into place
