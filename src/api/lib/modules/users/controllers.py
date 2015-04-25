@@ -20,8 +20,11 @@ def create():
     return redirect("/users/%s"%data['username'])
 
 @users.route('/nearby', methods=['GET'])
-def nearby():
-    return jsonify({"users": [{"username": "test", "name": "test"}]})
+def nearby(tile):
+    nearby_users = AvailableUser.query.filter(AvailableUser.tile == tile)
+    nearby_ids = {user.id for user in nearby_users}
+
+    return User.query.filter(User.id in nearby_ids)
 
 @users.route('/<username>', methods=['GET'])
 def get(username):
