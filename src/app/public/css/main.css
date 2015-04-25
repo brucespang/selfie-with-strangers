@@ -39,6 +39,9 @@ video {
 #menu_footer {
     position: fixed;
     bottom: 0;
+    text-align: CENTER;
     width: 100%;
+    height: 100px;
+    background: #ffffff;
 }
 
