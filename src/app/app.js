@@ -8,7 +8,6 @@ var SWS = require('selfie-with-strangers');
 var passport = require('passport')
 , FacebookStrategy = require('passport-facebook').Strategy;
 
-var extend = require('util')._extend
 var fs = require('fs');
 var yaml = require('js-yaml');
 
@@ -20,45 +19,24 @@ app.set('port', process.env.NODE_PORT || 3000);
 // set up logging
 app.use(morgan('combined'));
 app.use(express.static(__dirname + '/public'));
-app.use(passport.initialize())
-//app.use(express.static('public'));
+
+var bodyParser = require('body-parser');
+var multer = require('multer');
+var cookieParser = require('cookie-parser')
+var methodOverride = require('method-override')
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(multer());
+app.use(cookieParser())
+app.use(methodOverride('_method'));
 
 var config = yaml.safeLoad(fs.readFileSync('config.yaml', 'utf8'));
 
-passport.use(new FacebookStrategy(
-  {
-    // These parameters are associated with an app created using Facebook Developers.
-    clientID: config.facebook_client.id,
-    clientSecret: config.facebook_client.secret,
-    callbackURL: "http://localhost:3000/auth/facebook/callback"
-  },
-  function(accessToken, refreshToken, profile, done) {
-    // Currently, the returned user is added to a termporary database.
-    User.addUser(profile, function(err, user) {
-      if (err) { return done(err); }
-      done(null, user);
-    });
-  }
-));
-
 var selfie_client = SWS(config.api_host);
 
-function render(res, template, args) {
-  var default_args = {
-    stylesheets: [],
-    javascripts: []
-  }
-
-  res.render(template, extend(default_args, args || {}), function (err, html) {
-    if (err) {
-      console.error(err);
-      res.status(500);
-      res.send("Internal server error");
-    } else {
-      res.send(html);
-    }
-  });
-}
+var render = require("helpers/render");
+var auth = require('helpers/auth')(selfie_client)
 
 app.locals.static_file = function(path) {
   if (path[0] != "/") {
@@ -67,41 +45,91 @@ app.locals.static_file = function(path) {
   return path;
 };
 
-passport.serializeUser(function(user, done) {
-  done(null, user);
-});
-
-passport.deserializeUser(function(user, done) {
-  done(null, user);
-});
+var admin	= require('controllers/admin')(selfie_client);
+app.use('/admin', admin);
 
 app.get('/', function(req, res) {
-  render(res, 'index');
+  auth.is_logged_in(req, {
+    error: function() {
+      res.redirect("/login")
+    },
+    ok: function(current_user) {
+      res.redirect("/selfies")
+    }
+  })
 });
 
-app.post('/login', function(req, res) {
-  res.redirect('/selfies');
-});
+app.get('/login', auth.check_logged_out(function(req, res) {
+  render(res, 'login')
+}))
 
-app.get('/auth/facebook', passport.authenticate('facebook'));
+app.post('/login', auth.check_logged_out(function(req, res) {
+  var email = req.body.email
+  var password = req.body.password
+  selfie_client.sessions.new({email: email, password: password}, function(err, cookie) {
+    if (err) {
+      res.redirect("/login")
+    } else {
+      res.cookie("session", cookie)
+      res.redirect("/")
+    }
+  })
+}));
+
+app.get('/users/new', auth.check_logged_out(function(req, res) {
+  render(res, 'users/new')
+}));
+
+app.post('/users', auth.check_logged_out(function(req, res) {
+  var user = {
+    email: req.body.email,
+    password: req.body.password,
+    username: req.body.username,
+    name: req.body.name,
+  }
+
+  selfie_client.users.new(user, function(err, cookie) {
+    if (err) {
+      res.redirect("/users/new")
+    } else {
+      selfie_client.sessions.new({email: user.email, password: user.password}, function(err, cookie) {
+        if (err) {
+          res.redirect("/login")
+        } else {
+          res.cookie("session", cookie)
+          res.redirect("/")
+        }
+      })
+    }
+  })
+}));
 
 // This route is called by passport.
+app.get('/auth/facebook', passport.authenticate('facebook'));
 app.get('/auth/facebook/callback',
         passport.authenticate('facebook', { successRedirect: '/selfies',
                                             failureRedirect: '/' }));
 
 app.post('/logout', function(req, res) {
-  res.redirect('/');
+  res.cookie("session", "")
+  res.redirect("/login")
 });
 
+var selfiePics = [];
+
 app.get('/selfies', function(req, res) {
-  render(res, 'selfies/index');
+  render(res, 'selfies/index', { pics : selfiePics });
 });
 
 app.post('/selfies', function(req, res) {
-  console.log(req.files)
-  res.redirect("/selfies")
-})
+  console.log(req.files);
+  selfiePics.unshift(req.body.picture);
+  if(selfiePics.length > 30){
+  	selfiePics.pop();
+  }
+
+  render(res, 'selfies/index', { pics : selfiePics });
+});
 
 app.get('/selfies/new', function(req, res) {
   render(res, 'selfies/new', {
@@ -115,14 +143,16 @@ app.get('/users/nearby', function(req, res) {
       console.error(err);
       res.status(500).send('Internal error')
     } else {
-      render(res, 'users/nearby', {users: users['users']});
+      render(res, 'users/nearby', {users: users.data});
     }
   })
 });
 
-app.get('/matches/:id', function(req, res) {
+app.get('/matches/:username', function(req, res) {
   selfie_client.questions.random(function(err, question) {
-    selfie_client.users.show(req.params.id, function(err, user) {
+    selfie_client.users.show(req.params.username, function(err, user) {
+      console.log(err)
+      console.log(user)
       if (err) {
         console.error(err);
         res.status(500).send('Internal error')

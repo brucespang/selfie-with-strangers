@@ -9,8 +9,15 @@
     <% stylesheets.forEach(function(path) { %>
     <link rel="stylesheet" href="<%= static_file(path) %>" media="screen" />
     <% }) %>
+
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+
   </head>
 
   <body>
     <div id="wrap">
-      <h1 id="logo"><img src="<%= static_file("/img/icon.png") %>" alt="Selfie with Strangers" class="logo-icon" /></h1>
+      <h1 id="logo"><a href="/"><img src="<%= static_file("/img/icon.png") %>" alt="Selfie with Strangers" class="logo-icon" /></a></h1>

@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, redirect, abort
+from flask import Blueprint, request, jsonify, abort, redirect
 from models import User
 import json
 from app import db
@@ -8,7 +8,7 @@ users = Blueprint('users', __name__, url_prefix='/users')
 @users.route('/', methods=['GET'])
 def list():
     users = User.query.all()
-    return jsonify({"users": [u.as_json() for u in users]})
+    return jsonify({"data": [u.as_json() for u in users]})
 
 @users.route('/', methods=['POST'])
 def create():

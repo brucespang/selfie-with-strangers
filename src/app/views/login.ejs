@@ -1,0 +1,20 @@
+<% include header %>
+
+<h1>Selfies With Strangers</h1>
+<form method="post" action="/login">
+  <fieldset>
+    <label for="email">Email</label>
+    <input type="email" name="email" />
+  </fieldset>
+
+  <fieldset>
+    <label for="password">Password</label>
+    <input type="password" name="password" />
+  </fieldset>
+
+	<input type="submit" value="Login" />
+</form>
+
+Or <a href="/users/new">sign up</a>
+
+<% include footer %>
