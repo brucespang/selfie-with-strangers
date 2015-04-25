@@ -1,19 +1,23 @@
 #logo {
-		margin-top: 50px;
-		text-align: center;
+        margin-top: 50px;
+        text-align: center;
 }
 
 #logo .logo-icon {
-		width: 100px;
+        width: 100px;
 }
 
 #wrap {
-    max-width: 300px;
+    max-width: 600px;
     margin: 0 auto;
 }
 
 #wrap form {
     margin-top: 40px;
+}
+
+#menu {
+    max-width: 300px
 }
 
 #wrap form input[type="text"], #wrap form input[type="password"]{
@@ -29,6 +33,13 @@
 }
 
 video {
-	position: relative;
-	left: -200px;
+    position: relative;
+    left: -200px;
 }
+
+#menu_footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
