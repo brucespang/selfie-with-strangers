@@ -13,7 +13,7 @@ respawn limit unlimited
 
 script
     echo $$ > /var/run/api.pid
-    exec sudo -u api ENV={{ ansible_env }} /opt/api/bin/api
+    exec sudo -u api ENV={{ deploy_env }} /opt/api/bin/api
 end script
 
 pre-stop script
