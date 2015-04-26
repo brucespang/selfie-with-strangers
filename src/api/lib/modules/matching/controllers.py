@@ -7,7 +7,7 @@ from itertools import groupby
 matching = Blueprint('matching', __name__, url_prefix='/matching')
 
 @matching.route('/', methods=['POST'])
-def enter_pool():
+def enter_pool(location):
     data = request.get_json(force=True)
     lat = float(data['lat'])
     lon = float(data['lon']))
