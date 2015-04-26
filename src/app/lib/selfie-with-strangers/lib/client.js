@@ -85,11 +85,17 @@ module.exports = function(hostname) {
     sessions: {
       new: function(params, cb) {
         request.post({url: hostname + "/sessions/", json: params}, function(err, res) {
-          if (res.statusCode == 200) {
-            var cookies = cookie.parse(res.headers['set-cookie'][0])
-            cb(undefined, cookies.session)
+          if (err) {
+            cb(err)
           } else {
-            cb(err || "Invalid username or password")
+            if (res.statusCode == 200) {
+              var cookies = cookie.parse(res.headers['set-cookie'][0])
+              cb(undefined, cookies.session)
+            } else if (res.statusCode == 401) {
+              cb("Invalid username or password")
+            } else {
+              cb("Internal server error")
+            }
           }
         })
       },
