@@ -35,13 +35,14 @@ module.exports = function(selfie_client) {
   });
 
   router.get('/questions/new', function(req, res) {
-    render(res, 'admin/questions/new')
+    render(res, 'admin/questions/new', {question: req.query.question})
   });
 
   router.post('/questions', function(req, res) {
     selfie_client.questions.new({question:req.body.question}, function(err) {
       if (err) {
-        res.redirect("/admin/questions/new")
+        res.flash("danger", err)
+        res.redirect("/admin/questions/new?question="+req.body.question)
       } else {
         res.redirect("/admin/questions")
       }
@@ -63,12 +64,10 @@ module.exports = function(selfie_client) {
     var id = req.params.id
     var question = req.body.question
     selfie_client.questions.update(id, {question:question}, function(err) {
-      console.log(err)
       if (err) {
-        abort(500)
-      } else {
-        res.redirect("/admin/questions/" + id)
+        res.flash("danger", err)
       }
+      res.redirect("/admin/questions/" + id)
     })
   });
 
@@ -76,7 +75,7 @@ module.exports = function(selfie_client) {
     console.log("delete")
     selfie_client.questions.delete(req.params.id, function(err) {
       if (err) {
-        abort(500)
+        res.flash("danger", err)
       } else {
         res.redirect("/admin/questions")
       }

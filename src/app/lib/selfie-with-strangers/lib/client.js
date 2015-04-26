@@ -72,6 +72,9 @@ module.exports = function(hostname) {
 			},
       new: function(user, cb) {
         api.post("/users/", user, cb)
+      },
+      update: function(username, user, cb) {
+        api.post("/users/" + username, user, cb)
       }
 		},
     matching: {
@@ -86,7 +89,7 @@ module.exports = function(hostname) {
             var cookies = cookie.parse(res.headers['set-cookie'][0])
             cb(undefined, cookies.session)
           } else {
-            cb(err || "login failed")
+            cb(err || "Invalid username or password")
           }
         })
       },

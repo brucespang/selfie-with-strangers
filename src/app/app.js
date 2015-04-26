@@ -20,18 +20,27 @@ app.set('port', process.env.NODE_PORT || 3000);
 app.use(morgan('combined'));
 app.use(express.static(__dirname + '/public'));
 
+var config = yaml.safeLoad(fs.readFileSync('config.yaml', 'utf8'));
+
 var bodyParser = require('body-parser');
 var multer = require('multer');
 var cookieParser = require('cookie-parser')
 var methodOverride = require('method-override')
+var session = require('express-session');
+var flash = require('flash');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(multer());
 app.use(cookieParser())
 app.use(methodOverride('_method'));
-
-var config = yaml.safeLoad(fs.readFileSync('config.yaml', 'utf8'));
+app.use(session({
+  secret: config.secret,
+  resave: false,
+  saveUninitialized: true,
+  cookie: {}
+}));
+app.use(flash());
 
 var selfie_client = SWS(config.api_host);
 
@@ -46,7 +55,9 @@ app.locals.static_file = function(path) {
 };
 
 var admin	= require('controllers/admin')(selfie_client);
+var selfies	= require('controllers/selfies')(selfie_client);
 app.use('/admin', admin);
+app.use('/selfies', admin);
 
 app.get('/', function(req, res) {
   auth.is_logged_in(req, {
@@ -68,6 +79,7 @@ app.post('/login', auth.check_logged_out(function(req, res) {
   var password = req.body.password
   selfie_client.sessions.new({email: email, password: password}, function(err, cookie) {
     if (err) {
+      res.flash("danger", err)
       res.redirect("/login")
     } else {
       res.cookie("session", cookie)
@@ -77,7 +89,7 @@ app.post('/login', auth.check_logged_out(function(req, res) {
 }));
 
 app.get('/users/new', auth.check_logged_out(function(req, res) {
-  render(res, 'users/new')
+  render(res, 'users/new', {user: req.query})
 }));
 
 app.post('/users', auth.check_logged_out(function(req, res) {
@@ -90,10 +102,12 @@ app.post('/users', auth.check_logged_out(function(req, res) {
 
   selfie_client.users.new(user, function(err, cookie) {
     if (err) {
-      res.redirect("/users/new")
+      res.flash("danger", err)
+      res.redirect("/users/new?email="+user.email+"&username="+user.username+"&name="+user.name)
     } else {
       selfie_client.sessions.new({email: user.email, password: user.password}, function(err, cookie) {
         if (err) {
+          res.flash("danger", err)
           res.redirect("/login")
         } else {
           res.cookie("session", cookie)
@@ -113,28 +127,6 @@ app.get('/auth/facebook/callback',
 app.post('/logout', function(req, res) {
   res.cookie("session", "")
   res.redirect("/login")
-});
-
-var selfiePics = [];
-
-app.get('/selfies', function(req, res) {
-  render(res, 'selfies/index', { pics : selfiePics });
-});
-
-app.post('/selfies', function(req, res) {
-  console.log(req.files);
-  selfiePics.unshift(req.body.picture);
-  if(selfiePics.length > 30){
-  	selfiePics.pop();
-  }
-
-  render(res, 'selfies/index', { pics : selfiePics });
-});
-
-app.get('/selfies/new', function(req, res) {
-  render(res, 'selfies/new', {
-    javascripts: ["/javascripts/camera.js", "/javascripts/jquery.min.js"]
-  });
 });
 
 app.get('/users/nearby', function(req, res) {
@@ -161,8 +153,6 @@ app.post('/matching', function(req, res) {
 app.get('/matches/:username', function(req, res) {
   selfie_client.questions.random(function(err, question) {
     selfie_client.users.show(req.params.username, function(err, user) {
-      console.log(err)
-      console.log(user)
       if (err) {
         console.error(err);
         res.status(500).send('Internal error')
@@ -173,9 +163,24 @@ app.get('/matches/:username', function(req, res) {
   })
 });
 
-app.get('/settings', function(req, res) {
-  render(res, 'settings');
-});
+app.post('/settings', auth.check_logged_in(function(req, res) {
+  var user = {};
+  if (req.body.email) user.email = req.body.email
+  if (req.body.username) user.username = req.body.username
+  if (req.body.name) user.name = req.body.name
+  if (req.body.password) user.password = req.body.password
+
+  selfie_client.users.update(req.current_user.username, user, function(err) {
+    if (err) {
+      res.flash("danger", err)
+    }
+    res.redirect("/settings")
+  })
+}));
+
+app.get('/settings', auth.check_logged_in(function(req, res) {
+  render(res, 'settings', {user: req.current_user});
+}));
 
 app.get('/schedules/new', function(req, res) {
   render(res, 'schedules/new');

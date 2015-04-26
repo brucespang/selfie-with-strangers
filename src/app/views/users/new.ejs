@@ -2,19 +2,20 @@
 
 <h1>Sign Up!</h1>
 <form method="post" action="/users/">
+  <%- flash() %>
   <fieldset>
     <label for="email">Email</label>
-    <input type="email" name="email" />
+    <input type="text" name="email" value="<%= user.email %>"/>
   </fieldset>
 
   <fieldset>
     <label for="username">Username</label>
-    <input type="text" name="username" />
+    <input type="text" name="username" value="<%= user.username %>"/>
   </fieldset>
 
   <fieldset>
     <label for="name">Name</label>
-    <input type="text" name="name" />
+    <input type="text" name="name" value="<%= user.name %>" />
   </fieldset>
 
   <fieldset>

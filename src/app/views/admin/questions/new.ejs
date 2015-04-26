@@ -1,9 +1,10 @@
 <% include ../../header %>
 
 <form action="/admin/questions" method="post">
+  <%- flash() %>
   <fieldset>
     <label for="question">Question</label>
-    <textarea name="question"></textarea>
+    <textarea name="question"><%= question %></textarea>
   </fieldset>
   <input type="submit" value="Add Question" />
 </form>
