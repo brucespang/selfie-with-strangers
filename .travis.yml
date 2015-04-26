@@ -7,4 +7,4 @@ script:
 after_success:
   - chmod 600 .travis/deploy
   - ssh-add .travis/deploy
-  - ansible-playbook -i production site.yml
+  - ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i production site.yml
