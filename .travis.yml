@@ -6,3 +6,6 @@ install:
 script:
   - ansible-playbook --syntax-check -i production site.yml
   - ansible-playbook -i production site.yml
+branches:
+  only:
+    - master
