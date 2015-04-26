@@ -74,6 +74,11 @@ module.exports = function(hostname) {
         api.post("/users/", user, cb)
       }
 		},
+    matching: {
+      enter_pool: function(location, cb) {
+        api.post("/matching/", location, cb)
+      }
+    },
     sessions: {
       new: function(params, cb) {
         request.post({url: hostname + "/sessions/", json: params}, function(err, res) {
