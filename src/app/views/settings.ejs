@@ -3,6 +3,7 @@
 <h1>Settings</h1>
 
 <form method="post" action="/settings">
+  <%- flash() %>
   <fieldset>
     <label for="email">Email</label>
     <input type="email" name="email" value="<%= user.email %>" />

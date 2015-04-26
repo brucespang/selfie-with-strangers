@@ -13,11 +13,11 @@ def list():
 @users.route('/', methods=['POST'])
 def create():
     data = request.get_json(force=True)
-    user = User(name=data['name'], username=data['username'],
-                email=data['email'], password=data['password'])
+    user = User(name=data.get('name'), username=data.get('username'),
+                email=data.get('email'), password=data.get('password'))
     db.session.add(user)
     db.session.commit()
-    return redirect("/users/%s"%data['username'])
+    return redirect("x/users/%s"%data['username'])
 
 @users.route('/nearby', methods=['GET'])
 def nearby(tile):
@@ -33,6 +33,8 @@ def update(username):
     if not user.first():
         abort(404)
     else:
+        if 'password' in data:
+            User.validate_password(data['password'])
         user.update(data)
         db.session.commit()
         return jsonify({"status": "ok"})

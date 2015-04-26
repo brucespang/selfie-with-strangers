@@ -77,7 +77,6 @@ app.post('/login', auth.check_logged_out(function(req, res) {
   var password = req.body.password
   selfie_client.sessions.new({email: email, password: password}, function(err, cookie) {
     if (err) {
-      console.log(err)
       res.flash("danger", err)
       res.redirect("/login")
     } else {
@@ -88,7 +87,7 @@ app.post('/login', auth.check_logged_out(function(req, res) {
 }));
 
 app.get('/users/new', auth.check_logged_out(function(req, res) {
-  render(res, 'users/new')
+  render(res, 'users/new', {user: req.query})
 }));
 
 app.post('/users', auth.check_logged_out(function(req, res) {
@@ -101,10 +100,12 @@ app.post('/users', auth.check_logged_out(function(req, res) {
 
   selfie_client.users.new(user, function(err, cookie) {
     if (err) {
-      res.redirect("/users/new")
+      res.flash("danger", err)
+      res.redirect("/users/new?email="+user.email+"&username="+user.username+"&name="+user.name)
     } else {
       selfie_client.sessions.new({email: user.email, password: user.password}, function(err, cookie) {
         if (err) {
+          res.flash("danger", err)
           res.redirect("/login")
         } else {
           res.cookie("session", cookie)
@@ -172,8 +173,6 @@ app.post('/matching', function(req, res) {
 app.get('/matches/:username', function(req, res) {
   selfie_client.questions.random(function(err, question) {
     selfie_client.users.show(req.params.username, function(err, user) {
-      console.log(err)
-      console.log(user)
       if (err) {
         console.error(err);
         res.status(500).send('Internal error')
@@ -193,7 +192,7 @@ app.post('/settings', auth.check_logged_in(function(req, res) {
 
   selfie_client.users.update(req.current_user.username, user, function(err) {
     if (err) {
-      // TODO: set error in flash or something
+      res.flash("danger", err)
     }
     res.redirect("/settings")
   })

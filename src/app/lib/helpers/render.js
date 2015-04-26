@@ -5,7 +5,13 @@ module.exports = function render(res, template, args) {
   var default_args = {
     stylesheets: [],
     javascripts: [],
-    flash: res.locals.flash
+    flash: function() {
+      var r = ""
+      while (message = res.locals.flash.shift()) {
+        r += '<div class="alert alert-'+message.type+'" role="alert">' + message.message + '</div>'
+      }
+      return r
+    }
   }
 
   res.render(template, extend(default_args, args || {}), function (err, html) {

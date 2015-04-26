@@ -2,11 +2,7 @@
 
 <h1 align="center">Selfies With Strangers</h1>
 <form method="post" action="/login" class="form-horizontal">
-  <% while (message = flash.shift()) { %>
-    <div class="alert alert-<%= message.type %>" role="alert">
-      <%= message.message %>
-    </div>
-  <% } %>
+  <%- flash() %>
 
   <div class="form-group">
     <fieldset>

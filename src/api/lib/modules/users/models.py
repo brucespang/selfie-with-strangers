@@ -1,8 +1,11 @@
 import uuid
 import bcrypt
-from app import db
+import re
+from app import db, ApiError
 from datetime import datetime
+from sqlalchemy.orm import validates
 from modules.locations.models import Tile
+from email.utils import parseaddr
 
 class User(db.Model):
     __tablename__ = 'users'
@@ -20,7 +23,43 @@ class User(db.Model):
     user_role = 1
     admin_role = 2
 
+    @validates("email")
+    def validate_email(self, key, address):
+        if not address:
+            raise ApiError("Missing email address")
+
+        _,addr = parseaddr(address)
+        if not addr:
+            raise ApiError("Invalid email address")
+
+        return addr
+
+    @validates("name")
+    def validate_name(self, key, name):
+        if not name:
+            raise ApiError("Missing name")
+        return name
+
+    username_regex = "[A-Za-z][A-Za-z0-9_]*"
+    @validates("username")
+    def validate_username(self, key, username):
+        if not username:
+            raise ApiError("Missing username")
+        if not re.match(User.username_regex, username):
+            raise ApiError("Invalid username")
+        return username
+
+    @staticmethod
+    def validate_password(password):
+        if not password:
+            raise ApiError("Missing password")
+        if len(password) < 8:
+            raise ApiError("Password is too short")
+        return password
+
     def __init__(self, name, username, email, password):
+        User.validate_password(password)
+
         self.id = str(uuid.uuid1())
         self.name = name
         self.username = username
