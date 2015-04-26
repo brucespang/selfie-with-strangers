@@ -6,7 +6,7 @@ from app import db
 matching = Blueprint('matching', __name__, url_prefix='/matching')
 
 @matching.route('/', methods=['POST'])
-def enter_pool():
+def enter_pool(location):
     data = request.get_json(force=True)
     location = (float(data['lat']), float(data['lon']))
     username = data['username']
