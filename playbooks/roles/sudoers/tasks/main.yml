@@ -1,0 +1,2 @@
+- name: app | create sudoers
+  template: src=sudoers.j2 dest=/etc/sudoers.d/01_sudo_nopasswd backup=yes mode=0644
