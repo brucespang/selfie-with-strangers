@@ -55,7 +55,9 @@ app.locals.static_file = function(path) {
 };
 
 var admin	= require('controllers/admin')(selfie_client);
+var selfies	= require('controllers/selfies')(selfie_client);
 app.use('/admin', admin);
+app.use('/selfies', admin);
 
 app.get('/', function(req, res) {
   auth.is_logged_in(req, {
@@ -125,28 +127,6 @@ app.get('/auth/facebook/callback',
 app.post('/logout', function(req, res) {
   res.cookie("session", "")
   res.redirect("/login")
-});
-
-var selfiePics = [];
-
-app.get('/selfies', function(req, res) {
-  render(res, 'selfies/index', { pics : selfiePics });
-});
-
-app.post('/selfies', function(req, res) {
-  console.log(req.files);
-  selfiePics.unshift(req.body.picture);
-  if(selfiePics.length > 30){
-  	selfiePics.pop();
-  }
-
-  render(res, 'selfies/index', { pics : selfiePics });
-});
-
-app.get('/selfies/new', function(req, res) {
-  render(res, 'selfies/new', {
-    javascripts: ["/javascripts/camera.js", "/javascripts/jquery.min.js"]
-  });
 });
 
 app.get('/users/nearby', function(req, res) {
