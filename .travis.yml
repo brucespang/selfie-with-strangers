@@ -5,4 +5,4 @@ install:
   - pip install ansible
 script:
   - ansible-playbook --syntax-check -i production site.yml
-  - ANSIBLE_HOST_KEY_CHECKING=False ANSIBLE_TRANSPORT="ssh" ANSIBLE_SSH_ARGS="-o ForwardAgent=yes" ansible-playbook -i production site.yml
+  - ansible-playbook -i production site.yml
