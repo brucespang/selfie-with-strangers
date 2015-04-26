@@ -30,4 +30,4 @@ def get_matches(pool):
              if len(lists[1]) == lists else \
              (lists[1][:-1], [lists[1][-1]])
 
-    return (zip(first[0],second[0]), first[1]+second[1]) 
+    return (zip(first[0],second[0]), first[1]+second[1])
