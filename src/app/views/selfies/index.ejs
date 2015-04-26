@@ -33,7 +33,7 @@ longitude = 0;
 function getLocation() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(sendPosition);
-    } else { 
+    } else {
         alert("Geolocation is not supported by this browser.");
     }
 }
@@ -41,5 +41,6 @@ function sendPosition(position) {
 	$.post("/matching",{latitude:position.coords.latitude, longitude:position.coords.longitude});
 }
 </script>
+
 
 <% include ../footer %>

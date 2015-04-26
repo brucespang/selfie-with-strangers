@@ -74,7 +74,6 @@ class AvailableUser(db.Model):
         self.lon = lon
 
     def get_tile(lat, lon):
-
         return 1
 
     def as_json(self):
