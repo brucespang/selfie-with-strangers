@@ -1,7 +1,0 @@
-- hosts: web
-  sudo: yes
-  vars_files:
-    - vars/defaults.yml
-  roles:
-    - common
-    - website

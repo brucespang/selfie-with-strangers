@@ -12,24 +12,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.ssh.forward_agent = true
 
   hosts = {
-    web: "192.168.50.2",
     app: "192.168.50.3",
     api: "192.168.50.4",
     db: "192.168.50.5"
   }
-
-  config.vm.define "web" do |web|
-    web.vm.network "forwarded_port", guest: 80, host: 8080
-    web.vm.network "private_network", ip: hosts[:web]
-
-    web.vm.provision "ansible" do |ansible|
-      ansible.playbook = "playbooks/web.yml"
-      ansible.extra_vars = {
-        ansible_env: 'dev',
-        hosts: hosts
-      }
-    end
-  end
 
   config.vm.define "app" do |app|
     app.vm.network "forwarded_port", guest: 80, host: 3000
