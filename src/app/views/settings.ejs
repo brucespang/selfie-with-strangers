@@ -2,6 +2,29 @@
 
 <h1>Settings</h1>
 
-<a href="/selfies" class="btn btn-link">Back</a>
+<form method="post" action="/settings">
+  <fieldset>
+    <label for="email">Email</label>
+    <input type="email" name="email" value="<%= user.email %>" />
+  </fieldset>
+
+  <fieldset>
+    <label for="username">Username</label>
+    <input type="text" name="username" value="<%= user.username %>" />
+  </fieldset>
+
+  <fieldset>
+    <label for="name">Name</label>
+    <input type="text" name="name" value="<%= user.name %>" />
+  </fieldset>
+
+  <fieldset>
+    <label for="password">New Password</label>
+    <input type="password" name="password" />
+  </fieldset>
+
+	<input type="submit" value="Update" />
+</form>
+
 
 <% include footer %>

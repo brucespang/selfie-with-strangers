@@ -28,7 +28,7 @@ class Location(db.Model):
     id = db.Column(db.String(), primary_key=True)
     name = db.Column(db.String(), nullable=False)
     lat = db.Column(db.Float(), nullable=False)
-    lon = db.Column(db.Float(), nullabl=False)
+    lon = db.Column(db.Float(), nullable=False)
 
     def __init__(self, name, lat, lon):
         self.id = str(uuid.uuid1())

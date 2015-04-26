@@ -173,9 +173,24 @@ app.get('/matches/:username', function(req, res) {
   })
 });
 
-app.get('/settings', function(req, res) {
-  render(res, 'settings');
-});
+app.post('/settings', auth.check_logged_in(function(req, res) {
+  var user = {};
+  if (req.body.email) user.email = req.body.email
+  if (req.body.username) user.username = req.body.username
+  if (req.body.name) user.name = req.body.name
+  if (req.body.password) user.password = req.body.password
+
+  selfie_client.users.update(req.current_user.username, user, function(err) {
+    if (err) {
+      // TODO: set error in flash or something
+    }
+    res.redirect("/settings")
+  })
+}));
+
+app.get('/settings', auth.check_logged_in(function(req, res) {
+  render(res, 'settings', {user: req.current_user});
+}));
 
 app.get('/schedules/new', function(req, res) {
   render(res, 'schedules/new');

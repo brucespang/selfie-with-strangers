@@ -72,6 +72,9 @@ module.exports = function(hostname) {
 			},
       new: function(user, cb) {
         api.post("/users/", user, cb)
+      },
+      update: function(username, user, cb) {
+        api.post("/users/" + username, user, cb)
       }
 		},
     matching: {

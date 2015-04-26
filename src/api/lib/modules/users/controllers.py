@@ -26,6 +26,17 @@ def nearby(tile):
 
     return User.query.filter(User.id in nearby_ids)
 
+@users.route('/<username>', methods=['POST'])
+def update(username):
+    data = request.get_json(force=True)
+    user = User.query.filter(User.username == username)
+    if not user.first():
+        abort(404)
+    else:
+        user.update(data)
+        db.session.commit()
+        return jsonify({"status": "ok"})
+
 @users.route('/<username>', methods=['GET'])
 def get(username):
     user = User.query.filter(User.username == username).first()
