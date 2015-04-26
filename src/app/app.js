@@ -57,7 +57,7 @@ app.locals.static_file = function(path) {
 var admin	= require('controllers/admin')(selfie_client);
 var selfies	= require('controllers/selfies')(selfie_client);
 app.use('/admin', admin);
-app.use('/selfies', admin);
+app.use('/selfies', selfies);
 
 app.get('/', function(req, res) {
   auth.is_logged_in(req, {
