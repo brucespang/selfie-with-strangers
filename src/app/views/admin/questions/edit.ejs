@@ -1,6 +1,7 @@
 <% include ../../header %>
 
 <form action="/admin/questions/<%= question.id %>" method="post">
+  <%- flash() %>
   <fieldset>
     <label for="question">Question</label>
     <textarea name="question"><%= question.question %></textarea>
