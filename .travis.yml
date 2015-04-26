@@ -4,7 +4,4 @@ install:
   - pip install ansible
 script:
   - ansible-playbook --syntax-check -i production site.yml
-after_success:
-  - chmod 600 .travis/deploy
-  - ssh-add .travis/deploy
   - ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i production site.yml
