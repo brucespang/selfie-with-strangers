@@ -2,6 +2,7 @@ import uuid
 import bcrypt
 from app import db
 from datetime import datetime
+from location.models import Tile
 
 class User(db.Model):
     __tablename__ = 'users'
@@ -58,11 +59,12 @@ class User(db.Model):
 
 class AvailableUser(db.Model):
     __tablename__ = 'available_users'
-    username = db.Column(db.Text(), nullable=False, primary_key=True)
-    joined = db.Column(db.DateTime)
-    tile = db.Column(db.Integer)
-    lat = db.Column(db.Float)
-    lon = db.Column(db.Float)
+    username = db.Column(db.String(), primary_key=True)
+    joined = db.Column(db.DateTime())
+    tile_id = db.Column(db.String())
+    tile_name = db.Column(db.String())
+    lat = db.Column(db.Float())
+    lon = db.Column(db.Float())
 
     def __init__(self, username, location):
         self.username = username
