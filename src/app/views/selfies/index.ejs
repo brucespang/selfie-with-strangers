@@ -3,11 +3,12 @@
 <h1>Selfies</h1>
 <!-- <p>newsfeed stuff goes here</p> -->
 <div class="row">
-	<div class="col-md-4 col-md-offset-4">
 		<% for(var p in pics) { %>
+			<div class="col-md-4">
       			<img src= <%= "data:image/png;base64," + pics[p] %> />
+			<p>Questions and the likes are going to be displayed here</p>
+			</div>
     	<% } %>
-	</div>
 </div>
 
 <div class="row" id="menu_footer">
