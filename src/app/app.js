@@ -148,6 +148,16 @@ app.get('/users/nearby', function(req, res) {
   })
 });
 
+app.post('/matching', function(req, res) {
+  console.log(req.body.latitude);
+  console.log(req.body.longitude);
+
+  var location = {
+    lat: req.body.latitude,
+    lon: req.body.longitude,
+  }
+});
+
 app.get('/matches/:username', function(req, res) {
   selfie_client.questions.random(function(err, question) {
     selfie_client.users.show(req.params.username, function(err, user) {

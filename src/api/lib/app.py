@@ -25,3 +25,5 @@ from modules.sessions.controllers import sessions
 app.register_blueprint(users)
 app.register_blueprint(questions)
 app.register_blueprint(sessions)
+app.register_blueprint(matching)
+app.register_blueprint(locations)

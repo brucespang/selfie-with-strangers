@@ -23,4 +23,25 @@
 	</form>
 </div>
 
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+<button onclick="getLocation()">Selfie With a Stranger!</button>
+
+<!-- consult: http://www.w3schools.com/html/html5_geolocation.asp for the below script-->
+<script>
+latitude = 0;
+longitude = 0;
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(sendPosition);
+    } else {
+        alert("Geolocation is not supported by this browser.");
+    }
+}
+function sendPosition(position) {
+	$.post("/matching",{latitude:position.coords.latitude, longitude:position.coords.longitude});
+}
+</script>
+
+
 <% include ../footer %>
