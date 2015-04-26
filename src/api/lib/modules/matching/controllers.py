@@ -7,7 +7,7 @@ from itertools import groupby
 matching = Blueprint('matching', __name__, url_prefix='/matching')
 
 @matching.route('/', methods=['POST'])
-def enter_pool(location):
+def enter_pool():
     data = request.get_json(force=True)
     lat = float(data['lat'])
     lon = float(data['lon']))
@@ -17,6 +17,18 @@ def enter_pool(location):
     db.session.commit()
 
     return jsonify({"tile": "test"})
+
+@matching.route('/update', __name__, url_prefix='/matching')
+def get_proposal():
+    
+    data = request.get_json(force=True)
+    props = Proposal.query().filter(
+        (Proposal.user1_id == data['uid'] or Proposal.user2_id == data['uid']) and Proposal.accepted == None
+    )
+
+    assert(len(props) == 1)
+
+    return jsonify(props[0].as_json())
 
 def get_matches(pool):
     groups = groupby(enumerate(pools),

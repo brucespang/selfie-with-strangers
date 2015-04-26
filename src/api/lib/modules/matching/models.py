@@ -24,3 +24,14 @@ class Proposal(db.Model):
 
     def update_accepted(accepted):
         self.accepted = accepted
+
+    def as_json():
+        return{
+            'id': self.id,
+            'user1_id': self.user1_id,
+            'user2_id': self.user2_id,
+            'location': self.location,
+            'meeting_time': self.meeting_time,
+            'accepted': self.accepted,
+            'created': self.created
+        }
