@@ -1,0 +1,10 @@
+language: python
+python: "2.7"
+install:
+  - pip install ansible
+script:
+  - ansible-playbook --syntax-check -i production site.yml
+after_success:
+  - chmod 600 .travis/deploy
+  - ssh-add .travis/deploy
+  - ansible-playbook -i production site.yml

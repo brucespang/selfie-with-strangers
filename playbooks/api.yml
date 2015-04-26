@@ -1,4 +1,5 @@
 - hosts: api
+  user: deploy
   sudo: yes
   vars_files:
     - vars/defaults.yml
