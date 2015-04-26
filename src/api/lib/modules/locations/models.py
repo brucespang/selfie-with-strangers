@@ -22,6 +22,14 @@ class Tile(db.Model):
 
         return get_distance(self.lat, self.lon, lat, lon)
 
+    def as_json():
+        return {
+            'id': self.id,
+            'name': self.name,
+            'lat': self.lat,
+            'lon': self.lon
+        }
+
 class Location(db.Model):
 
     __tablename__ = 'locations'
@@ -35,3 +43,11 @@ class Location(db.Model):
         self.name = name
         self.lat = lat
         self.lon = lon
+
+    def as_json():
+        return {
+            'id': self.id,
+            'name': self.name,
+            'lat': self.lat,
+            'lon': self.lon
+        }
