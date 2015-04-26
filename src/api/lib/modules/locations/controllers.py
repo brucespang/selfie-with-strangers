@@ -3,33 +3,16 @@ from models import User
 import json
 from app import db
 
-users = Blueprint('users', __name__, url_prefix='/users')
+locations = Blueprint('locations', __name__, url_prefix='/locations')
 
-@users.route('/', methods=['GET'])
+@locations.route('/', methods=['GET'])
 def list():
-    users = User.query.all()
-    return jsonify({"data": [u.as_json() for u in users]})
+    locations = Location.query.all()
+    return jsonify({"data": [location.as_json() for location in locations]})
 
-@users.route('/', methods=['POST'])
-def create():
-    data = request.get_json(force=True)
-    user = User(name=data['name'], username=data['username'],
-                email=data['email'], password=data['password'])
-    db.session.add(user)
-    db.session.commit()
-    return redirect("/users/%s"%data['username'])
-
-@users.route('/nearby', methods=['GET'])
+@locations.route('/nearby', methods=['GET'])
 def nearby(tile):
-    nearby_users = AvailableUser.query.filter(AvailableUser.tile == tile)
-    nearby_ids = {user.id for user in nearby_users}
+    nearby_locs = Location.query.filter(Location.tile == tile)
+    nearby_ids = {location.id for location in nearby_locs}
 
-    return User.query.filter(User.id in nearby_ids)
-
-@users.route('/<username>', methods=['GET'])
-def get(username):
-    user = User.query.filter(User.username == username).first()
-    if not user:
-        abort(404)
-    else:
-        return jsonify(user.as_json())
+    return Location.query.filter(Location.id in nearby_ids)
