@@ -12,7 +12,7 @@ module.exports = function(selfie_client) {
   var selfiePics = [];
 
   router.get('/', function(req, res) {
-    render(res, 'selfies/index', { pics : selfiePics });
+    render(res, 'selfies/index', { pics : selfiePics , javascripts: ["/javascripts/geolocation.js"]});
   });
 
   router.post('/', function(req, res) {

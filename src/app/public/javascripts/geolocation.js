@@ -2,7 +2,6 @@ var latitude = 0;
 var longitude = 0;
 
 window.addEventListener("DOMContentLoaded", function() {
-
 	document.getElementById("location").onsubmit = function(e) {
 		getLocation();
 		document.getElementById("latitude").value = latitude;

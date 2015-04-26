@@ -141,13 +141,21 @@ app.get('/users/nearby', function(req, res) {
 });
 
 app.post('/matching', function(req, res) {
-  console.log(req.body.latitude);
   console.log(req.body.longitude);
-
+  console.log(req.body.latitude);
   var location = {
     lat: req.body.latitude,
     lon: req.body.longitude,
   }
+
+  selfie_client.matching.enter_pool(location, function(err, tile) {
+    if (err){
+      console.error(err);
+      res.status(500).send('Internal error');
+    } else {
+      render(res, 'schedules/new');
+    }
+  });
 });
 
 app.get('/matches/:username', function(req, res) {
