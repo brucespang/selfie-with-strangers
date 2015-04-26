@@ -66,12 +66,14 @@ class AvailableUser(db.Model):
     lat = db.Column(db.Float())
     lon = db.Column(db.Float())
 
-    def __init__(self, username, location):
+    def __init__(self, username, lat, lon):
         self.username = username
         self.joined = db.func.current_timestamp()
-        tile.tile = get_tile(location)
+        self.tile = get_tile(lat, lon)
+        self.lat = lat
+        self.lon = lon
 
-    def get_tile(location):
+    def get_tile(lat, lon):
 
         return 1
 
