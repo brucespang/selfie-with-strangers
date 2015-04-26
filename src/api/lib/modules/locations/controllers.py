@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify, abort, redirect
-from models import User
+from models import Location
 import json
 from app import db
 
@@ -12,7 +12,6 @@ def list():
 
 @locations.route('/nearby', methods=['GET'])
 def nearby(tile):
-    nearby_locs = Location.query.filter(Location.tile == tile)
-    nearby_ids = {location.id for location in nearby_locs}
+    nearby_locs = Location.query.filter(Location.tile == tile).all()
 
-    return Location.query.filter(Location.id in nearby_ids)
+    return jsonify([loc.as_json() for loc in nearby_locs])
