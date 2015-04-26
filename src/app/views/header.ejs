@@ -4,18 +4,12 @@
   <head>
     <title>Selfie with Strangers | Login</title>
 
-    <link rel="stylesheet" href="<%= static_file("/css/reset.css") %>" media="screen" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
+	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css" />
     <link rel="stylesheet" href="<%= static_file("/css/main.css") %>" media="screen" />
     <% stylesheets.forEach(function(path) { %>
-    <link rel="stylesheet" href="<%= static_file(path) %>" media="screen" />
+      <link rel="stylesheet" href="<%= static_file(path) %>" media="screen" />
     <% }) %>
-
-	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-
-	<!-- Optional theme -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
-
   </head>
 
   <body>

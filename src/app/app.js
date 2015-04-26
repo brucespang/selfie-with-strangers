@@ -20,18 +20,27 @@ app.set('port', process.env.NODE_PORT || 3000);
 app.use(morgan('combined'));
 app.use(express.static(__dirname + '/public'));
 
+var config = yaml.safeLoad(fs.readFileSync('config.yaml', 'utf8'));
+
 var bodyParser = require('body-parser');
 var multer = require('multer');
 var cookieParser = require('cookie-parser')
 var methodOverride = require('method-override')
+var session = require('express-session');
+var flash = require('flash');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(multer());
 app.use(cookieParser())
 app.use(methodOverride('_method'));
-
-var config = yaml.safeLoad(fs.readFileSync('config.yaml', 'utf8'));
+app.use(session({
+  secret: config.secret,
+  resave: false,
+  saveUninitialized: true,
+  cookie: {}
+}));
+app.use(flash());
 
 var selfie_client = SWS(config.api_host);
 
@@ -68,6 +77,8 @@ app.post('/login', auth.check_logged_out(function(req, res) {
   var password = req.body.password
   selfie_client.sessions.new({email: email, password: password}, function(err, cookie) {
     if (err) {
+      console.log(err)
+      res.flash("danger", err)
       res.redirect("/login")
     } else {
       res.cookie("session", cookie)

@@ -1,9 +1,11 @@
 var extend = require('util')._extend
 
 module.exports = function render(res, template, args) {
+  console.log(res.locals)
   var default_args = {
     stylesheets: [],
-    javascripts: []
+    javascripts: [],
+    flash: res.locals.flash
   }
 
   res.render(template, extend(default_args, args || {}), function (err, html) {

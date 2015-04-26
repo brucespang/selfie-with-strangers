@@ -89,7 +89,7 @@ module.exports = function(hostname) {
             var cookies = cookie.parse(res.headers['set-cookie'][0])
             cb(undefined, cookies.session)
           } else {
-            cb(err || "login failed")
+            cb(err || "Invalid username or password")
           }
         })
       },
