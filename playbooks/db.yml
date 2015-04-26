@@ -3,6 +3,7 @@
   sudo: yes
   vars_files:
     - vars/defaults.yml
+    - vars/users.yml
   roles:
     - common
     - postgresql

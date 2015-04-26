@@ -1,0 +1,5 @@
+---
+
+users:
+  - name: deploy
+    public_key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCxF3ZNumLaX1W8KbQYQvI/C4zKD4mZbczfr7GYTYngculqUrvifYCafxe3inZJewIN1Kj4MHo+xuzEX0K3C3cYECNkX+i4Bz4eb8DZF4T737Z08Mt+m52F7BTRrPmfv8x9gSFZHtMkNnj8EK/ZmlGoehIkyu/ZMKZ0pGF/clYZq8+hXLcW876JsBV+VPXANu+N0BBZz8ksw3PRxhaUpZTGCZvkbNWk6adz4glfDo2VMaA7wTPfozsqsdZLYFk5Ow9seB1qvUdpRzy/S8Pd6TL4DdOQdstBxM5tdOVQQOVV161G0PiVfey1cXlH63XW5oS1wovDVtfkY6gCxvNTVsdD deploy@selfiewithstrangers.club"
