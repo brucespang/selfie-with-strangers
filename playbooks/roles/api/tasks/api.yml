@@ -17,7 +17,7 @@
   apt: pkg=git state=installed
 
 - name: app | checkout repo
-  git: repo=https://github.com/brucespang/selfie-with-strangers.git dest=/vagrant
+  git: repo=git@github.com:brucespang/selfie-with-strangers.git dest=/vagrant ssh_opts="-o StrictHostKeyChecking=no -o ForwardAgent=yes"
   when: ansible_env != 'dev'
 
 - name: api | put source into place
