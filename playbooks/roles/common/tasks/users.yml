@@ -1,0 +1,7 @@
+- name: users | create user accounts
+  user: name={{ item.name }} shell=/bin/bash group=sudo
+  with_items: users
+
+- name: users | add ssh keys
+  authorized_key: user={{ item.name }} key="{{ item.public_key }}"
+  with_items: users

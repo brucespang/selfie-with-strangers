@@ -13,7 +13,7 @@ respawn limit unlimited
 
 script
     echo $$ > /var/run/app.pid
-    exec sudo -u app NODE_ENV={{ ansible_env }} /opt/app/bin/app
+    exec sudo -u app NODE_ENV={{ deploy_env }} /opt/app/bin/app
 end script
 
 pre-stop script

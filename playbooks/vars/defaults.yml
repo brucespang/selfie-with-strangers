@@ -14,6 +14,13 @@ ntp_servers:
   # - 2.north-america.pool.ntp.org
   # - 3.north-america.pool.ntp.org
 
+deploy_env: prod
+
+hosts:
+  app: app-1.selfiewithstrangers.club
+  api: api-1.selfiewithstrangers.club
+  db: db-1.selfiewithstrangers.club
+
 # api credentials
 
 api_db_name: &api_db_name api

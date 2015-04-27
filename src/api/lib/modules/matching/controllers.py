@@ -36,18 +36,15 @@ def remove_from_pool():
 def get_status():
     data = request.get_json(force=True)
     proposal = Proposal.query.filter(
-        (Proposal.user1_id == data['uid'] 
-         or Proposal.user2_id == data['uid']) and \
-         not (Proposal.user1_accepted == False
-         or Proposal.user2_accepted == False)
-    ).first()
+        Proposal.user1_id == data['uid'] or Proposal.user2_id == data['uid']
+    ).max(Proposal.created).first()
 
     return jsonify(proposal.as_json()) 
 
 @matching.route('/accept_or_decline', methods=['POST'])
 def make_proposal_decision():
     data = request.get_json(force=True)
-    
+
 
 @matching.route('/update_prososals', methods=['POST'])
 def update_proposals():

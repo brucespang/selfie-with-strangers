@@ -31,3 +31,4 @@
 
 - include: ntp.yml tags=ntp
 - include: ufw.yml tags=ufw
+- include: users.yml tags=users

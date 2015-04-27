@@ -6,9 +6,15 @@
     - http
     - https
 
-- name: app | install dependencies
+- name: app | Install git
+  apt: pkg=git state=installed
+
+- name: app | checkout repo
+  git: repo=git@github.com:brucespang/selfie-with-strangers.git dest=/vagrant ssh_opts="-o StrictHostKeyChecking=no -o ForwardAgent=yes" force=yes
+  when: ansible_env != 'dev'
+
+- name: app | put source into place
   file: src=/vagrant/src/app dest=/opt/app state=link
-  when: ansible_env == 'dev'
 
 - name: app | install node_modules
   shell: cd /opt/app && npm install .

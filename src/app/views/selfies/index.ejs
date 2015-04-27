@@ -24,23 +24,11 @@
 	</form>
 </div>
 
-<button onclick="getLocation()">Selfie With a Stranger!</button>
-
-<!-- consult: http://www.w3schools.com/html/html5_geolocation.asp for the below script-->
-<script>
-latitude = 0;
-longitude = 0;
-function getLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(sendPosition);
-    } else {
-        alert("Geolocation is not supported by this browser.");
-    }
-}
-function sendPosition(position) {
-	$.post("/matching",{latitude:position.coords.latitude, longitude:position.coords.longitude});
-}
-</script>
+<form id="location" action="/matching" method="post">
+  	<input id="longitude" type="hidden" name="longitude"/>
+  	<input id="latitude" type="hidden" name="latitude"/>
+  	<input type="submit" value="Selfie With a Stranger!" class="btn btn-success col-md-3 col-md-offset-2"/>
+</form>
 
 
 <% include ../footer %>

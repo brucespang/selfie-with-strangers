@@ -25,7 +25,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       ansible.playbook = "playbooks/app.yml"
       ansible.extra_vars = {
         ansible_ssh_user: "vagrant",
-        ansible_env: 'dev',
+        deploy_env: 'dev',
         hosts: hosts
       }
     end
@@ -38,7 +38,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       ansible.playbook = "playbooks/db.yml"
       ansible.extra_vars = {
         ansible_ssh_user: "vagrant",
-        ansible_env: 'dev',
+        deploy_env: 'dev',
         hosts: hosts
       }
     end
@@ -52,7 +52,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       ansible.playbook = "playbooks/api.yml"
       ansible.extra_vars = {
         ansible_ssh_user: "vagrant",
-        ansible_env: 'dev',
+        deploy_env: 'dev',
         hosts: hosts
       }
     end

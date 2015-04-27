@@ -1,7 +1,11 @@
 language: python
+cache: pip
 python: "2.7"
 install:
   - pip install ansible
 script:
   - ansible-playbook --syntax-check -i production site.yml
-  - ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i production site.yml
+  - ansible-playbook -i production site.yml
+branches:
+  only:
+    - master

@@ -1,10 +1,8 @@
-- hosts: db
-  user: deploy
-  sudo: yes
+- hosts: all
+  user: root
   vars_files:
     - vars/defaults.yml
     - vars/users.yml
   roles:
     - common
-    - postgresql
-    - db
+    - sudoers
