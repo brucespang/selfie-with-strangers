@@ -3,6 +3,7 @@ import bcrypt
 from math import radians, sin, cos, atan2
 from app import db
 from datetime import datetime
+from util import get_distance
 
 class Tile(db.Model):
 
@@ -17,10 +18,6 @@ class Tile(db.Model):
         self.name = name
         self.lat = lat
         self.lon = lon
-
-    def get_distance(self, lat, lon):
-
-        return get_distance(self.lat, self.lon, lat, lon)
 
     def as_json():
         return {

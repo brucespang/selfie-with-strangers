@@ -10,17 +10,21 @@ class Proposal(db.Model):
     user1_id = db.Column(db.String(), nullable=False)
     user2_id = db.Column(db.String(), nullable=False)
     location = db.Column(db.String(), nullable=False)
-    meeting_time = db.Column(db.DateTime(), nullable=False)
-    accepted = db.Column(db.Boolean())
+    tile = db.Column(db.String(), nullable=False)
+    delay = db.Column(db.SmallInteger(), nullable=False)
+    user1_accepted = db.Column(db.Boolean())
+    user2_accpeted = db.Column(db.Boolean())
     created = db.Column(db.DateTime(), default=db.func.current_timestamp())
 
-    def __init__(self, user1_id, user2_id, location, meeting_time, accepted=None):
+    def __init__(self, user1_id, user2_id, location, tile, delay):
         self.id = str(uuid.uuid1())
         self.user1_id = user1_id
         self.user2_id = user2_id
         self.location = location
-        self.meeting_time = meeting_time
-        self.accepted = accepted
+        self.tile = tile
+        self.delay = delay
+        self.user1_accepted = None
+        self.user2_accepted = None
 
     def update_accepted(accepted):
         self.accepted = accepted
@@ -31,7 +35,9 @@ class Proposal(db.Model):
             'user1_id': self.user1_id,
             'user2_id': self.user2_id,
             'location': self.location,
-            'meeting_time': self.meeting_time,
-            'accepted': self.accepted,
+            'tile': self.tile,
+            'delay': self.delay,
+            'user1_accepted': self.user1_accepted,
+            'user2_accepted': self.user1_accepted,
             'created': self.created
         }
