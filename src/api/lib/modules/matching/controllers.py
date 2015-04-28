@@ -22,7 +22,7 @@ def enter_pool():
 
     return jsonify({'tile': 'test'})
 
-@matching.route('/remove', methods=['POST'])
+@matching.route('/', methods=['DELETE'])
 def remove_from_pool():
     data = request.get_json(force=True)
     user = AvailableUser.query.filter(AvailableUser.id == data['uid']).first()
