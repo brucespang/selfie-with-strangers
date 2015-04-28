@@ -13,7 +13,7 @@ locations = Location.query.all()
 def enter_pool():
     data = request.get_json(force=True)
     lat = float(data['lat'])
-    lon = float(data['lon']))
+    lon = float(data['lon'])
     username = data['username']
     available_user = AvailableUser(username, lat, lon)
 
