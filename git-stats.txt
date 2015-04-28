@@ -1,0 +1,81 @@
+The following historical commit information, by author, was found in the repository:
+
+Author                     Commits    Insertions      Deletions    % of changes
+Alex                             4            39             17            0.00
+Bruce Spang                     34        690740         485075           99.94
+Caleb Larson                    13           145             26            0.01
+Oskar Singer                     9           307             71            0.03
+Wesley Fung                      2            65              5            0.01
+aburkato                         2            61              2            0.01
+
+Below are the number of rows from each author that have survived and are still intact in the current
+revision:
+
+Author                     Rows       % in comments
+Alex                         29               34.48
+Bruce Spang              283493               10.19
+Caleb Larson                110                3.64
+Oskar Singer                257                0.39
+aburkato                     53                9.43
+fungw                         4                0.00
+
+The following history timeline has been gathered from the repository:
+
+Author                  2015W13    2015W14    2015W15    2015W16    2015W17    2015W18
+Alex                                                           .          .
+Bruce Spang            -+++++++  +++++++++  +++++++++  ---------  --+++++++
+Caleb Larson                                        .                     .          +
+Oskar Singer                                                              +   -+++++++
+Wesley Fung                                                               .
+aburkato                                            .                     .
+Modified Rows:              201        323     691521     482856       1503        149
+
+The following repsonsibilties, by author, were found in the current revision of the repository (comments are exluded from the line count, if possible):
+
+Alex is mostly responsible for:
+11 src/app/public/javascripts/camera.js
+8 src/app/lib/controllers/selfies.js
+
+Bruce Spang is mostly responsible for:
+3374 src/api/env/lib/python2.7/site-packages/sqlalchemy/orm/query.py
+3370 src/api/env/lib/python2.7/site-packages/sqlalchemy/sql/elements.py
+3286 src/api/env/lib/python2.7/site-packages/sqlalchemy/sql/schema.py
+3081 src/api/env/lib/python2.7/site-packages/pip/_vendor/html5lib/constants.py
+2982 src/api/env/lib/python2.7/site-packages/sqlalchemy/dialects/mysql/base.py
+2939 src/api/env/lib/python2.7/site-packages/sqlalchemy/sql/selectable.py
+2828 src/api/env/lib/python2.7/site-packages/sqlalchemy/sql/compiler.py
+2560 src/api/env/lib/python2.7/site-packages/sqlalchemy/orm/relationships.py
+2532 src/api/env/lib/python2.7/site-packages/pip/_vendor/html5lib/html5parser.py
+2482 src/api/env/lib/python2.7/site-packages/sqlalchemy/orm/mapper.py
+
+Caleb Larson is mostly responsible for:
+42 src/app/public/javascripts/geolocation.js
+27 src/app/app.js
+17 src/app/lib/selfie-with-strangers/lib/location.js
+10 src/app/lib/selfie-with-strangers/lib/User.js
+5 src/app/lib/selfie-with-strangers/lib/client.js
+2 src/app/lib/helpers/auth.js
+1 src/app/lib/controllers/selfies.js
+1 src/api/lib/modules/matching/controllers.py
+1 src/api/lib/modules/locations/util.py
+
+Oskar Singer is mostly responsible for:
+100 src/api/lib/modules/matching/controllers.py
+49 src/api/lib/modules/locations/models.py
+38 src/api/lib/modules/matching/models.py
+24 src/api/lib/modules/users/models.py
+16 src/api/lib/modules/locations/controllers.py
+12 src/api/lib/modules/locations/util.py
+8 src/matcher/matcher.py
+5 src/api/lib/modules/users/controllers.py
+4 src/api/lib/app.py
+
+aburkato is mostly responsible for:
+47 src/app/public/javascripts/camera.js
+1 src/app/app.js
+
+fungw is mostly responsible for:
+4 src/app/public/javascripts/camera.js
+
+The extensions below were found in the repository history (extensions used during statistical analysis are marked):
+el markdown old APACHE2 ai cfg fish j2 mako ini conf diff txt MIT out xml csh pem [py] 3 yaml json html 7 lock BSD orig yml css ejs map coffee py~ pub [js] S rst 2 3ctype types md [c] gnu svg cmd patch sh [h] deb opts)
