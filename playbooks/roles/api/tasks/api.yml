@@ -13,12 +13,12 @@
     - python-dev
     - libffi-dev
 
-- name: app | Install git
+- name: api | Install git
   apt: pkg=git state=installed
 
-- name: app | checkout repo
+- name: api | checkout repo
   git: repo=git@github.com:brucespang/selfie-with-strangers.git dest=/vagrant ssh_opts="-o StrictHostKeyChecking=no -o ForwardAgent=yes" force=yes
-  when: ansible_env != 'dev'
+  when: deploy_env != 'dev'
 
 - name: api | put source into place
   file: src=/vagrant/src/api dest=/opt/api state=link
