@@ -4,6 +4,7 @@ from modules.locations.models import Location
 from app import db
 from itertools import groupby
 from modules.locations.util import get_distance
+from models import Proposal
 import json, math
 
 matching = Blueprint('matching', __name__, url_prefix='/matching')
@@ -19,7 +20,7 @@ def enter_pool():
     db.session.add(available_user)
     db.session.commit()
 
-    return jsonify({'tile': 'test'})
+    return jsonify({'status': 'ok'})
 
 @matching.route('/', methods=['DELETE'])
 def remove_from_pool():
@@ -31,19 +32,20 @@ def remove_from_pool():
 
     return jsonify({'message':'Successfully removed from matching pool'})
 
-@matching.route('/update_status', methods=['GET'])
-def get_status():
-    data = request.get_json(force=True)
+@matching.route('/statuses/<user_id>', methods=['GET'])
+def get_status(user_id):
     proposal = Proposal.query.filter(
-        Proposal.user1_id == data['uid'] or Proposal.user2_id == data['uid']
-    ).max(Proposal.created).first()
+        Proposal.user1_id == user_id or Proposal.user2_id == user_id
+    ).order_by(Proposal.created).first()
 
-    return jsonify(proposal.as_json())
+    if not proposal:
+        abort(404)
+    else:
+        return jsonify(proposal.as_json())
 
 @matching.route('/accept_or_decline', methods=['POST'])
 def make_proposal_decision():
     data = request.get_json(force=True)
-
 
 @matching.route('/update_prososals', methods=['POST'])
 def update_proposals():

@@ -80,7 +80,10 @@ module.exports = function(hostname) {
     matching: {
       enter_pool: function(location, cb) {
         api.post("/matching/", location, cb)
-      }
+      },
+      get_status: function(user_id, cb) {
+        api.get("/matching/statuses/"+user_id, cb)
+      },
     },
     sessions: {
       new: function(params, cb) {

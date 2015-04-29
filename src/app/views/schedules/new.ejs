@@ -1,8 +1,18 @@
 <% include ../header %>
-<h1>Schedule</h1>
-<div class="row">
-	<a href="/selfies/new" class="col-md-6 btn btn-link">Take Picture</a>
-	<a href="/selfies" class="col-md-6 btn btn-link">Back</a>
+<h1>Schedule a Selfie!</h1>
+
+<div id="schedule-selfie">
+Waiting for a match...
 </div>
+
+<script type="text/javascript">
+var user_id = "<%= user.id %>";
+
+setInterval(function() {
+      $.get("/matching/status", function (data) {
+        console.log(data)
+      })
+}, 1000)
+</script>
 
 <% include ../footer %>
