@@ -21,8 +21,8 @@ module.exports = function(selfie_client) {
     if(selfiePics.length > 30){
   	  selfiePics.pop();
     }
-
-    render(res, 'selfies/index', { pics : selfiePics });
+    res.redirect("/selfies/");
+    //render(res, 'selfies/index', { pics : selfiePics });
   });
 
   router.get('/new', function(req, res) {
