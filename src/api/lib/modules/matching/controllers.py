@@ -1,13 +1,12 @@
 from flask import Blueprint, request, jsonify, redirect, abort
-from users.models import User, AvailableUser
-from locations.models import Location
+from modules.users.models import User, AvailableUser
+from modules.locations.models import Location
 from app import db
 from itertools import groupby
-from locations.util import get_distance
+from modules.locations.util import get_distance
 import json, math
 
 matching = Blueprint('matching', __name__, url_prefix='/matching')
-locations = Location.query.all()
 
 @matching.route('/add', methods=['POST'])
 def enter_pool():
@@ -39,7 +38,7 @@ def get_status():
         Proposal.user1_id == data['uid'] or Proposal.user2_id == data['uid']
     ).max(Proposal.created).first()
 
-    return jsonify(proposal.as_json()) 
+    return jsonify(proposal.as_json())
 
 @matching.route('/accept_or_decline', methods=['POST'])
 def make_proposal_decision():
@@ -49,7 +48,7 @@ def make_proposal_decision():
 @matching.route('/update_prososals', methods=['POST'])
 def update_proposals():
     #Need to decide how to deal with people who are too far away from existing meeting locations
-    users = AvailableUser.query.all() 
+    users = AvailableUser.query.all()
     tile2users = groupby(users,
                          lambda x: x.tile)
     add_matches = lambda x,y: x + match_pool(list(y))[0]
@@ -65,7 +64,7 @@ def update_proposals():
 def get_proposal(match):
     user1, user2 = match
     (location, delay) = get_location(match)
-    
+
     return Proposal(
         user1.id,
         user2.id,
@@ -75,8 +74,10 @@ def get_proposal(match):
     )
 
 def get_ranked_locations(match):
+    locations = Location.query.all()
+
     scored_locs = [(loc, get_delay(match, loc))
-                   for loc in locations] 
+                   for loc in locations]
 
     return sorted(scored_locs, key=lambda loc: loc[1])
 
