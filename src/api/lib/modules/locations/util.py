@@ -1,13 +1,16 @@
-from math import radians, sin, cos, atan2
+from math import radians, cos, sin, asin, sqrt
 
-def get_distance(lat1, lon1, lat2, lon2):
-    phi1 = radians(lat1)
-    phi2 = radians(lat2)
-    dphi = radians(lat1*lat2)
-    dpsi = radians(lon1*lon2)
-    a = sin(dphi/2)**2 + \
-        cos(phi1)*cos(phi2) * \
-        sin(dpsi/2)**2
-    c = 2 * atan2(a**0.5, (1-a)**0.5)
+def distance_between(u1, u2):
+    return haversine_distance(u1.lat, u1.lon, u2.lat, u2.lon)
 
-    return 6371000 * c
+def haversine_distance(lat1, lon1, lat2, lon2):
+    # convert decimal degrees to radians
+    lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
+
+    # haversine formula
+    dlon = lon2 - lon1
+    dlat = lat2 - lat1
+    a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
+    c = 2 * asin(sqrt(a))
+    r = 3956 # Radius of earth in miles
+    return c * r

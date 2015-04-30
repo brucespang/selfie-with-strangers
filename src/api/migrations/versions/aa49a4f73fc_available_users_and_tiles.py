@@ -41,9 +41,7 @@ def upgrade():
     op.add_column('proposals', sa.Column('user1_id', sa.String(), nullable=False))
     op.add_column('proposals', sa.Column('user2_accpeted', sa.Boolean(), nullable=True))
     op.add_column('proposals', sa.Column('user2_id', sa.String(), nullable=False))
-    op.alter_column('proposals', 'location',
-               existing_type=sa.NullType(),
-               nullable=False)
+
     op.drop_constraint(u'proposals_proposer_id_fkey', 'proposals', type_='foreignkey')
     op.drop_constraint(u'proposals_recipient_id_fkey', 'proposals', type_='foreignkey')
     op.drop_column('proposals', 'proposer_id')
@@ -77,9 +75,7 @@ def downgrade():
     op.add_column('proposals', sa.Column('proposer_id', sa.VARCHAR(length=36), autoincrement=False, nullable=True))
     op.create_foreign_key(u'proposals_recipient_id_fkey', 'proposals', 'users', ['recipient_id'], ['id'])
     op.create_foreign_key(u'proposals_proposer_id_fkey', 'proposals', 'users', ['proposer_id'], ['id'])
-    op.alter_column('proposals', 'location',
-               existing_type=sa.NullType(),
-               nullable=True)
+
     op.drop_column('proposals', 'user2_id')
     op.drop_column('proposals', 'user2_accpeted')
     op.drop_column('proposals', 'user1_id')

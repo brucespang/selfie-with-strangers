@@ -3,20 +3,21 @@ from modules.users.models import User, AvailableUser
 from modules.locations.models import Location
 from app import db
 from itertools import groupby
-from modules.locations.util import get_distance
+from modules.locations.util import distance_between, haversine_distance
 from models import Proposal
 import json, math
+import operator
 
 matching = Blueprint('matching', __name__, url_prefix='/matching')
 
-@matching.route('/add', methods=['POST'])
+@matching.route('/', methods=['POST'])
 def enter_pool():
     data = request.get_json(force=True)
     lat = float(data['lat'])
     lon = float(data['lon'])
-    username = data['username']
-    available_user = AvailableUser(username, lat, lon)
+    user_id = data['user_id']
 
+    available_user = AvailableUser(user_id, lat, lon)
     db.session.add(available_user)
     db.session.commit()
 
@@ -47,60 +48,49 @@ def get_status(user_id):
 def make_proposal_decision():
     data = request.get_json(force=True)
 
-@matching.route('/update_prososals', methods=['POST'])
+@matching.route('/update_proposals', methods=['POST'])
 def update_proposals():
-    #Need to decide how to deal with people who are too far away from existing meeting locations
+    # TODO: filter out already matched people
     users = AvailableUser.query.all()
-    tile2users = groupby(users,
-                         lambda x: x.tile)
-    add_matches = lambda x,y: x + match_pool(list(y))[0]
-    matches = reduce(add_matches,
-                     tile2users,
-                     [])
-    proposals = [get_proposal(match)
-                 for match in matches]
+    print users
+
+    matches = []
+    matched = set()
+    for u1 in users:
+        for u2 in users:
+            if u1 in matched: next
+            if u2 in matched: next
+            if u1 == u2: next
+            if distance_between(u1, u2) < 1:
+                matches.append((u1, u2))
+                matched.add(u1)
+                matched.add(u2)
+
+    proposals = [build_proposal(u1, u2) for (u1, u2) in matches]
+
     for prop in proposals:
         db.session.add(prop)
-        db.commit()
+        db.session.commit()
 
-def get_proposal(match):
-    user1, user2 = match
-    (location, delay) = get_location(match)
+    return jsonify({"proposals": [p.as_json() for p in proposals],
+                    "unmatched": [u.as_json() for u in set(users) - matched]})
 
-    return Proposal(
-        user1.id,
-        user2.id,
-        location.id,
-        location.tile,
-        delay
-    )
+def build_proposal(user1, user2):
+    (location, delay) = get_ranked_locations(user1, user2)[0]
 
-def get_ranked_locations(match):
+    return Proposal(user1.user_id, user2.user_id, location.id, delay)
+
+def get_ranked_locations(user1, user2):
     locations = Location.query.all()
 
-    scored_locs = [(loc, get_delay(match, loc))
+    scored_locs = [(loc, get_delay(user1, user2, loc))
                    for loc in locations]
 
-    return sorted(scored_locs, key=lambda loc: loc[1])
+    return sorted(scored_locs, key=operator.itemgetter(1))
 
-def get_delay(match, location):
-    user1, user2 = match
+def get_delay(user1, user2, location):
     loc_lat, loc_lon = (location.lat, location.lon)
-    d1 = get_distance(user1.lat, user1.lon, loc_lat, loc_lon)
-    d2 = get_distance(user2.lat, user2.lon, loc_lat, loc_lon)
+    d1 = haversine_distance(user1.lat, user1.lon, loc_lat, loc_lon)
+    d2 = haversine_distance(user2.lat, user2.lon, loc_lat, loc_lon)
 
     return math.ceil(max([d1, d2])/(1.4*60))
-
-def match_pool(pool):
-    groups = groupby(enumerate(pool),
-                     lambda x: x[0] % 2)
-    lists = [list(users)
-             for key, users in groups]
-    first = (lists[0], []) \
-            if len(lists[0]) <= lists[1] else \
-            (lists[0][:-1], [lists[0][-1]])
-    second = (lists[1], []) \
-             if len(lists[1]) == lists else \
-             (lists[1][:-1], [lists[1][-1]])
-
-    return (zip(first[0],second[0]), first[1]+second[1])

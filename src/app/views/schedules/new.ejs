@@ -8,9 +8,12 @@ Waiting for a match...
 <script type="text/javascript">
 var user_id = "<%= user.id %>";
 
-setInterval(function() {
-      $.get("/matching/status", function (data) {
-        console.log(data)
+var checkStatusInterval = setInterval(function() {
+      $.get("/matching/status", function (res) {
+        var data = JSON.parse(res)
+        console.log(data.location)
+        $("#schedule-selfie").text(data.location.name)
+        clearInterval(checkStatusInterval)
       })
 }, 1000)
 </script>

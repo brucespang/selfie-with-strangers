@@ -141,14 +141,13 @@ app.get('/users/nearby', function(req, res) {
 });
 
 app.post('/matching', auth.check_logged_in(function(req, res) {
-  console.log(req.body.longitude);
-  console.log(req.body.latitude);
-  var location = {
+  var data = {
+    user_id: req.current_user.id,
     lat: req.body.latitude,
-    lon: req.body.longitude,
+    lon: req.body.longitude
   }
 
-  selfie_client.matching.enter_pool(location, function(err) {
+  selfie_client.matching.enter_pool(data, function(err) {
     if (err){
       console.error(err);
       res.status(500).send('Internal error');

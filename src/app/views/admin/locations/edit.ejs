@@ -1,0 +1,23 @@
+<% include ../../header %>
+
+<form action="/admin/locations/<%= location.id %>" method="post">
+  <%- flash() %>
+  <fieldset>
+    <label for="name">Name</label>
+    <input type="text" name="name" value="<%= location.name %>" />
+  </fieldset>
+
+  <fieldset>
+    <label for="lat">Latitude</label>
+    <input type="text" name="lat" value="<%= location.lat %>" />
+  </fieldset>
+
+  <fieldset>
+    <label for="lon">Longitude</label>
+    <input type="text" name="lon" value="<%= location.lon %>" />
+  </fieldset>
+
+  <input type="submit" value="Update" />
+</form>
+
+<% include ../../footer %>

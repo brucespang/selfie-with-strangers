@@ -78,11 +78,11 @@ module.exports = function(hostname) {
       }
 		},
     matching: {
-      enter_pool: function(location, cb) {
-        api.post("/matching/", location, cb)
+      enter_pool: function(data, cb) {
+        api.post("/matching/", data, cb)
       },
-      get_status: function(user_id, cb) {
-        api.get("/matching/statuses/"+user_id, cb)
+      get_status: function(user, cb) {
+        api.get("/matching/statuses/"+user.id, cb)
       },
     },
     sessions: {
@@ -133,6 +133,23 @@ module.exports = function(hostname) {
       },
       delete: function(id, cb) {
         api.del("/questions/"+id, cb)
+      }
+		},
+		locations: {
+      list: function(cb) {
+        api.get("/locations/", cb)
+      },
+      show: function(id, cb) {
+        api.get("/locations/" + id, cb)
+      },
+      new: function(params, cb) {
+        api.post("/locations/", params, cb)
+      },
+      update: function(id, params, cb) {
+        api.post("/locations/"+id, params, cb)
+      },
+      delete: function(id, cb) {
+        api.del("/locations/"+id, cb)
       }
 		},
 	};
