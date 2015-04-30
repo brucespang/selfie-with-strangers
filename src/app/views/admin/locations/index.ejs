@@ -1,0 +1,29 @@
+<% include ../../header %>
+
+<h1>THE ADMIN ZONE | Manage Locations</h1>
+
+<a href="/admin/locations/new">+ Location</a>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Latitude</th>
+    <th>Longitude</th>
+  </tr>
+
+	<% locations.forEach(function(location) { %>
+    <tr>
+      <td><%= location.name %></td>
+      <td><%= location.lat %></td>
+      <td><%= location.lon %></td>
+      <td><a href="/admin/locations/<%= location.id %>">edit</a></td>
+      <td>
+        <form action="/admin/locations/<%= location.id %>?_method=delete" method="post">
+          <input type="submit" value="delete"/>
+        </form>
+      </td>
+    </tr>
+  <% }) %>
+</table>
+
+<% include ../../footer %>

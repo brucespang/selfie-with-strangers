@@ -140,23 +140,33 @@ app.get('/users/nearby', function(req, res) {
   })
 });
 
-app.post('/matching', function(req, res) {
-  console.log(req.body.longitude);
-  console.log(req.body.latitude);
-  var location = {
+app.post('/matching', auth.check_logged_in(function(req, res) {
+  var data = {
+    user_id: req.current_user.id,
     lat: req.body.latitude,
-    lon: req.body.longitude,
+    lon: req.body.longitude
   }
 
-  selfie_client.matching.enter_pool(location, function(err, tile) {
+  selfie_client.matching.enter_pool(data, function(err) {
     if (err){
       console.error(err);
       res.status(500).send('Internal error');
     } else {
-      render(res, 'schedules/new');
+      render(res, 'schedules/new', {user: req.current_user});
     }
   });
-});
+}));
+
+app.get('/matching/status', auth.check_logged_in(function(req, res) {
+  selfie_client.matching.get_status(req.current_user, function(err, status) {
+    if (err){
+      console.error(err);
+      res.status(500).send('Internal error');
+    } else {
+      res.status(200).send(JSON.stringify(status))
+    }
+  });
+}));
 
 app.get('/matches/:username', function(req, res) {
   selfie_client.questions.random(function(err, question) {
@@ -189,10 +199,6 @@ app.post('/settings', auth.check_logged_in(function(req, res) {
 app.get('/settings', auth.check_logged_in(function(req, res) {
   render(res, 'settings', {user: req.current_user});
 }));
-
-app.get('/schedules/new', function(req, res) {
-  render(res, 'schedules/new');
-});
 
 // Start the server:
 var server = app.listen(app.get('port'), function () {
