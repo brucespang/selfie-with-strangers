@@ -29,11 +29,11 @@ def get(id):
 @locations.route('/<id>', methods=['POST'])
 def update(id):
     data = request.get_json(force=True)
-    location = Location.query.filter(Location.id == id).first()
-    if not location:
+    location = Location.query.filter(Location.id == id)
+    if not location.first():
         abort(404)
     else:
-        location.location = data['location']
+        location.update(data)
         db.session.commit()
         return jsonify({"status": "ok"})
 
