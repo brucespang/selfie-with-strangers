@@ -84,6 +84,12 @@ module.exports = function(hostname) {
       get_status: function(user, cb) {
         api.get("/matching/statuses/"+user.id, cb)
       },
+      accept: function(user, cb) {
+        api.post("/matching/statuses/"+user.id, {accepted: true}, cb)
+      },
+      reject: function(user, cb) {
+        api.post("/matching/statuses/"+user.id, {accepted: false}, cb)
+      }
     },
     sessions: {
       new: function(params, cb) {

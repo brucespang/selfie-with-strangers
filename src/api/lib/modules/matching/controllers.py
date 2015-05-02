@@ -44,9 +44,24 @@ def get_status(user_id):
     else:
         return jsonify(proposal.as_json())
 
-@matching.route('/accept_or_decline', methods=['POST'])
-def make_proposal_decision():
-    data = request.get_json(force=True)
+@matching.route('/status/<user_id>', methods=['POST'])
+def update(user_id):
+    proposal = Proposal.query.filter(
+        Proposal.user1_id == user_id or Proposal.user2_id == user_id
+    ).order_by(Proposal.created)
+
+    if not proposal.first():
+        abort(404)
+    else:
+        data = request.get_json(force=True)
+
+        if proposal.user1_id == user_id:
+            proposal.user1_accepted = data['accepted']
+        else:
+            proposal.user2_accepted = data['accepted']
+
+        db.session.commit()
+        return jsonify({"status": "ok"})
 
 @matching.route('/update_proposals', methods=['POST'])
 def update_proposals():

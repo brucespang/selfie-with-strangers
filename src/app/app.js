@@ -157,6 +157,39 @@ app.post('/matching', auth.check_logged_in(function(req, res) {
   });
 }));
 
+app.get('/schedule', auth.check_logged_in(function(req, res) {
+  selfie_client.matching.get_status(req.current_user, function(err, status) {
+    if (err){
+      console.error(err);
+      res.status(500).send('Internal error');
+    } else {
+      render(res, 'schedules/show', {user: req.current_user, proposal: status, location: status.location});
+    }
+  });
+}));
+
+app.post('/schedule/accept', auth.check_logged_in(function(req, res) {
+  selfie_client.matching.accept(req.current_user, function(err) {
+    if (err) {
+      console.log(err);
+      res.status(500).send("Internal error")
+    } else {
+      res.redirect("/schedule")
+    }
+  })
+}))
+
+app.post('/schedule/reject', auth.check_logged_in(function(req, res) {
+  selfie_client.matching.reject(req.current_user, function(err) {
+    if (err) {
+      console.log(err);
+      res.status(500).send("Internal error")
+    } else {
+      res.redirect("/schedule")
+    }
+  })
+}))
+
 app.get('/matching/status', auth.check_logged_in(function(req, res) {
   selfie_client.matching.get_status(req.current_user, function(err, status) {
     if (err){
