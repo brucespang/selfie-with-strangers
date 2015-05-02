@@ -10,11 +10,11 @@ def list():
     selfies = Selfie.query.all()
     return jsonify({"data": [q.as_json() for q in selfies]})
 
-@questions.route('/', methods=['POST'])
+@selfies.route('/', methods=['POST'])
 def create():
     data = request.get_json(force=True)
     selfie = Selfie(picture=data['picture'])
-    selfie = Selfie(picture=data['qid'])
+    selfie = Selfie(qid=data['qid'])
     db.session.add(selfie)
     db.session.commit()
     #return redirect("/questions/%s"%question.id)
@@ -39,7 +39,7 @@ def create():
 #         return jsonify({"status": "ok"})
 
 
-@questions.route('/<id>', methods=['DELETE'])
+@selfies.route('/<id>', methods=['DELETE'])
 def delete(id):
     selfie = Selfie.query.filter(Selfie.id == id).first()
     if not selfie:
