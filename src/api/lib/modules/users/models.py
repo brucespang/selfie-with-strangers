@@ -4,7 +4,6 @@ import re
 from app import db, ApiError
 from datetime import datetime
 from sqlalchemy.orm import validates
-from modules.locations.models import Tile
 from email.utils import parseaddr
 
 class User(db.Model):
@@ -98,26 +97,21 @@ class User(db.Model):
 
 class AvailableUser(db.Model):
     __tablename__ = 'available_users'
-    username = db.Column(db.String(), primary_key=True)
+    user_id = db.Column(db.String(), primary_key=True)
     joined = db.Column(db.DateTime())
-    tile_id = db.Column(db.String())
-    tile_name = db.Column(db.String())
     lat = db.Column(db.Float())
     lon = db.Column(db.Float())
 
-    def __init__(self, username, lat, lon):
-        self.username = username
+    def __init__(self, user_id, lat, lon):
+        self.user_id = user_id
         self.joined = db.func.current_timestamp()
-        self.tile = get_tile(lat, lon)
         self.lat = lat
         self.lon = lon
 
-    def get_tile(lat, lon):
-        return 1
-
     def as_json(self):
         return {
-            "id": self.id,
+            "user_id": self.user_id,
             "joined": self.joined,
-            "tile": self.tile
+            "lat": self.lat,
+            "lon": self.lon
         }
