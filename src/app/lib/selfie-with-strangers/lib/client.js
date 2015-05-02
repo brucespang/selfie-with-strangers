@@ -132,5 +132,16 @@ module.exports = function(hostname) {
         api.del("/questions/"+id, cb)
       }
 		},
+    selfies: {
+      show: function(id, cb) {
+        api.get("/selfies/" + id, cb)
+      },
+      new: function(params, cb) {
+        api.post("/questions/", params, cb)
+      },
+      delete: function(id, cb) {
+        api.del("/questions/"+id, cb)
+      }
+    },
 	};
 };
