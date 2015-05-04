@@ -11,10 +11,12 @@ module.exports = function(selfie_client) {
 
   var selfiePics = [];
 
+  //should be retreiving the most recent X selfies and corresponding Q and A's
   router.get('/', function(req, res) {
     render(res, 'selfies/index', { pics : selfiePics , javascripts: ["/javascripts/geolocation.js"]});
   });
 
+  //should be just saving to Db
   router.post('/', function(req, res) {
     console.log(req.files);
     selfiePics.unshift(req.body.picture);

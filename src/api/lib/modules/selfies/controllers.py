@@ -27,16 +27,16 @@ def create():
 #     else:
 #         return jsonify(question.as_json())
 
-# @questions.route('/<id>', methods=['POST'])
-# def update(id):
-#     data = request.get_json(force=True)
-#     question = Question.query.filter(Question.id == id).first()
-#     if not question:
-#         abort(404)
-#     else:
-#         question.question = data['question']
-#         db.session.commit()
-#         return jsonify({"status": "ok"})
+@selfies.route('/<id>', methods=['POST'])
+def update(id):
+    data = Selfie.get_json(force=True)
+    selfie = Selfie.query.filter(Selfie.id == id).first()
+    if not selfie:
+        abort(404)
+    else:
+        selife.picture = data['picture']
+        db.session.commit()
+        return jsonify({"status": "ok"})
 
 
 @selfies.route('/<id>', methods=['DELETE'])

@@ -29,16 +29,16 @@ def get(id):
         return jsonify([s_user.as_json() for s_user in selfie_users])
 
 
-# @questions.route('/<id>', methods=['POST'])
-# def update(id):
-#     data = request.get_json(force=True)
-#     question = Question.query.filter(Question.id == id).first()
-#     if not question:
-#         abort(404)
-#     else:
-#         question.question = data['question']
-#         db.session.commit()
-#         return jsonify({"status": "ok"})
+@aelfie_users.route('/<id>', methods=['POST'])
+def update(id):
+    data = request.get_json(force=True)
+    selfie_users = Selfie_Users.query.filter(Selfie_Users.id == id).first()
+    if not selfie_users:
+        abort(404)
+    else:
+        selfie_users.answer = data['answer']
+        db.session.commit()
+        return jsonify({"status": "ok"})
 
 
 @selfie_users.route('/<id>', methods=['DELETE'])

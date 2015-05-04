@@ -141,6 +141,34 @@ module.exports = function(hostname) {
         api.del("/questions/"+id, cb)
       }
 		},
+    selfies: {
+      list: function(cb) {
+        api.get("/selfies/", cb)
+      },
+      new: function(params, cb) {
+        api.post("/selfies/", params, cb)
+      },
+      update: function(id, params, cb) {
+        api.post("/selfies/"+id, params, cb)
+      },
+      delete: function(id, cb) {
+        api.del("/selfies/"+id, cb)
+      }
+    },
+    selfie_users: {
+      show: function(id, cb) {
+        api.get("/selfie_users/" + id, cb)
+      },
+      new: function(params, cb) {
+        api.post("/selfie_users/", params, cb)
+      },
+      update: function(id, params, cb) {
+        api.post("/selfie_users/"+id, params, cb)
+      },
+      delete: function(id, cb) {
+        api.del("/selfie_users/"+id, cb)
+      }
+    },
 		locations: {
       list: function(cb) {
         api.get("/locations/", cb)
