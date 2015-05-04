@@ -5,31 +5,15 @@
 Waiting for a match...
 </div>
 
-<script src="https://maps.google.com/maps/api/js?sensor=true"></script>
-<script src="<%= static_file("/javascripts/gmaps.js") %>"></script>
 <script type="text/javascript">
-var user_id = "<%= user.id %>";
+  function checkForMatch() {
+    $.get("/matching/status", function (res) {
+      location.href = "/schedule"
+    })
+  }
 
-var checkStatusInterval = setInterval(function() {
-      $.get("/matching/status", function (res) {
-        var data = JSON.parse(res)
-        console.log(data.location)
-
-console.log(res)
-$("#schedule-selfie").text(data.location.name)
-var map = new GMaps({
-  div: '#schedule-map',
-  lat: data.location.lat,
-  lng: data.location.lon
-});
-map.addMarker({
-lat: data.location.lat,
-lng: data.location.lon,
-})
-
-        clearInterval(checkStatusInterval)
-      })
-}, 1000)
+  checkForMatch()
+  setInterval(checkForMatch, 1000);
 </script>
 
 <% include ../footer %>
