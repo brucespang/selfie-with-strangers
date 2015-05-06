@@ -1,11 +1,16 @@
 <% include ../header %>
 
-<h1>Selfies</h1>
+<div class="row" id="menu_header">
+	<h1 class="col-xs-3">Selfies</h1>
+	<input id="longitude" type="hidden" name="longitude"/>
+	<input id="latitude" type="hidden" name="latitutde"/>
+</div>
+
 <!-- <p>newsfeed stuff goes here</p> -->
 		<% for(var p in pics) { %>
 			<div class="row">
-      			<img class="col-md-4" src= <%= "data:image/png;base64," + pics[p] %> />
-			<div class="col-md-8"> <p> Question: [Read in from questions] </p>
+      			<img class="col-xs-4" src= <%= "data:image/png;base64," + pics[p] %> />
+			<div class="col-xs-8"> <p> Question: [Read in from questions] </p>
 				<p> Answer1: [Read in from answers1] </p>
 				<p> Answer2: [Read in from answers2] </p>
 			</div>
@@ -16,20 +21,28 @@
     	<% } %>
 
 <div class="row" id="menu_footer">
-	<form action="/logout" method="post">
+	<form id="location" action="/matching" method="post">
 	<ul>
-		<li class="col-sm-1"><a href="/selfies" class="btn btn-link">Home</a></li>
-		<li class="col-sm-1"><a href="/settings" class="btn btn-link">Settings</a></li>
-		<li class="col-sm-1"><input class="btn btn-link" type="submit" value="Logout"/></li>
-	</ul>
-	</form>
+                <li class="col-xs-2"><a href="/selfies" class="btn btn-link">Home</a></li>
+		<li class="col-xs-2"><input type="submit" value="Selfie!" class="btn btn-link"/></li>
+                <li class="col-xs-2"><a href="/settings" class="btn btn-link">Settings</a></li>
+                <li class="col-xs-2"><a href="/logout" class="btn btn-link"/>Logout</li>
+        </ul>
+        </form>
 </div>
 
-<form id="location" action="/matching" method="post" style="display: none">
-  	<input id="longitude" type="hidden" name="longitude"/>
-  	<input id="latitude" type="hidden" name="latitude"/>
-  	<input type="submit" value="Selfie With a Stranger!" class="btn btn-success col-md-3 col-md-offset-2"/>
-</form>
+<script type="text/javascript">
+window.addEventListener("DOMContentLoaded", function() {
+  getLocation(function(position) {
+    var lat = position.coords.latitude;
+    var lon = position.coords.longitude;
+	  document.getElementById("location").onsubmit = function(e) {
+		  document.getElementById("latitude").value = lat;
+		  document.getElementById("longitude").value = lon;
+    }
+	});
+});
+</script>
 
 
 <% include ../footer %>
