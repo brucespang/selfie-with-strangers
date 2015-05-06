@@ -19,9 +19,16 @@ def enter_pool():
 
     available_user = AvailableUser(user_id, lat, lon)
     db.session.add(available_user)
+    status = 'waiting'
+
+    proposal = match_with_user(available_user)
+    if proposal:
+        db.session.add(proposal)
+        status = 'matched'
+
     db.session.commit()
 
-    return jsonify({'status': 'ok'})
+    return jsonify({'status': status})
 
 @matching.route('/', methods=['DELETE'])
 def remove_from_pool():
@@ -89,6 +96,15 @@ def update_proposals():
 
     return jsonify({"proposals": [p.as_json() for p in proposals],
                     "unmatched": [u.as_json() for u in set(users) - matched]})
+
+def match_with_user(user):
+    users = AvailableUser.query.all()
+    print users
+
+    for u2 in users:
+        if distance_between(user, u2) < 1:
+            return build_proposal(user, u2)
+    return None
 
 def build_proposal(user1, user2):
     (location, delay) = get_ranked_locations(user1, user2)[0]
