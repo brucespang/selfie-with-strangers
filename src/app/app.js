@@ -147,12 +147,12 @@ app.post('/matching', auth.check_logged_in(function(req, res) {
     lon: req.body.longitude
   }
 
-  selfie_client.matching.enter_pool(data, function(err, res) {
+  selfie_client.matching.enter_pool(data, function(err, matching) {
     if (err){
       console.error(err);
       res.status(500).send('Internal error');
     } else {
-      if (res.status == 'waiting') {
+      if (matching.status == 'waiting') {
         render(res, 'schedules/new', {user: req.current_user});
       } else {
         res.redirect("/schedule")
@@ -167,7 +167,7 @@ app.get('/schedule', auth.check_logged_in(function(req, res) {
       console.error(err);
       res.status(500).send('Internal error');
     } else {
-      render(res, 'schedules/show', {user: req.current_user, proposal: status, location: status.location});
+      render(res, 'schedules/show', {user: req.current_user, proposal: status, location: status.location, javascripts: ["/javascripts/geolocation.js"]});
     }
   });
 }));
