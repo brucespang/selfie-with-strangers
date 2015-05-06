@@ -124,7 +124,7 @@ app.get('/auth/facebook/callback',
         passport.authenticate('facebook', { successRedirect: '/selfies',
                                             failureRedirect: '/' }));
 
-app.post('/logout', function(req, res) {
+app.get('/logout', function(req, res) {
   res.cookie("session", "")
   res.redirect("/login")
 });
