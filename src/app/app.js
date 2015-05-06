@@ -147,8 +147,6 @@ app.post('/matching', auth.check_logged_in(function(req, res) {
     lon: req.body.longitude
   }
 
-  console.log(data)
-
   selfie_client.matching.enter_pool(data, function(err, matching) {
     if (err){
       console.error(err);
