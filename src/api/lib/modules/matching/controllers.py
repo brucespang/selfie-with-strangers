@@ -51,6 +51,15 @@ def get_status(user_id):
     else:
         return jsonify(proposal.as_json())
 
+@matching.route('/proposals/<id>', methods=['GET'])
+def get_proposal(id):
+    proposal = Proposal.query.filter(Proposal.id == id).first()
+
+    if not proposal:
+        abort(404)
+    else:
+        return jsonify(proposal.as_json())
+
 @matching.route('/status/<user_id>', methods=['POST'])
 def update(user_id):
     proposal = Proposal.query.filter(

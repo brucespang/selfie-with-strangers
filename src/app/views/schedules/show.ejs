@@ -4,32 +4,14 @@
 <div id="schedule-selfie"><%= location.name %></div>
 <div id="schedule-map"></div>
 
-<form action="/schedule/accept" method="post">
-  <input type="submit" value="Accept">
-</form>
-<form action="/schedule/reject" method="post">
-  <input type="submit" value="Reject">
-</form>
-
-<script src="https://maps.google.com/maps/api/js?sensor=true"></script>
-<script src="<%= static_file("/javascripts/gmaps.js") %>"></script>
 <script type="text/javascript">
-var map = new GMaps({
-  div: '#schedule-map',
-  lat: <%= location.lat %>,
-  lng: <%= location.lon %>
-});
-map.addMarker({
-  lat: <%= location.lat %>,
-  lng: <%= location.lon %>,
-})
-
-setInterval(function() {
-  getLocation(function(position) {
-    // check if we are near the location
-    // if we are, redirect to view the match
-  })
-}, 1000)
+var destination = {
+    lat: <%= location.lat %>,
+    lon: <%= location.lon %>,
+}
+var proposal = {
+    id: "<%= proposal.id %>"
+}
 </script>
 
 <% include ../footer %>
