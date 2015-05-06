@@ -1,6 +1,9 @@
 #logo {
-        margin-top: 50px;
-        text-align: center;
+	position: fixed;
+	width: 100%;
+	left: 80%;
+	top: 5%;
+	background: #ffffff;
 }
 
 #logo .logo-icon {
@@ -10,6 +13,7 @@
 #wrap {
     max-width: 600px;
     margin: 0 auto;
+    margin-top: 10%;
 }
 
 #wrap form {
@@ -39,10 +43,8 @@ video {
 #menu_footer {
     position: fixed;
     bottom: 0;
-    text-align: CENTER;
-    width: 100%;
-    height: 100px;
     background: #ffffff;
+    width: 100%;
 }
 
 #schedule-map {
