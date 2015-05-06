@@ -1,17 +1,17 @@
 <% include ../../header %>
 
-<h1>THE ADMIN ZONE | Manage Questions</h1>
+<h2>THE ADMIN ZONE | Manage Questions</h2>
 
-<a href="/admin/questions/new">+ Question</a>
+<a href="/admin/questions/new" class="btn btn-success col-xs-offset-5">+ Question</a>
 
 <table>
 	<% questions.forEach(function(question) { %>
     <tr>
       <td><%= question.question %></td>
-      <td><a href="/admin/questions/<%= question.id %>">edit</a></td>
+      <td><a class="btn btn-link" href="/admin/questions/<%= question.id %>">Edit</a></td>
       <td>
         <form action="/admin/questions/<%= question.id %>?_method=delete" method="post">
-          <input type="submit" value="delete"/>
+          <input type="submit" value="Delete"/>
         </form>
       </td>
     </tr>
