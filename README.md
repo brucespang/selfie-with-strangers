@@ -29,4 +29,5 @@ These documents provide an overview of our technical specifications. This includ
       - to restart: `sudo service api restart`
       - to view logs: `sudo tail -f /var/log/upstart/api.log`
       - to run the migrations: `PYTHONPATH=lib env/bin/python manage.py db upgrade`
+      - to create a new migration: `PYTHONPATH=lib env/bin/python manage.py db migrate`
     - The website should be accessible at `127.0.0.1:8080`
