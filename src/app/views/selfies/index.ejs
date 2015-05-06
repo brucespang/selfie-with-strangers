@@ -1,6 +1,6 @@
 <% include ../header %>
 
-<h1>Selfies</h1>
+<h1 class="col-xs-3 col-xs-offse-1">Selfies</h1>
 <!-- <p>newsfeed stuff goes here</p> -->
 		<% for(var p in pics) { %>
 			<div class="row">
@@ -18,17 +18,17 @@
 <div class="row" id="menu_footer">
 	<form action="/logout" method="post">
 	<ul>
-		<li class="col-sm-1"><a href="/selfies" class="btn btn-link">Home</a></li>
-		<li class="col-sm-1"><a href="/settings" class="btn btn-link">Settings</a></li>
-		<li class="col-sm-1"><input class="btn btn-link" type="submit" value="Logout"/></li>
-	</ul>
-	</form>
+                <li class="col-xs-3"><a href="/selfies" class="btn btn-link">Home</a></li>
+                <li class="col-xs-3"><a href="/settings" class="btn btn-link">Settings</a></li>
+                <li class="col-xs-3"><input class="btn btn-link" type="submit" value="Logout"/></li>
+        </ul>
+        </form>
 </div>
 
-<form id="location" action="/matching" method="post">
-  	<input id="longitude" type="hidden" name="longitude"/>
+	<form id="location" action="/matching" method="post">
+		<input id="longitude" type="hidden" name="longitude"/>
   	<input id="latitude" type="hidden" name="latitude"/>
-  	<input type="submit" value="Selfie With a Stranger!" class="btn btn-success col-md-3 col-md-offset-2"/>
+  	<input type="submit" value="Selfie With a Stranger!" class="btn btn-success col-xs-10 col-xs-offset-1"/>
 </form>
 <script type="text/javascript">
 window.addEventListener("DOMContentLoaded", function() {

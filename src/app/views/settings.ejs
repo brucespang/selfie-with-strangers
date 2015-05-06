@@ -4,28 +4,30 @@
 
 <form method="post" action="/settings">
   <%- flash() %>
-  <fieldset>
+  <div class="form-group">
     <label for="email">Email</label>
-    <input type="email" name="email" value="<%= user.email %>" />
-  </fieldset>
+    <input type="email" class="form-control col-xs-9" placeholder="Enter email" name="email" value="<%= user.email %>" />
+  </div>
 
-  <fieldset>
+  <div class="form-group">
     <label for="username">Username</label>
-    <input type="text" name="username" value="<%= user.username %>" />
-  </fieldset>
+    <input type="text" name="username" placeholder="Enter username" class="form-control col-xs-9" value="<%= user.username %>" />
+  </div>
 
-  <fieldset>
+  <div class="form-group">
     <label for="name">Name</label>
-    <input type="text" name="name" value="<%= user.name %>" />
-  </fieldset>
+    <input type="text" name="name" placeholer="Enter name" class="form-control col-xs-9"  value="<%= user.name %>" />
+  </div>
 
-  <fieldset>
+  <div>
     <label for="password">New Password</label>
-    <input type="password" name="password" />
-  </fieldset>
+    <input type="password" placeholder="Enter password" class="form-control col-xs-9" name="password" />
+  </div>
 
-	<input type="submit" value="Update" />
+  <div class="row">
+	<input class="col-xs-2 btn btn-success" type="submit" value="Update" />
+	<a class="btn btn-cancel" href="/selfies" role="button">Cancel</a>
+  </div>
 </form>
-<a href="/selfies" class="btn btn-link">Cancel</a>
 
 <% include footer %>
