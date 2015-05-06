@@ -44,9 +44,11 @@ from modules.questions.controllers import questions
 from modules.sessions.controllers import sessions
 from modules.matching.controllers import matching
 from modules.locations.controllers import locations
+from modules.selfies.controllers import selfies
 
 app.register_blueprint(users)
 app.register_blueprint(questions)
 app.register_blueprint(sessions)
 app.register_blueprint(matching)
 app.register_blueprint(locations)
+app.register_blueprint(selfies)
