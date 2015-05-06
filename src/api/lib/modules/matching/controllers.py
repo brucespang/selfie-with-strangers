@@ -111,6 +111,7 @@ def match_with_user(user):
     print users
 
     for u2 in users:
+        if u2 == user: continue
         if distance_between(user, u2) < 1:
             return build_proposal(user, u2)
     return None
