@@ -168,7 +168,7 @@ app.get('/schedule', auth.check_logged_in(function(req, res) {
       res.status(500).send('Internal error');
     } else {
       render(res, 'schedules/show', {user: req.current_user, proposal: proposal, location: proposal.location,
-                                     javascripts: ["/javascripts/geolocation.js", "/javascripts/gmaps.js", "/javascripts/schedules.js"]});
+                                       javascripts: ["/javascripts/geolocation.js", "/javascripts/gmaps.js", "/javascripts/schedules.js"]});
     }
   });
 }));
