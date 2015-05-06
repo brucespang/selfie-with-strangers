@@ -41,5 +41,5 @@ function redirectIfNearby() {
 
 $(document).ready(function() {
   redirectIfNearby()
-  // setInterval(redirectIfNearby, 1000)
+  setInterval(redirectIfNearby, 1000)
 })

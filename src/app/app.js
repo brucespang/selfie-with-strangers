@@ -168,7 +168,7 @@ app.get('/schedule', auth.check_logged_in(function(req, res) {
       res.status(500).send('Internal error');
     } else {
       render(res, 'schedules/show', {user: req.current_user, proposal: proposal, location: proposal.location,
-                                       javascripts: ["/javascripts/geolocation.js", "/javascripts/gmaps.js", "/javascripts/schedules.js"]});
+                                       javascripts: ["/javascripts/gmaps.js", "/javascripts/schedules.js"]});
     }
   });
 }));
@@ -224,7 +224,7 @@ app.get('/matches/:proposal', auth.check_logged_in(function(req, res) {
             console.error(err);
             res.status(500).send('Internal error')
           } else {
-            render(res, 'matches/show', {question: question, other_user: user});
+            render(res, 'matches/show', {question: question, proposal: proposal, location: proposal.location, other_user: user, javascripts: ["/javascripts/gmaps.js", "/javascripts/matches.js"]});
           }
         })
       })
