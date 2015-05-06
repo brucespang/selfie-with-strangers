@@ -12,13 +12,14 @@ module.exports = function(hostname) {
         } else {
           try {
             var json = JSON.parse(body)
-            if (res.statusCode == 200) {
-              cb(undefined, json);
-            } else {
-              cb(json['error'])
-            }
           } catch(e) {
             cb(e.stack)
+          }
+
+          if (res.statusCode == 200) {
+            cb(undefined, json);
+          } else {
+            cb(json['error'])
           }
         }
       })
@@ -28,14 +29,10 @@ module.exports = function(hostname) {
         if (err) {
           cb(err)
         } else {
-          try {
-            if (res.statusCode == 200) {
-              cb(undefined, body);
-            } else {
-              cb(body['error'])
-            }
-          } catch(e) {
-            cb(e.stack)
+          if (res.statusCode == 200) {
+            cb(undefined, body);
+          } else {
+            cb(body['error'])
           }
         }
       })
@@ -45,14 +42,10 @@ module.exports = function(hostname) {
         if (err) {
           cb(err)
         } else {
-          try {
-            if (res.statusCode == 200) {
-              cb(undefined, body);
-            } else {
-              cb(body['error'])
-            }
-          } catch(e) {
-            cb(e.stack)
+          if (res.statusCode == 200) {
+            cb(undefined, body);
+          } else {
+            cb(body['error'])
           }
         }
       })
@@ -83,6 +76,9 @@ module.exports = function(hostname) {
       },
       get_status: function(user, cb) {
         api.get("/matching/statuses/"+user.id, cb)
+      },
+      get_proposal: function(id, cb) {
+        api.get("/matching/proposals/"+id, cb)
       },
       accept: function(user, cb) {
         api.post("/matching/statuses/"+user.id, {accepted: true}, cb)

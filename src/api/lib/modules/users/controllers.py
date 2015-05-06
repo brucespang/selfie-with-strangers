@@ -41,7 +41,7 @@ def update(username):
 
 @users.route('/<username>', methods=['GET'])
 def get(username):
-    user = User.query.filter(User.username == username).first()
+    user = User.query.filter(User.username == username or User.id == username).first()
     if not user:
         abort(404)
     else:

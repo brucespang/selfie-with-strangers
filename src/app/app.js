@@ -152,7 +152,7 @@ app.post('/matching', auth.check_logged_in(function(req, res) {
       console.error(err);
       res.status(500).send('Internal error');
     } else {
-      if (matching.status == 'waiting') {
+      if (!matching || matching.status == 'waiting') {
         render(res, 'schedules/new', {user: req.current_user});
       } else {
         res.redirect("/schedule")
@@ -162,12 +162,13 @@ app.post('/matching', auth.check_logged_in(function(req, res) {
 }));
 
 app.get('/schedule', auth.check_logged_in(function(req, res) {
-  selfie_client.matching.get_status(req.current_user, function(err, status) {
+  selfie_client.matching.get_status(req.current_user, function(err, proposal) {
     if (err){
       console.error(err);
       res.status(500).send('Internal error');
     } else {
-      render(res, 'schedules/show', {user: req.current_user, proposal: status, location: status.location, javascripts: ["/javascripts/geolocation.js"]});
+      render(res, 'schedules/show', {user: req.current_user, proposal: proposal, location: proposal.location,
+                                       javascripts: ["/javascripts/geolocation.js", "/javascripts/gmaps.js", "/javascripts/schedules.js"]});
     }
   });
 }));
@@ -183,27 +184,47 @@ app.get('/matching/status', auth.check_logged_in(function(req, res) {
   });
 }));
 
+Number.prototype.toRad = function() {
+   return this * Math.PI / 180;
+}
+
+function distance_between(o1, o2) {
+  var lat1 = o1.lat.toRad();
+  var lon1 = o1.lon.toRad();
+  var lat2 = o2.lat.toRad();
+  var lon2 = o2.lon.toRad();
+
+  var dlon = lat2-lat1;
+  var dlat = lon2-lon1;
+  var a = Math.sin(dlat/2) * Math.sin(dlat/2) +
+      Math.cos(lat1.toRad()) * Math.cos(lat2.toRad()) *
+      Math.sin(dlon/2) * Math.sin(dlon/2);
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  var r = 3956; // radius of earth in miles
+  return c * r;
+}
+
 app.get('/matches/:proposal', auth.check_logged_in(function(req, res) {
   var data = {
     user_id: req.current_user.id,
     proposal_id: req.params.proposal,
-    lat: req.body.latitude,
-    lon: req.body.longitude
+    lat: parseFloat(req.query.lat),
+    lon: parseFloat(req.query.lon)
   }
 
-  selfie_client.proposals.show(data, function(err, proposal) {
-    if (err) {
+  selfie_client.matching.get_proposal(data.proposal_id, function(err, proposal) {
+    if (err || distance_between(data, proposal.location) > 1) {
       res.status(404).send("Not found")
     } else {
-      var user_id = proposal.user1_id == data.user_id ? proposal.user2_id : proposal.user1_id
+      var other_user_id = proposal.user1_id == data.user_id ? proposal.user2_id : proposal.user1_id
 
       selfie_client.questions.random(function(err, question) {
-        selfie_client.users.show(user_id, function(err, user) {
+        selfie_client.users.show(other_user_id, function(err, user) {
           if (err) {
             console.error(err);
             res.status(500).send('Internal error')
           } else {
-            render(res, 'matches/show', {question: question, user: user});
+            render(res, 'matches/show', {question: question, other_user: user});
           }
         })
       })
