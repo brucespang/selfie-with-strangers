@@ -23,6 +23,13 @@ map.addMarker({
   lat: <%= location.lat %>,
   lng: <%= location.lon %>,
 })
+
+setInterval(function() {
+  getLocation(function(position) {
+    // check if we are near the location
+    // if we are, redirect to view the match
+  })
+}, 1000)
 </script>
 
 <% include ../footer %>

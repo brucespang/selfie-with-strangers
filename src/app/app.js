@@ -205,7 +205,7 @@ app.get('/matching/status', auth.check_logged_in(function(req, res) {
   });
 }));
 
-app.get('/matches/:username', function(req, res) {
+app.get('/matches/:username', auth.check_logged_in(function(req, res) {
   selfie_client.questions.random(function(err, question) {
     selfie_client.users.show(req.params.username, function(err, user) {
       if (err) {
@@ -216,7 +216,7 @@ app.get('/matches/:username', function(req, res) {
       }
     })
   })
-});
+}));
 
 app.post('/settings', auth.check_logged_in(function(req, res) {
   var user = {};

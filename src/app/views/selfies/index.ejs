@@ -30,6 +30,18 @@
   	<input id="latitude" type="hidden" name="latitude"/>
   	<input type="submit" value="Selfie With a Stranger!" class="btn btn-success col-md-3 col-md-offset-2"/>
 </form>
+<script type="text/javascript">
+window.addEventListener("DOMContentLoaded", function() {
+  getLocation(function(position) {
+    var lat = position.coords.latitude;
+    var lon = position.coords.longitude;
+	  document.getElementById("location").onsubmit = function(e) {
+		  document.getElementById("latitude").value = lat;
+		  document.getElementById("longitude").value = lon;
+    }
+	});
+});
+</script>
 
 
 <% include ../footer %>

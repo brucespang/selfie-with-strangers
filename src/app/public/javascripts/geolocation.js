@@ -1,28 +1,11 @@
 // consult: http://www.w3schools.com/html/html5_geolocation.asp
 
-var latitude = 0;
-var longitude = 0;
-
-getLocation();
-
-window.addEventListener("DOMContentLoaded", function() {
-	document.getElementById("location").onsubmit = function(e) {
-		document.getElementById("latitude").value = latitude;
-		document.getElementById("longitude").value = longitude;
-	};
-});
-
-function getLocation() {
+function getLocation(cb) {
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(getCoordinates, showError);
-    } else { 
+      navigator.geolocation.getCurrentPosition(cb, showError);
+    } else {
         alert("Geolocation is not supported by this browser.");
     }
-}
-
-function getCoordinates(position) {
-	latitude = position.coords.latitude;
-	longitude = position.coords.longitude;
 }
 
 function showError(error) {
