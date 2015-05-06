@@ -7,6 +7,7 @@ from modules.locations.util import distance_between, haversine_distance
 from models import Proposal
 import json, math
 import operator
+from sqlalchemy import or_
 
 matching = Blueprint('matching', __name__, url_prefix='/matching')
 
@@ -42,9 +43,12 @@ def remove_from_pool():
 
 @matching.route('/statuses/<user_id>', methods=['GET'])
 def get_status(user_id):
-    proposal = Proposal.query.filter(
-        Proposal.user1_id == user_id or Proposal.user2_id == user_id
+    proposal = Proposal.query.filter(or_(
+        Proposal.user1_id == user_id, Proposal.user2_id == user_id)
     ).order_by(Proposal.created).first()
+
+    print user_id
+    print proposal
 
     if not proposal:
         abort(404)
@@ -126,6 +130,7 @@ def get_ranked_locations(user1, user2):
 
     scored_locs = [(loc, get_delay(user1, user2, loc))
                    for loc in locations]
+    print scored_locs
 
     return sorted(scored_locs, key=operator.itemgetter(1))
 

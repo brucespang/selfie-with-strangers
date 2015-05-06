@@ -13,7 +13,7 @@ module.exports = function(selfie_client) {
 
   //should be retreiving the most recent X selfies and corresponding Q and A's
   router.get('/', function(req, res) {
-    render(res, 'selfies/index', { pics : selfiePics , javascripts: ["/javascripts/geolocation.js"]});
+    render(res, 'selfies/index', { pics : selfiePics, javascripts: ["/javascripts/selfies.js"]});
   });
 
   //should be just saving to Db
