@@ -172,28 +172,6 @@ app.get('/schedule', auth.check_logged_in(function(req, res) {
   });
 }));
 
-app.post('/schedule/accept', auth.check_logged_in(function(req, res) {
-  selfie_client.matching.accept(req.current_user, function(err) {
-    if (err) {
-      console.log(err);
-      res.status(500).send("Internal error")
-    } else {
-      res.redirect("/schedule")
-    }
-  })
-}))
-
-app.post('/schedule/reject', auth.check_logged_in(function(req, res) {
-  selfie_client.matching.reject(req.current_user, function(err) {
-    if (err) {
-      console.log(err);
-      res.status(500).send("Internal error")
-    } else {
-      res.redirect("/schedule")
-    }
-  })
-}))
-
 app.get('/matching/status', auth.check_logged_in(function(req, res) {
   selfie_client.matching.get_status(req.current_user, function(err, status) {
     if (err){
@@ -205,17 +183,33 @@ app.get('/matching/status', auth.check_logged_in(function(req, res) {
   });
 }));
 
-app.get('/matches/:username', auth.check_logged_in(function(req, res) {
-  selfie_client.questions.random(function(err, question) {
-    selfie_client.users.show(req.params.username, function(err, user) {
-      if (err) {
-        console.error(err);
-        res.status(500).send('Internal error')
-      } else {
-        render(res, 'matches/show', {question: question, user: user});
-      }
-    })
+app.get('/matches/:proposal', auth.check_logged_in(function(req, res) {
+  var data = {
+    user_id: req.current_user.id,
+    proposal_id: req.params.proposal,
+    lat: req.body.latitude,
+    lon: req.body.longitude
+  }
+
+  selfie_client.proposals.show(data, function(err, proposal) {
+    if (err) {
+      res.status(404).send("Not found")
+    } else {
+      var user_id = proposal.user1_id == data.user_id ? proposal.user2_id : proposal.user1_id
+
+      selfie_client.questions.random(function(err, question) {
+        selfie_client.users.show(user_id, function(err, user) {
+          if (err) {
+            console.error(err);
+            res.status(500).send('Internal error')
+          } else {
+            render(res, 'matches/show', {question: question, user: user});
+          }
+        })
+      })
+    }
   })
+
 }));
 
 app.post('/settings', auth.check_logged_in(function(req, res) {
