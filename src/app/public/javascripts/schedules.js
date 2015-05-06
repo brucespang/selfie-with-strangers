@@ -32,6 +32,7 @@ function redirectIfNearby() {
   getLocation(function(position) {
     var lat = position.coords.latitude;
     var lon = position.coords.longitude;
+    console.log(distance_between(lat, lon, destination.lat, destination.lon))
     if (distance_between(lat, lon, destination.lat, destination.lon) < 1) {
       location.href = "/matches/"+proposal.id+"?lat="+lat+"&lon="+lon
     }

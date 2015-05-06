@@ -130,6 +130,7 @@ def get_ranked_locations(user1, user2):
 
     scored_locs = [(loc, get_delay(user1, user2, loc))
                    for loc in locations]
+    print scored_locs
 
     return sorted(scored_locs, key=operator.itemgetter(1))
 
