@@ -1,14 +1,17 @@
 <% include ../../header %>
 
-<h1>THE ADMIN ZONE | Manage Locations</h1>
+<h2>THE ADMIN ZONE | Manage Locations</h2>
 
-<a href="/admin/locations/new">+ Location</a>
+<a href="/admin/locations/new" class="btn btn-success col-xs-offset-5">+ Location</a>
+<div class="row">
+	<p class="col-xs-12"> </p>
+</div>
 
 <table>
   <tr>
-    <th>Name</th>
-    <th>Latitude</th>
-    <th>Longitude</th>
+    <th class="col-xs-4">Name</th>
+    <th class="col-xs-4">Latitude</th>
+    <th class="col-xs-4">Longitude</th>
   </tr>
 
 	<% locations.forEach(function(location) { %>
